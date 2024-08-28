@@ -1,4 +1,4 @@
-module kpr
+module github.com/tommywijayac/kpr
 
 go 1.23.0
 
