@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math"
 
 	"github.com/leekchan/accounting"
@@ -10,35 +9,44 @@ import (
 var ac accounting.Accounting
 
 func main() {
-	fmt.Println("hello from wasm")
+	app := NewApp()
+	app.BindEvents()
 
-	ac = accounting.Accounting{Symbol: "IDR ", Precision: 2}
+	// ac = accounting.Accounting{Symbol: "IDR ", Precision: 2}
 
 	// hardcoded inputs
-	pokok := float64(1296000000)
-	bungafix := []float64{2.79, 5.79, 8.1, 10.1}
-	periodefix := []int{12, 24, 36, 48} // len bungafix == len periodefix
-	periodetotal := 120                 // can be bigger than total fix, means remaining is floating. but can't be less than total fix
+	// price := 1400000000
+	// dp := float64(10)
+	// bungafix := []float64{2.79, 5.79, 8.1, 10.1}
+	// periodefix := []int{12, 24, 36, 48} // len bungafix == len periodefix
+	// periodetotal := 120                 // can be bigger than total fix, means remaining is floating. but can't be less than total fix
 
-	bungafloat := 11
-	periodefloat := periodetotal
-	for i := 0; i < len(periodefix); i++ {
-		periodefloat -= periodefix[i]
-	}
-	if periodefloat < 0 {
-		panic("invalid period")
-	}
+	// bungafloat := float64(11)
+	// periodefloat := periodetotal
+	// for i := 0; i < len(periodefix); i++ {
+	// 	periodefloat -= periodefix[i]
+	// }
+	// if periodefloat < 0 {
+	// 	panic("invalid period")
+	// }
+
+	// calculateResult(price, dp, periodetotal, bungafix, periodefix, bungafloat, periodefloat)
+}
+
+func calculateResult(price int, downPayment float64, totalPeriod int, fixedInterest []float64, fixedPeriod []int, floatInterest float64, floatPeriod int) {
+	principal := float64(price) * (1 - downPayment/100)
 
 	// calculate tiered fix
-	for i := 0; i < len(periodefix); i++ {
-		pokok = calculate(pokok, bungafix[i], periodefix[i], periodetotal) // update pokok with remaining
+	for i := 0; i < len(fixedPeriod); i++ {
+		// update pokok with remaining
+		principal = calculate(principal, fixedInterest[i], fixedPeriod[i], totalPeriod)
 
 		// update values for next tiered fix
-		periodetotal = periodetotal - periodefix[i]
+		totalPeriod = totalPeriod - fixedPeriod[i]
 	}
 
 	// calculate remaining as floating
-	calculate(pokok, float64(bungafloat), periodefloat, periodetotal)
+	calculate(principal, floatInterest, floatPeriod, totalPeriod)
 }
 
 func calculate(principal, interestRate float64, interestPeriod, totalPeriod int) float64 {
@@ -58,7 +66,7 @@ func calculate(principal, interestRate float64, interestPeriod, totalPeriod int)
 		interestInstallment = principal * monthlyInterestRate            // angsuran bunga
 		principalInstallment := monthlyInstallment - interestInstallment // angsuran pokok
 
-		fmt.Printf("[%d] cicilan: %v, bunga: %v, pokok: %v\n",
+		println("[%d] cicilan: %v, bunga: %v, pokok: %v\n",
 			i+1, ac.FormatMoney(monthlyInstallment), ac.FormatMoney(interestInstallment), ac.FormatMoney(principalInstallment))
 
 		principal -= principalInstallment
