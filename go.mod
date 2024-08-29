@@ -1,6 +1,6 @@
 module github.com/tommywijayac/kpr
 
-go 1.23.0
+go 1.23
 
 require github.com/leekchan/accounting v1.0.0
 
