@@ -23,6 +23,7 @@ type Result struct {
 	PeriodSumPrincipalInstallment []float64
 
 	// summary
+	Principal            float64
 	TotalInstallment     float64
 	TotalInterests       float64
 	TotalPrincipal       float64
@@ -42,6 +43,7 @@ type FmtResult struct {
 	PeriodSumInterestInstallment  []string
 	PeriodSumPrincipalInstallment []string
 
+	Principal            string
 	TotalInstallment     string
 	TotalInterests       string
 	TotalPrincipal       string
@@ -52,6 +54,7 @@ func calculateResult(price int, downPayment float64, totalPeriod int, fixedInter
 	var finalResult Result
 
 	principal := float64(price) * (1 - downPayment/100)
+	finalResult.Principal = principal
 
 	// calculate tiered fix
 	for i := 0; i < len(fixedPeriod); i++ {
@@ -143,9 +146,9 @@ func (r *Result) add(temp Result) {
 }
 
 func (r *Result) format(acfmt accounting.Accounting) FmtResult {
-	var (
-		result FmtResult
-	)
+	var result FmtResult
+
+	result.Principal = acfmt.FormatMoneyFloat64(r.Principal)
 
 	for _, v := range r.Interests {
 		result.Interests = append(result.Interests, accounting.FormatNumberFloat64(v, 2, ",", "."))
