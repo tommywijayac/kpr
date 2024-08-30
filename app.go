@@ -174,20 +174,26 @@ func (a *App) calculateResult() error {
 	price, err := strconv.ParseFloat(a.jqPriceInput.Val(), 64)
 	if err != nil {
 		finalerr = errors.New("fail to parse price " + err.Error())
+		a.jqPriceInput.AddClass("is-invalid")
 		return finalerr
 	}
+	a.jqPriceInput.RemoveClass("is-invalid")
 
 	dp, err = strconv.ParseFloat(a.jqDownPaymentInput.Val(), 64)
 	if err != nil {
 		finalerr = errors.New("fail to parse down payment " + err.Error())
+		a.jqDownPaymentInput.AddClass("is-invalid")
 		return finalerr
 	}
+	a.jqDownPaymentInput.RemoveClass("is-invalid")
 
 	_period, err := strconv.ParseInt(a.jqPeriodInput.Val(), 10, 64)
 	if err != nil {
 		finalerr = errors.New("fail to parse period " + err.Error())
+		a.jqPeriodInput.AddClass("is-invalid")
 		return finalerr
 	}
+	a.jqPeriodInput.RemoveClass("is-invalid")
 	period = int(_period) * 12
 
 	var (
@@ -247,14 +253,16 @@ func (a *App) calculateResult() error {
 		floatInterest, err = strconv.ParseFloat(a.jqFloatInterestInput.Val(), 64)
 		if err != nil {
 			finalerr = errors.New("fail to parse float interest " + err.Error())
+			a.jqFloatInterestInput.AddClass("is-invalid")
 			return finalerr
 		}
-
 		if floatInterest == 0 {
 			finalerr = errors.New("float interest can't be 0")
+			a.jqFloatInterestInput.AddClass("is-invalid")
 			return finalerr
 		}
 	}
+	a.jqFloatInterestInput.RemoveClass("is-invalid")
 
 	result := calculateResult(price, dp, period, fixedInterests, fixedPeriods, floatInterest, floatPeriod)
 	a.renderResult(result)

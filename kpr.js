@@ -59899,9 +59899,11 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			_r = err.Error(); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 			_r$1 = errors.New("fail to parse price " + _r); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
 			finalerr[0] = _r$1;
+			$clone(a.jqPriceInput, jquery.JQuery).AddClass(new $String("is-invalid"));
 			$24r = finalerr[0];
 			$s = 5; case 5: return $24r;
 		/* } */ case 2:
+		$clone(a.jqPriceInput, jquery.JQuery).RemoveClass("is-invalid");
 		_tuple$1 = strconv.ParseFloat($clone(a.jqDownPaymentInput, jquery.JQuery).Val(), 64);
 		dp = _tuple$1[0];
 		err = _tuple$1[1];
@@ -59911,9 +59913,11 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			_r$2 = err.Error(); /* */ $s = 8; case 8: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
 			_r$3 = errors.New("fail to parse down payment " + _r$2); /* */ $s = 9; case 9: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
 			finalerr[0] = _r$3;
+			$clone(a.jqDownPaymentInput, jquery.JQuery).AddClass(new $String("is-invalid"));
 			$24r$1 = finalerr[0];
 			$s = 10; case 10: return $24r$1;
 		/* } */ case 7:
+		$clone(a.jqDownPaymentInput, jquery.JQuery).RemoveClass("is-invalid");
 		_tuple$2 = strconv.ParseInt($clone(a.jqPeriodInput, jquery.JQuery).Val(), 10, 64);
 		_period = _tuple$2[0];
 		err = _tuple$2[1];
@@ -59923,9 +59927,11 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			_r$4 = err.Error(); /* */ $s = 13; case 13: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
 			_r$5 = errors.New("fail to parse period " + _r$4); /* */ $s = 14; case 14: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
 			finalerr[0] = _r$5;
+			$clone(a.jqPeriodInput, jquery.JQuery).AddClass(new $String("is-invalid"));
 			$24r$2 = finalerr[0];
 			$s = 15; case 15: return $24r$2;
 		/* } */ case 12:
+		$clone(a.jqPeriodInput, jquery.JQuery).RemoveClass("is-invalid");
 		period = $imul((((_period.$low + ((_period.$high >> 31) * 4294967296)) >> 0)), 12);
 		fixedInterests[0] = sliceType.nil;
 		fixedPeriods[0] = sliceType$1.nil;
@@ -60007,6 +60013,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 				_r$6 = err.Error(); /* */ $s = 26; case 26: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
 				_r$7 = errors.New("fail to parse float interest " + _r$6); /* */ $s = 27; case 27: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
 				finalerr[0] = _r$7;
+				$clone(a.jqFloatInterestInput, jquery.JQuery).AddClass(new $String("is-invalid"));
 				$24r$5 = finalerr[0];
 				$s = 28; case 28: return $24r$5;
 			/* } */ case 25:
@@ -60014,10 +60021,12 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			/* */ $s = 30; continue;
 			/* if (floatInterest === 0) { */ case 29:
 				finalerr[0] = errors.New("float interest can't be 0");
+				$clone(a.jqFloatInterestInput, jquery.JQuery).AddClass(new $String("is-invalid"));
 				$24r$6 = finalerr[0];
 				$s = 31; case 31: return $24r$6;
 			/* } */ case 30:
 		/* } */ case 23:
+		$clone(a.jqFloatInterestInput, jquery.JQuery).RemoveClass("is-invalid");
 		result = $clone(calculateResult(price, dp, period, fixedInterests[0], fixedPeriods[0], floatInterest, floatPeriod), Result);
 		$r = a.renderResult($clone(result, Result)); /* */ $s = 32; case 32: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$24r$7 = $ifaceNil;
