@@ -8,7 +8,7 @@
   </head>
   <body class="container">
     <div class="row">
-      <h1>Kalkulator KPR</h1>
+      <h1>Kalkulator KPR Fix Bertingkat</h1>
 
       <div class="col-6">
         <form>
@@ -89,33 +89,48 @@
       </div>
 
       <div class="col-6">
+        <h1>Hasil</h1>
         <table class="table">
           <thead>
             <tr>
               <th scope="col">#</th>
               <th scope="col">Bunga (%)</th>
               <th scope="col">Durasi (bulan)</th>
-              <th scope="col">Cicilan</th>
-              <th scope="col">Cicilan pokok</th>
-              <th scope="col">Cicilan bunga</th>
+              <th scope="col">Cicilan per bulan</th>
+              <th scope="col">Total cicilan</th>
+              <th scope="col">Total cicilan pokok</th>
+              <th scope="col">Total cicilan bunga</th>
             </tr>
           </thead>
-          <tbody id="installment">
-            <tr>
-              <th scope="row">1</th>
-              <td class="interest">123</td>
-              <td class="duration">123</td>
-              <td class="installment">123</td>
-              <td class="principalInstallment">123</td>
-              <td class="interestInstallment">123</td>
-            </tr>
-            <!-- repeat -->
-          </tbody>
-
+          <tbody id="result"></tbody>
         </table>
       </div>
     </div>
   </body>
+
+  <!-- template -->
+  <script id="result-template" type="text/x-golang-template">
+  {{ range $i, $v := .Interests }}
+    <tr>
+      <th>{{ $i }}</th>
+      <td>{{ index $.Interests $i }}</td>
+      <td>{{ index $.Periods $i }}</td>
+      <td>{{ index $.PeriodMonthlyInstallment $i }}</td>
+      <td>{{ index $.PeriodSumInstallment $i }}</td>
+      <td>{{ index $.PeriodSumPrincipalInstallment $i }}</td>
+      <td>{{ index $.PeriodSumInterestInstallment $i }}</td>
+    </tr>
+  {{ end }}
+    <tr>
+      <th></th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>{{ .TotalInstallment }}</td>
+      <td>{{ .TotalPrincipal }}</td>
+      <td>{{ .TotalInterests }}</td>
+    </tr>
+  </script>
 
   <script src="kpr.js"></script>
 </html>

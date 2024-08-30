@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"errors"
 	"strconv"
+	"text/template"
 
 	"github.com/gopherjs/jquery"
 	"github.com/leekchan/accounting"
@@ -11,7 +13,10 @@ import (
 var jQuery = jquery.NewJQuery //for convenience
 
 type App struct {
-	ac accounting.Accounting
+	acfmt accounting.Accounting
+
+	resultTemplate *template.Template
+	jqResult       jquery.JQuery
 
 	jqPriceInput          jquery.JQuery
 	jqDownPaymentInput    jquery.JQuery
@@ -25,16 +30,20 @@ type App struct {
 
 func NewApp() *App {
 	form := jQuery("form")
+	resultHtml := jQuery("#result-template").Html()
 
 	return &App{
-		ac: accounting.Accounting{Symbol: "IDR ", Precision: 2},
+		acfmt: accounting.Accounting{Symbol: "IDR ", Precision: 2},
+
+		resultTemplate: template.Must(template.New("result").Parse(resultHtml)),
+		jqResult:       jQuery("#result"),
 
 		jqPriceInput:          form.Find("#price"),
 		jqDownPaymentInput:    form.Find("#downPayment"),
 		jqPeriodInput:         form.Find("#totalPeriod"),
 		jqFixedInterestInputs: form.Find("#fixedInterest").Find("input.interest"),
 		jqFixedPeriodInputs:   form.Find("#fixedInterest").Find("input.period"),
-		jqFloatInterestInput:  form.Find("#floatInterestPeriod"),
+		jqFloatInterestInput:  form.Find("#floatInterest"),
 		jqFloatPeriodInput:    form.Find("#floatInterestPeriod"),
 		jqCalculateButton:     form.Find("#calculate"),
 	}
@@ -157,31 +166,16 @@ func (a *App) calculateResult(e jquery.Event) {
 		return
 	}
 
-	// TODO: remove. sanity check
-	println(price)
-	println(dp)
-	println(fixedInterests)
-	println(fixedPeriods)
-	println(floatInterest)
-	println(floatPeriod)
-
 	result := calculateResult(price, dp, period, fixedInterests, fixedPeriods, floatInterest, floatPeriod)
-
-	println(result.interests)
-	println(result.periods)
-	println(result.periodMonthlyInstallment)
-
-	println(result.periodSumInstallment)
-	println(result.periodSumInterestInstallment)
-	println(result.periodSumPrincipalInstallment)
-
-	println(result.totalInstallment)
-	println(result.totalInterests)
-	println(result.totalPrincipal)
+	a.renderResult(result)
 }
 
-func (a *App) renderResult() {
-	// remove existing
+func (a *App) renderResult(result Result) {
+	fmtResult := result.format(a.acfmt)
 
-	// re-add template
+	var b bytes.Buffer
+	a.resultTemplate.Execute(&b, fmtResult)
+
+	content := b.String()
+	a.jqResult.SetHtml(content)
 }

@@ -1,6 +1,11 @@
 package main
 
-import "math"
+import (
+	"fmt"
+	"math"
+
+	"github.com/leekchan/accounting"
+)
 
 type Result struct {
 	Interests []float64
@@ -22,6 +27,25 @@ type Result struct {
 	TotalInterests       float64
 	TotalPrincipal       float64
 	PrincipalBeforeFloat float64
+}
+
+type FmtResult struct {
+	Interests []string
+	Periods   []string
+
+	Installment          []string
+	InterestInstallment  []string
+	PrincipalInstallment []string
+
+	PeriodMonthlyInstallment      []string
+	PeriodSumInstallment          []string
+	PeriodSumInterestInstallment  []string
+	PeriodSumPrincipalInstallment []string
+
+	TotalInstallment     string
+	TotalInterests       string
+	TotalPrincipal       string
+	PrincipalBeforeFloat string
 }
 
 func calculateResult(price int, downPayment float64, totalPeriod int, fixedInterest []float64, fixedPeriod []int, floatInterest float64, floatPeriod int) Result {
@@ -75,10 +99,6 @@ func calculate(principal, interestRate float64, interestPeriod, totalPeriod int)
 		interestInstallment = principal * monthlyInterestRate            // angsuran bunga
 		principalInstallment := monthlyInstallment - interestInstallment // angsuran pokok
 
-		// TODO: sanity check
-		println("[%d] cicilan: %v, bunga: %v, pokok: %v\n",
-			i+1, ac.FormatMoney(monthlyInstallment), ac.FormatMoney(interestInstallment), ac.FormatMoney(principalInstallment))
-
 		result.Installment = append(result.Installment, monthlyInstallment)
 		result.InterestInstallment = append(result.InterestInstallment, interestInstallment)
 		result.PrincipalInstallment = append(result.PrincipalInstallment, principalInstallment)
@@ -120,4 +140,36 @@ func (r *Result) add(temp Result) {
 		r.PeriodSumPrincipalInstallment[idx] += v
 	}
 	r.TotalPrincipal += r.PeriodSumPrincipalInstallment[idx]
+}
+
+func (r *Result) format(acfmt accounting.Accounting) FmtResult {
+	var (
+		result FmtResult
+	)
+
+	for _, v := range r.Interests {
+		result.Interests = append(result.Interests, accounting.FormatNumberFloat64(v, 2, ",", "."))
+	}
+	for _, v := range r.Periods {
+		result.Periods = append(result.Periods, fmt.Sprintf("%d", v))
+	}
+
+	for _, v := range r.PeriodMonthlyInstallment {
+		result.PeriodMonthlyInstallment = append(result.PeriodMonthlyInstallment, acfmt.FormatMoneyFloat64(v))
+	}
+	for _, v := range r.PeriodSumInstallment {
+		result.PeriodSumInstallment = append(result.PeriodSumInstallment, acfmt.FormatMoneyFloat64(v))
+	}
+	for _, v := range r.PeriodSumInterestInstallment {
+		result.PeriodSumInterestInstallment = append(result.PeriodSumInterestInstallment, acfmt.FormatMoneyFloat64(v))
+	}
+	for _, v := range r.PeriodSumPrincipalInstallment {
+		result.PeriodSumPrincipalInstallment = append(result.PeriodSumPrincipalInstallment, acfmt.FormatMoneyFloat64(v))
+	}
+
+	result.TotalInstallment = acfmt.FormatMoneyFloat64(r.TotalInstallment)
+	result.TotalInterests = acfmt.FormatMoneyFloat64(r.TotalInterests)
+	result.TotalPrincipal = acfmt.FormatMoneyFloat64(r.TotalPrincipal)
+
+	return result
 }
