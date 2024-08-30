@@ -17,7 +17,7 @@
         <div class="row mb-3 align-items-center">
           <div class="col-6">
             <label for="price" class="form-label">Harga rumah</label>
-            <input type="number" class="form-control" id="price" aria-describedby="price" min="0" max="100" placeholder="0">  
+            <input type="number" class="form-control" id="price" aria-describedby="price" min="0" max="100" >  
           </div>
           <div class="col-auto">
             <div>&nbsp;</div>
@@ -27,7 +27,7 @@
         <div class="row mb-3 align-items-center">
           <div class="col-6">
             <label for="downPayment" class="form-label">Down Payment (%)</label>
-            <input type="number" class="form-control" id="downPayment" aria-describedby="downPayment" min="0" max="100" placeholder="0">
+            <input type="number" class="form-control" id="downPayment" aria-describedby="downPayment" min="0" max="100" >
           </div>
           <div class="col-auto">
             <div>&nbsp;</div>
@@ -37,7 +37,7 @@
         <div class="row mb-3 align-items-center">
           <div class="col-6">
             <label for="totalPeriod" class="form-label">Jangka Waktu (tahun)</label>
-            <input type="number" class="form-control" id="totalPeriod" aria-describedby="totalPeriod" min="0" max="100" placeholder="0">
+            <input type="number" class="form-control" id="totalPeriod" aria-describedby="totalPeriod" min="0" max="100" >
           </div>
           <div class="col-auto">
             <div>&nbsp;</div>
@@ -49,7 +49,7 @@
 
         <table class="table table-sm">
           <h3>Bunga Fix</h3>
-          <p class="form-text">Masukkan bunga fix bertingkat. Biarkan 0 untuk tingkat yang tidak berlaku.</p>
+          <p class="form-text">Masukkan bunga fix bertingkat. Biarkan kosong untuk tingkat yang tidak berlaku.</p>
           <thead>
             <tr>
               <th scope="col" class="col-auto">#</th>
@@ -61,32 +61,32 @@
           <tbody id="fixedInterest">
             <tr>
               <th scope="row">1</th>
-              <td><input type="number" class="form-control interest" id="fixedInterest-1" aria-describedby="fixedInterest" min="0" max="100" placeholder="0"></td>
-              <td><input type="number" class="form-control period" id="fixedInterestPeriod-1" aria-describedby="fixedInterestPeriod" min="0" placeholder="0"></td>
+              <td><input type="number" class="form-control interest" id="fixedInterest-1" aria-describedby="fixedInterest" min="0" max="100" ></td>
+              <td><input type="number" class="form-control period" id="fixedInterestPeriod-1" aria-describedby="fixedInterestPeriod" min="0" ></td>
               <td class="align-middle"><span class="form-text"></span></td>
             </tr>
             <tr>
               <th scope="row">2</th>
-              <td><input type="number" class="form-control interest" id="fixedInterest-2" aria-describedby="fixedInterest" min="0" max="100" placeholder="0"></td>
-              <td><input type="number" class="form-control period" id="fixedInterestPeriod-2" aria-describedby="fixedInterestPeriod" min="0" placeholder="0"></td>
+              <td><input type="number" class="form-control interest" id="fixedInterest-2" aria-describedby="fixedInterest" min="0" max="100" ></td>
+              <td><input type="number" class="form-control period" id="fixedInterestPeriod-2" aria-describedby="fixedInterestPeriod" min="0" ></td>
               <td class="align-middle"><span class="form-text"></span></td>
             </tr>
             <tr>
               <th scope="row">3</th>
-              <td><input type="number" class="form-control interest" id="fixedInterest-3" aria-describedby="fixedInterest" min="0" max="100" placeholder="0"></td>
-              <td><input type="number" class="form-control period" id="fixedInterestPeriod-3" aria-describedby="fixedInterestPeriod" min="0" placeholder="0"></td>
+              <td><input type="number" class="form-control interest" id="fixedInterest-3" aria-describedby="fixedInterest" min="0" max="100" ></td>
+              <td><input type="number" class="form-control period" id="fixedInterestPeriod-3" aria-describedby="fixedInterestPeriod" min="0" ></td>
               <td class="align-middle"><span class="form-text"></span></td>
             </tr>
             <tr>
               <th scope="row">4</th>
-              <td><input type="number" class="form-control interest" id="fixedInterest-4" aria-describedby="fixedInterest" min="0" max="100" placeholder="0"></td>
-              <td><input type="number" class="form-control period" id="fixedInterestPeriod-4" aria-describedby="fixedInterestPeriod" min="0" placeholder="0"></td>
+              <td><input type="number" class="form-control interest" id="fixedInterest-4" aria-describedby="fixedInterest" min="0" max="100" ></td>
+              <td><input type="number" class="form-control period" id="fixedInterestPeriod-4" aria-describedby="fixedInterestPeriod" min="0" ></td>
               <td class="align-middle"><span class="form-text"></span></td>
             </tr>
           </tbody>
         </table>
 
-        <table class="table">
+        <table class="table table-sm">
           <h3>Bunga Floating</h3>
           <p class="form-text">Diasumsikan bunga float tetap sama selama durasi floating</p>
           <thead>
@@ -99,9 +99,9 @@
           </thead>
           <tbody>
             <tr>
-              <th scope="row"></th>
-              <td><input type="number" class="form-control" id="floatInterest" aria-describedby="floatInterest" min="0" max="100" placeholder="0"></td>
-              <td><input type="number" class="form-control form-control-plaintext" id="floatInterestPeriod" aria-describedby="floatInterestPeriod" readonly></td>
+              <th scope="row">&nbsp;</th>
+              <td><input type="number" class="form-control" id="floatInterest" aria-describedby="floatInterest" min="0" max="100" ></td>
+              <td><input type="number" class="form-control" id="floatInterestPeriod" aria-describedby="floatInterestPeriod" disabled></td>
               <td class="align-middle"><span class="form-text"></span></td>
             </tr>
           </tbody>

@@ -60,6 +60,16 @@ func (a *App) BindEvents() {
 	a.jqCalculateButton.On(jquery.CLICK, a.onCalculate)
 }
 
+func (a *App) Render() {
+	a.updatePriceFormatted(a.jqPriceInput)
+	a.updateDownPaymentAmount(a.jqDownPaymentInput)
+	a.updatePeriodInMonth(a.jqPeriodInput)
+	a.jqFixedPeriodInputs.Each(func(i int, input interface{}) {
+		a.updatePeriodInMonth(jQuery(input))
+	})
+	a.updateFloatingPeriod()
+}
+
 // Event handler
 func (a *App) onPriceKeyup(e jquery.Event) {
 	el := jQuery(e.Target)
@@ -119,7 +129,7 @@ func (a *App) updateFloatingPeriod() {
 	}()
 
 	_period, err := strconv.ParseInt(a.jqPeriodInput.Val(), 10, 64)
-	if err != nil {
+	if err != nil && len(a.jqPeriodInput.Val()) != 0 {
 		finalerr = errors.New("fail to parse period " + err.Error())
 		return
 	}
@@ -130,7 +140,7 @@ func (a *App) updateFloatingPeriod() {
 	a.jqFixedPeriodInputs.Each(func(i int, input interface{}) {
 		jqin := jQuery(input)
 		p, err := strconv.ParseInt(jqin.Val(), 10, 64)
-		if err != nil {
+		if err != nil && len(jqin.Val()) != 0 {
 			finalerr = errors.New("fail to parse fixed period " + err.Error())
 			return
 		}
