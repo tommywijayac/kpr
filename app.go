@@ -51,73 +51,70 @@ func NewApp() *App {
 }
 
 func (a *App) BindEvents() {
-	a.jqPriceInput.On(jquery.KEYUP, a.updatePriceFormatted)
+	a.jqPriceInput.On(jquery.KEYUP, a.onPriceKeyup)
+	a.jqDownPaymentInput.On(jquery.KEYUP, a.onDownPaymentKeyup)
 
-	a.jqDownPaymentInput.On(jquery.KEYUP, a.updateDownPayment)
+	a.jqPeriodInput.On(jquery.CHANGE, a.onPeriodChange)
+	a.jqFixedPeriodInputs.On(jquery.CHANGE, a.onPeriodChange)
 
-	a.jqPeriodInput.On(jquery.CHANGE, a.updateFloatingPeriod)
-	a.jqPeriodInput.On(jquery.CHANGE, a.updatePeriodInMonth)
-
-	a.jqFixedPeriodInputs.On(jquery.CHANGE, a.updateFloatingPeriod)
-	a.jqFixedPeriodInputs.On(jquery.CHANGE, a.updatePeriodInMonth)
-
-	a.jqCalculateButton.On(jquery.CLICK, a.calculateResult)
+	a.jqCalculateButton.On(jquery.CLICK, a.onCalculate)
 }
 
 // Event handler
-func (a *App) updatePriceFormatted(e jquery.Event) {
+func (a *App) onPriceKeyup(e jquery.Event) {
 	el := jQuery(e.Target)
+	a.updatePriceFormatted(el)
+	a.updateDownPaymentAmount(a.jqDownPaymentInput)
+}
 
-	price, err := strconv.ParseFloat(el.Val(), 64)
-	if err != nil {
-		println("ERR fail to parse price: " + err.Error())
+func (a *App) onDownPaymentKeyup(e jquery.Event) {
+	el := jQuery(e.Target)
+	a.updateDownPaymentAmount(el)
+}
+
+func (a *App) onPeriodChange(e jquery.Event) {
+	el := jQuery(e.Target)
+	a.updatePeriodInMonth(el)
+	a.updateFloatingPeriod()
+}
+
+func (a *App) onCalculate(e jquery.Event) {
+	if err := a.calculateResult(); err != nil {
+		e.PreventDefault()
+		return
 	}
+}
 
+// DOM logic
+func (a *App) updatePriceFormatted(el jquery.JQuery) {
+	price, _ := strconv.ParseFloat(el.Val(), 64) // if err, price is 0
 	el.Parent().Next().Find("span").SetText(a.acfmt.FormatMoneyFloat64((price)))
 }
 
-func (a *App) updateDownPayment(e jquery.Event) {
-	el := jQuery(e.Target)
-
-	dp, err := strconv.ParseFloat(el.Val(), 64)
-	if err != nil {
-		println("ERR fail to parse down payment: " + err.Error())
-		return
-	}
-
-	price, err := strconv.ParseFloat(a.jqPriceInput.Val(), 64)
-	if err != nil {
-		println("ERR fail to parse price: " + err.Error())
-		return
-	}
-
-	principal := price * dp / 100
-
+func (a *App) updateDownPaymentAmount(el jquery.JQuery) {
+	dp, _ := strconv.ParseFloat(el.Val(), 64)
+	price, _ := strconv.ParseFloat(a.jqPriceInput.Val(), 64)
+	principal := price * dp / 100 // if any err, principal is 0
 	el.Parent().Next().Find("span").SetText(a.acfmt.FormatMoneyFloat64((principal)))
 }
 
-func (a *App) updatePeriodInMonth(e jquery.Event) {
-	el := jQuery(e.Target)
-
+func (a *App) updatePeriodInMonth(el jquery.JQuery) {
 	text := ""
 	year, err := strconv.ParseInt(el.Val(), 10, 64)
-	if err != nil {
-		println("ERR fail to parse period: " + err.Error())
-	} else {
+	if err == nil {
 		text = fmt.Sprintf("%d bulan", year*12)
 	}
-
 	el.Parent().Next().Find("span").SetText(text)
 }
 
-func (a *App) updateFloatingPeriod(e jquery.Event) {
+func (a *App) updateFloatingPeriod() {
 	var (
 		finalerr error
 	)
 	defer func() {
 		if finalerr != nil {
 			println("ERR " + finalerr.Error())
-			e.PreventDefault()
+			return
 		}
 	}()
 
@@ -149,16 +146,13 @@ func (a *App) updateFloatingPeriod(e jquery.Event) {
 	a.jqFloatPeriodInput.Parent().Next().Find("span").SetText(fmt.Sprintf("%d bulan", floatPeriod*12))
 }
 
-// DOM logic
-
-func (a *App) calculateResult(e jquery.Event) {
+func (a *App) calculateResult() error {
 	var (
 		finalerr error
 	)
 	defer func() {
 		if finalerr != nil {
 			println("ERR " + finalerr.Error())
-			e.PreventDefault()
 		}
 	}()
 
@@ -170,19 +164,19 @@ func (a *App) calculateResult(e jquery.Event) {
 	price, err := strconv.ParseFloat(a.jqPriceInput.Val(), 64)
 	if err != nil {
 		finalerr = errors.New("fail to parse price " + err.Error())
-		return
+		return finalerr
 	}
 
 	dp, err = strconv.ParseFloat(a.jqDownPaymentInput.Val(), 64)
 	if err != nil {
 		finalerr = errors.New("fail to parse down payment " + err.Error())
-		return
+		return finalerr
 	}
 
 	_period, err := strconv.ParseInt(a.jqPeriodInput.Val(), 10, 64)
 	if err != nil {
 		finalerr = errors.New("fail to parse period " + err.Error())
-		return
+		return finalerr
 	}
 	period = int(_period) * 12
 
@@ -217,13 +211,13 @@ func (a *App) calculateResult(e jquery.Event) {
 
 	if len(fixedInterests) != len(fixedPeriods) {
 		finalerr = errors.New("mismatched len of fixed interest and fixed period")
-		return
+		return finalerr
 	}
 
 	floatPeriod = period - sumFixedPeriod
 	if floatPeriod < 0 {
 		finalerr = errors.New("fail to calculate floating period: doesn't add up")
-		return
+		return finalerr
 	}
 
 	// only validates if valid
@@ -231,12 +225,14 @@ func (a *App) calculateResult(e jquery.Event) {
 		floatInterest, err = strconv.ParseFloat(a.jqFloatInterestInput.Val(), 64)
 		if err != nil {
 			finalerr = errors.New("fail to parse float interest " + err.Error())
-			return
+			return finalerr
 		}
 	}
 
 	result := calculateResult(price, dp, period, fixedInterests, fixedPeriods, floatInterest, floatPeriod)
 	a.renderResult(result)
+
+	return nil
 }
 
 func (a *App) renderResult(result Result) {
