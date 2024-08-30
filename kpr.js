@@ -59867,7 +59867,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 	};
 	App.prototype.updateFloatingPeriod = function() { return this.$val.updateFloatingPeriod(); };
 	App.ptr.prototype.calculateResult = function() {
-		var {$24r, $24r$1, $24r$2, $24r$3, $24r$4, $24r$5, $24r$6, _period, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _tuple, _tuple$1, _tuple$2, _tuple$3, a, dp, err, finalerr, fixedInterests, fixedPeriods, floatInterest, floatPeriod, period, price, result, sumFixedPeriod, $s, $deferred, $r, $c} = $restore(this, {});
+		var {$24r, $24r$1, $24r$2, $24r$3, $24r$4, $24r$5, $24r$6, $24r$7, _period, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _tuple, _tuple$1, _tuple$2, _tuple$3, a, dp, err, finalerr, fixedInterests, fixedPeriods, floatInterest, floatPeriod, period, price, result, sumFixedPeriod, $s, $deferred, $r, $c} = $restore(this, {});
 		/* */ $s = $s || 0; var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $curGoroutine.deferStack.push($deferred);
 		finalerr = [finalerr];
 		fixedInterests = [fixedInterests];
@@ -60010,12 +60010,19 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 				$24r$5 = finalerr[0];
 				$s = 28; case 28: return $24r$5;
 			/* } */ case 25:
+			/* */ if (floatInterest === 0) { $s = 29; continue; }
+			/* */ $s = 30; continue;
+			/* if (floatInterest === 0) { */ case 29:
+				finalerr[0] = errors.New("float interest can't be 0");
+				$24r$6 = finalerr[0];
+				$s = 31; case 31: return $24r$6;
+			/* } */ case 30:
 		/* } */ case 23:
 		result = $clone(calculateResult(price, dp, period, fixedInterests[0], fixedPeriods[0], floatInterest, floatPeriod), Result);
-		$r = a.renderResult($clone(result, Result)); /* */ $s = 29; case 29: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		$24r$6 = $ifaceNil;
-		$s = 30; case 30: return $24r$6;
-		/* */ } return; } } catch(err) { $err = err; $s = -1; return $ifaceNil; } finally { $callDeferred($deferred, $err); if($curGoroutine.asleep) { var $f = {$blk: App.ptr.prototype.calculateResult, $c: true, $r, $24r, $24r$1, $24r$2, $24r$3, $24r$4, $24r$5, $24r$6, _period, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _tuple, _tuple$1, _tuple$2, _tuple$3, a, dp, err, finalerr, fixedInterests, fixedPeriods, floatInterest, floatPeriod, period, price, result, sumFixedPeriod, $s, $deferred};return $f; } }
+		$r = a.renderResult($clone(result, Result)); /* */ $s = 32; case 32: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		$24r$7 = $ifaceNil;
+		$s = 33; case 33: return $24r$7;
+		/* */ } return; } } catch(err) { $err = err; $s = -1; return $ifaceNil; } finally { $callDeferred($deferred, $err); if($curGoroutine.asleep) { var $f = {$blk: App.ptr.prototype.calculateResult, $c: true, $r, $24r, $24r$1, $24r$2, $24r$3, $24r$4, $24r$5, $24r$6, $24r$7, _period, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _tuple, _tuple$1, _tuple$2, _tuple$3, a, dp, err, finalerr, fixedInterests, fixedPeriods, floatInterest, floatPeriod, period, price, result, sumFixedPeriod, $s, $deferred};return $f; } }
 	};
 	App.prototype.calculateResult = function() { return this.$val.calculateResult(); };
 	App.ptr.prototype.renderResult = function(result) {

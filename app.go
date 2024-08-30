@@ -205,6 +205,7 @@ func (a *App) calculateResult() error {
 			return
 		}
 
+		// if empty, ignore
 		if it == 0 {
 			return
 		}
@@ -220,6 +221,7 @@ func (a *App) calculateResult() error {
 			return
 		}
 
+		// if empty, ignore
 		if p == 0 {
 			return
 		}
@@ -245,6 +247,11 @@ func (a *App) calculateResult() error {
 		floatInterest, err = strconv.ParseFloat(a.jqFloatInterestInput.Val(), 64)
 		if err != nil {
 			finalerr = errors.New("fail to parse float interest " + err.Error())
+			return finalerr
+		}
+
+		if floatInterest == 0 {
+			finalerr = errors.New("float interest can't be 0")
 			return finalerr
 		}
 	}
