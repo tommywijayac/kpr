@@ -3,25 +3,25 @@ package main
 import "math"
 
 type Result struct {
-	interests []float64
-	periods   []int
+	Interests []float64
+	Periods   []int
 
 	// breakdown
-	installment          []float64
-	interestInstallment  []float64
-	principalInstallment []float64
+	Installment          []float64
+	InterestInstallment  []float64
+	PrincipalInstallment []float64
 
 	// per period
-	periodMonthlyInstallment      []float64
-	periodSumInstallment          []float64
-	periodSumInterestInstallment  []float64
-	periodSumPrincipalInstallment []float64
+	PeriodMonthlyInstallment      []float64
+	PeriodSumInstallment          []float64
+	PeriodSumInterestInstallment  []float64
+	PeriodSumPrincipalInstallment []float64
 
 	// summary
-	totalInstallment     float64
-	totalInterests       float64
-	totalPrincipal       float64
-	principalBeforeFloat float64
+	TotalInstallment     float64
+	TotalInterests       float64
+	TotalPrincipal       float64
+	PrincipalBeforeFloat float64
 }
 
 func calculateResult(price int, downPayment float64, totalPeriod int, fixedInterest []float64, fixedPeriod []int, floatInterest float64, floatPeriod int) Result {
@@ -35,8 +35,8 @@ func calculateResult(price int, downPayment float64, totalPeriod int, fixedInter
 		var _result Result
 		principal, _result = calculate(principal, fixedInterest[i], fixedPeriod[i], totalPeriod)
 
-		finalResult.interests = append(finalResult.interests, fixedInterest[i])
-		finalResult.periods = append(finalResult.periods, fixedPeriod[i])
+		finalResult.Interests = append(finalResult.Interests, fixedInterest[i])
+		finalResult.Periods = append(finalResult.Periods, fixedPeriod[i])
 		finalResult.add(_result)
 
 		// update values for next tiered fix
@@ -47,9 +47,9 @@ func calculateResult(price int, downPayment float64, totalPeriod int, fixedInter
 		// calculate remaining as floating
 		_, _result := calculate(principal, floatInterest, floatPeriod, totalPeriod)
 
-		finalResult.principalBeforeFloat = principal
-		finalResult.interests = append(finalResult.interests, floatInterest)
-		finalResult.periods = append(finalResult.periods, floatPeriod)
+		finalResult.PrincipalBeforeFloat = principal
+		finalResult.Interests = append(finalResult.Interests, floatInterest)
+		finalResult.Periods = append(finalResult.Periods, floatPeriod)
 		finalResult.add(_result)
 	}
 
@@ -60,7 +60,7 @@ func calculate(principal, interestRate float64, interestPeriod, totalPeriod int)
 	var (
 		monthlyInterestRate float64 = float64(interestRate) / 100 / 12
 
-		// still don't fully understand, but this makes principal is paid in certain percentage to interest & installment
+		// still don't fully understand, but this makes principal is paid in certain percentage to interest & Installment
 		loan        float64 = 1 + monthlyInterestRate
 		totalLoan   float64 = math.Pow(loan, float64(totalPeriod))
 		installment float64 = 1 - 1/totalLoan
@@ -79,9 +79,9 @@ func calculate(principal, interestRate float64, interestPeriod, totalPeriod int)
 		println("[%d] cicilan: %v, bunga: %v, pokok: %v\n",
 			i+1, ac.FormatMoney(monthlyInstallment), ac.FormatMoney(interestInstallment), ac.FormatMoney(principalInstallment))
 
-		result.installment = append(result.installment, monthlyInstallment)
-		result.interestInstallment = append(result.interestInstallment, interestInstallment)
-		result.principalInstallment = append(result.principalInstallment, principalInstallment)
+		result.Installment = append(result.Installment, monthlyInstallment)
+		result.InterestInstallment = append(result.InterestInstallment, interestInstallment)
+		result.PrincipalInstallment = append(result.PrincipalInstallment, principalInstallment)
 
 		principal -= principalInstallment
 	}
@@ -91,33 +91,33 @@ func calculate(principal, interestRate float64, interestPeriod, totalPeriod int)
 }
 
 func (r *Result) add(temp Result) {
-	r.periodMonthlyInstallment = append(r.periodMonthlyInstallment, temp.periodMonthlyInstallment...)
+	r.PeriodMonthlyInstallment = append(r.PeriodMonthlyInstallment, temp.PeriodMonthlyInstallment...)
 
-	r.installment = append(r.installment, temp.installment...)
-	r.interestInstallment = append(r.interestInstallment, temp.interestInstallment...)
-	r.principalInstallment = append(r.principalInstallment, temp.principalInstallment...)
+	r.Installment = append(r.Installment, temp.Installment...)
+	r.InterestInstallment = append(r.InterestInstallment, temp.InterestInstallment...)
+	r.PrincipalInstallment = append(r.PrincipalInstallment, temp.PrincipalInstallment...)
 
 	// summarize
-	r.periodMonthlyInstallment = append(r.periodMonthlyInstallment, temp.installment[0])
+	r.PeriodMonthlyInstallment = append(r.PeriodMonthlyInstallment, temp.Installment[0])
 
 	// assume all array are growing at same rate, so index can be re-used
-	idx := len(r.periodSumInstallment)
+	idx := len(r.PeriodSumInstallment)
 
-	r.periodSumInstallment = append(r.periodSumInstallment, 0)
-	for _, v := range temp.installment {
-		r.periodSumInstallment[idx] += v
+	r.PeriodSumInstallment = append(r.PeriodSumInstallment, 0)
+	for _, v := range temp.Installment {
+		r.PeriodSumInstallment[idx] += v
 	}
-	r.totalInstallment += r.periodSumInstallment[idx]
+	r.TotalInstallment += r.PeriodSumInstallment[idx]
 
-	r.periodSumInterestInstallment = append(r.periodSumInterestInstallment, 0)
-	for _, v := range temp.interestInstallment {
-		r.periodSumInterestInstallment[idx] += v
+	r.PeriodSumInterestInstallment = append(r.PeriodSumInterestInstallment, 0)
+	for _, v := range temp.InterestInstallment {
+		r.PeriodSumInterestInstallment[idx] += v
 	}
-	r.totalInterests += r.periodSumInterestInstallment[idx]
+	r.TotalInterests += r.PeriodSumInterestInstallment[idx]
 
-	r.periodSumPrincipalInstallment = append(r.periodSumPrincipalInstallment, 0)
-	for _, v := range temp.principalInstallment {
-		r.periodSumPrincipalInstallment[idx] += v
+	r.PeriodSumPrincipalInstallment = append(r.PeriodSumPrincipalInstallment, 0)
+	for _, v := range temp.PrincipalInstallment {
+		r.PeriodSumPrincipalInstallment[idx] += v
 	}
-	r.totalPrincipal += r.periodSumPrincipalInstallment[idx]
+	r.TotalPrincipal += r.PeriodSumPrincipalInstallment[idx]
 }
