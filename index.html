@@ -14,17 +14,29 @@
       <hr>
 
       <form>
-        <div class="mb-3">
-          <label for="price" class="form-label">Harga rumah</label>
-          <input type="number" class="form-control" id="price" aria-describedby="price" min="0" max="100" placeholder="0">
-        </div>
-        <div class="mb-3">
-          <label for="downPayment" class="form-label">Down Payment (%)</label>
-          <input type="number" class="form-control" id="downPayment" aria-describedby="downPayment" min="0" max="100" placeholder="0">
+        <div class="row mb-3 align-items-center">
+          <div class="col-6">
+            <label for="price" class="form-label">Harga rumah</label>
+            <input type="number" class="form-control" id="price" aria-describedby="price" min="0" max="100" placeholder="0">  
+          </div>
+          <div class="col-auto">
+            <div>&nbsp;</div>
+            <span class="form-text"></span>
+          </div>
         </div>
         <div class="row mb-3 align-items-center">
+          <div class="col-6">
+            <label for="downPayment" class="form-label">Down Payment (%)</label>
+            <input type="number" class="form-control" id="downPayment" aria-describedby="downPayment" min="0" max="100" placeholder="0">
+          </div>
           <div class="col-auto">
-            <label for="totalPeriod" class="form-label">Lama Pinjaman (tahun)</label>
+            <div>&nbsp;</div>
+            <span class="form-text"></span>
+          </div>
+        </div>
+        <div class="row mb-3 align-items-center">
+          <div class="col-6">
+            <label for="totalPeriod" class="form-label">Jangka Waktu (tahun)</label>
             <input type="number" class="form-control" id="totalPeriod" aria-describedby="totalPeriod" min="0" max="100" placeholder="0">
           </div>
           <div class="col-auto">

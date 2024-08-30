@@ -51,6 +51,10 @@ func NewApp() *App {
 }
 
 func (a *App) BindEvents() {
+	a.jqPriceInput.On(jquery.KEYUP, a.updatePriceFormatted)
+
+	a.jqDownPaymentInput.On(jquery.KEYUP, a.updateDownPayment)
+
 	a.jqPeriodInput.On(jquery.CHANGE, a.updateFloatingPeriod)
 	a.jqPeriodInput.On(jquery.CHANGE, a.updatePeriodInMonth)
 
@@ -58,6 +62,38 @@ func (a *App) BindEvents() {
 	a.jqFixedPeriodInputs.On(jquery.CHANGE, a.updatePeriodInMonth)
 
 	a.jqCalculateButton.On(jquery.CLICK, a.calculateResult)
+}
+
+// Event handler
+func (a *App) updatePriceFormatted(e jquery.Event) {
+	el := jQuery(e.Target)
+
+	price, err := strconv.ParseFloat(el.Val(), 64)
+	if err != nil {
+		println("ERR fail to parse price: " + err.Error())
+	}
+
+	el.Parent().Next().Find("span").SetText(a.acfmt.FormatMoneyFloat64((price)))
+}
+
+func (a *App) updateDownPayment(e jquery.Event) {
+	el := jQuery(e.Target)
+
+	dp, err := strconv.ParseFloat(el.Val(), 64)
+	if err != nil {
+		println("ERR fail to parse down payment: " + err.Error())
+		return
+	}
+
+	price, err := strconv.ParseFloat(a.jqPriceInput.Val(), 64)
+	if err != nil {
+		println("ERR fail to parse price: " + err.Error())
+		return
+	}
+
+	principal := price * dp / 100
+
+	el.Parent().Next().Find("span").SetText(a.acfmt.FormatMoneyFloat64((principal)))
 }
 
 func (a *App) updatePeriodInMonth(e jquery.Event) {
@@ -68,7 +104,7 @@ func (a *App) updatePeriodInMonth(e jquery.Event) {
 	if err != nil {
 		println("ERR fail to parse period: " + err.Error())
 	} else {
-		text = fmt.Sprintf("= %d bulan", year*12)
+		text = fmt.Sprintf("%d bulan", year*12)
 	}
 
 	el.Parent().Next().Find("span").SetText(text)
@@ -110,8 +146,10 @@ func (a *App) updateFloatingPeriod(e jquery.Event) {
 	}
 
 	a.jqFloatPeriodInput.SetVal(floatPeriod)
-	a.jqFloatPeriodInput.Parent().Next().Find("span").SetText(fmt.Sprintf("= %d bulan", floatPeriod*12))
+	a.jqFloatPeriodInput.Parent().Next().Find("span").SetText(fmt.Sprintf("%d bulan", floatPeriod*12))
 }
+
+// DOM logic
 
 func (a *App) calculateResult(e jquery.Event) {
 	var (
@@ -126,15 +164,14 @@ func (a *App) calculateResult(e jquery.Event) {
 
 	var (
 		period int
-		price  int
+		price  float64
 		dp     float64
 	)
-	_price, err := strconv.ParseInt(a.jqPriceInput.Val(), 10, 64)
+	price, err := strconv.ParseFloat(a.jqPriceInput.Val(), 64)
 	if err != nil {
 		finalerr = errors.New("fail to parse price " + err.Error())
 		return
 	}
-	price = int(_price)
 
 	dp, err = strconv.ParseFloat(a.jqDownPaymentInput.Val(), 64)
 	if err != nil {

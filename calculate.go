@@ -50,10 +50,10 @@ type FmtResult struct {
 	PrincipalBeforeFloat string
 }
 
-func calculateResult(price int, downPayment float64, totalPeriod int, fixedInterest []float64, fixedPeriod []int, floatInterest float64, floatPeriod int) Result {
+func calculateResult(price, downPayment float64, totalPeriod int, fixedInterest []float64, fixedPeriod []int, floatInterest float64, floatPeriod int) Result {
 	var finalResult Result
 
-	principal := float64(price) * (1 - downPayment/100)
+	principal := price * (1 - downPayment/100)
 	finalResult.Principal = principal
 
 	// calculate tiered fix

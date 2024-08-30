@@ -59490,7 +59490,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 	calculateResult = function(price, downPayment, totalPeriod, fixedInterest, fixedPeriod, floatInterest, floatPeriod) {
 		var _result, _result$1, _tuple, _tuple$1, downPayment, finalResult, fixedInterest, fixedPeriod, floatInterest, floatPeriod, i, price, principal, totalPeriod;
 		finalResult = new Result.ptr(sliceType.nil, sliceType$1.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, 0, 0, 0, 0, 0);
-		principal = (price) * (1 - downPayment / 100);
+		principal = price * (1 - downPayment / 100);
 		finalResult.Principal = principal;
 		i = 0;
 		while (true) {
@@ -59675,6 +59675,8 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 	App.ptr.prototype.BindEvents = function() {
 		var a;
 		a = this;
+		$clone(a.jqPriceInput, jquery.JQuery).On(new sliceType$3([new $String("keyup"), new funcType($methodVal(a, "updatePriceFormatted"))]));
+		$clone(a.jqDownPaymentInput, jquery.JQuery).On(new sliceType$3([new $String("keyup"), new funcType($methodVal(a, "updateDownPayment"))]));
 		$clone(a.jqPeriodInput, jquery.JQuery).On(new sliceType$3([new $String("change"), new funcType($methodVal(a, "updateFloatingPeriod"))]));
 		$clone(a.jqPeriodInput, jquery.JQuery).On(new sliceType$3([new $String("change"), new funcType($methodVal(a, "updatePeriodInMonth"))]));
 		$clone(a.jqFixedPeriodInputs, jquery.JQuery).On(new sliceType$3([new $String("change"), new funcType($methodVal(a, "updateFloatingPeriod"))]));
@@ -59682,6 +59684,62 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 		$clone(a.jqCalculateButton, jquery.JQuery).On(new sliceType$3([new $String("click"), new funcType($methodVal(a, "calculateResult"))]));
 	};
 	App.prototype.BindEvents = function() { return this.$val.BindEvents(); };
+	App.ptr.prototype.updatePriceFormatted = function(e) {
+		var {_r, _r$1, _r$2, _r$3, _tuple, a, e, el, err, price, $s, $r, $c} = $restore(this, {e});
+		/* */ $s = $s || 0; s: while (true) { switch ($s) { case 0:
+		a = this;
+		_r = jQuery(new sliceType$3([new $jsObjectPtr(e.Object.target)])); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		el = $clone(_r, jquery.JQuery);
+		_tuple = strconv.ParseFloat($clone(el, jquery.JQuery).Val(), 64);
+		price = _tuple[0];
+		err = _tuple[1];
+		/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 2; continue; }
+		/* */ $s = 3; continue;
+		/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 2:
+			_r$1 = err.Error(); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+			console.log("ERR fail to parse price: " + _r$1);
+		/* } */ case 3:
+		_r$2 = a.acfmt.FormatMoneyFloat64(price); /* */ $s = 5; case 5: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+		_r$3 = $clone($clone($clone($clone(el, jquery.JQuery).Parent(sliceType$3.nil), jquery.JQuery).Next(sliceType$3.nil), jquery.JQuery).Find(new sliceType$3([new $String("span")])), jquery.JQuery).SetText(new $String(_r$2)); /* */ $s = 6; case 6: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+		_r$3;
+		$s = -1; return;
+		/* */ } return; } var $f = {$blk: App.ptr.prototype.updatePriceFormatted, $c: true, $r, _r, _r$1, _r$2, _r$3, _tuple, a, e, el, err, price, $s};return $f;
+	};
+	App.prototype.updatePriceFormatted = function(e) { return this.$val.updatePriceFormatted(e); };
+	App.ptr.prototype.updateDownPayment = function(e) {
+		var {_r, _r$1, _r$2, _r$3, _r$4, _tuple, _tuple$1, a, dp, e, el, err, price, principal, $s, $r, $c} = $restore(this, {e});
+		/* */ $s = $s || 0; s: while (true) { switch ($s) { case 0:
+		a = this;
+		_r = jQuery(new sliceType$3([new $jsObjectPtr(e.Object.target)])); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		el = $clone(_r, jquery.JQuery);
+		_tuple = strconv.ParseFloat($clone(el, jquery.JQuery).Val(), 64);
+		dp = _tuple[0];
+		err = _tuple[1];
+		/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 2; continue; }
+		/* */ $s = 3; continue;
+		/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 2:
+			_r$1 = err.Error(); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+			console.log("ERR fail to parse down payment: " + _r$1);
+			$s = -1; return;
+		/* } */ case 3:
+		_tuple$1 = strconv.ParseFloat($clone(a.jqPriceInput, jquery.JQuery).Val(), 64);
+		price = _tuple$1[0];
+		err = _tuple$1[1];
+		/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 5; continue; }
+		/* */ $s = 6; continue;
+		/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 5:
+			_r$2 = err.Error(); /* */ $s = 7; case 7: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+			console.log("ERR fail to parse price: " + _r$2);
+			$s = -1; return;
+		/* } */ case 6:
+		principal = price * dp / 100;
+		_r$3 = a.acfmt.FormatMoneyFloat64(principal); /* */ $s = 8; case 8: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+		_r$4 = $clone($clone($clone($clone(el, jquery.JQuery).Parent(sliceType$3.nil), jquery.JQuery).Next(sliceType$3.nil), jquery.JQuery).Find(new sliceType$3([new $String("span")])), jquery.JQuery).SetText(new $String(_r$3)); /* */ $s = 9; case 9: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+		_r$4;
+		$s = -1; return;
+		/* */ } return; } var $f = {$blk: App.ptr.prototype.updateDownPayment, $c: true, $r, _r, _r$1, _r$2, _r$3, _r$4, _tuple, _tuple$1, a, dp, e, el, err, price, principal, $s};return $f;
+	};
+	App.prototype.updateDownPayment = function(e) { return this.$val.updateDownPayment(e); };
 	App.ptr.prototype.updatePeriodInMonth = function(e) {
 		var {_r, _r$1, _r$2, _tuple, a, e, el, err, text, year, $s, $r, $c} = $restore(this, {e});
 		/* */ $s = $s || 0; s: while (true) { switch ($s) { case 0:
@@ -59699,7 +59757,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			console.log("ERR fail to parse period: " + _r$1);
 			$s = 4; continue;
 		/* } else { */ case 3:
-			_r$2 = fmt.Sprintf("= %d bulan", new sliceType$3([$mul64(year, new $Int64(0, 12))])); /* */ $s = 6; case 6: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+			_r$2 = fmt.Sprintf("%d bulan", new sliceType$3([$mul64(year, new $Int64(0, 12))])); /* */ $s = 6; case 6: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
 			text = _r$2;
 		/* } */ case 4:
 		$clone($clone($clone($clone(el, jquery.JQuery).Parent(sliceType$3.nil), jquery.JQuery).Next(sliceType$3.nil), jquery.JQuery).Find(new sliceType$3([new $String("span")])), jquery.JQuery).SetText(new $String(text));
@@ -59766,7 +59824,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			floatPeriod = 0;
 		}
 		$clone(a.jqFloatPeriodInput, jquery.JQuery).SetVal(new $Int(floatPeriod));
-		_r$2 = fmt.Sprintf("= %d bulan", new sliceType$3([new $Int(($imul(floatPeriod, 12)))])); /* */ $s = 6; case 6: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+		_r$2 = fmt.Sprintf("%d bulan", new sliceType$3([new $Int(($imul(floatPeriod, 12)))])); /* */ $s = 6; case 6: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
 		_r$3 = $clone($clone($clone($clone(a.jqFloatPeriodInput, jquery.JQuery).Parent(sliceType$3.nil), jquery.JQuery).Next(sliceType$3.nil), jquery.JQuery).Find(new sliceType$3([new $String("span")])), jquery.JQuery).SetText(new $String(_r$2)); /* */ $s = 7; case 7: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
 		_r$3;
 		$s = -1; return;
@@ -59774,7 +59832,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 	};
 	App.prototype.updateFloatingPeriod = function(e) { return this.$val.updateFloatingPeriod(e); };
 	App.ptr.prototype.calculateResult = function(e) {
-		var {_period, _price, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _tuple, _tuple$1, _tuple$2, _tuple$3, a, dp, e, err, finalerr, fixedInterests, fixedPeriods, floatInterest, floatPeriod, period, price, result, sumFixedPeriod, $s, $deferred, $r, $c} = $restore(this, {e});
+		var {_period, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _tuple, _tuple$1, _tuple$2, _tuple$3, a, dp, e, err, finalerr, fixedInterests, fixedPeriods, floatInterest, floatPeriod, period, price, result, sumFixedPeriod, $s, $deferred, $r, $c} = $restore(this, {e});
 		/* */ $s = $s || 0; var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $curGoroutine.deferStack.push($deferred);
 		e = [e];
 		finalerr = [finalerr];
@@ -59799,8 +59857,8 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 		period = 0;
 		price = 0;
 		dp = 0;
-		_tuple = strconv.ParseInt($clone(a.jqPriceInput, jquery.JQuery).Val(), 10, 64);
-		_price = _tuple[0];
+		_tuple = strconv.ParseFloat($clone(a.jqPriceInput, jquery.JQuery).Val(), 64);
+		price = _tuple[0];
 		err = _tuple[1];
 		/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 1; continue; }
 		/* */ $s = 2; continue;
@@ -59810,7 +59868,6 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			finalerr[0] = _r$1;
 			$s = 5; case 5: return;
 		/* } */ case 2:
-		price = (((_price.$low + ((_price.$high >> 31) * 4294967296)) >> 0));
 		_tuple$1 = strconv.ParseFloat($clone(a.jqDownPaymentInput, jquery.JQuery).Val(), 64);
 		dp = _tuple$1[0];
 		err = _tuple$1[1];
@@ -59912,7 +59969,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 		result = $clone(calculateResult(price, dp, period, fixedInterests[0], fixedPeriods[0], floatInterest, floatPeriod), Result);
 		$r = a.renderResult($clone(result, Result)); /* */ $s = 29; case 29: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$s = -1; return;
-		/* */ } return; } } catch(err) { $err = err; $s = -1; } finally { $callDeferred($deferred, $err); if($curGoroutine.asleep) { var $f = {$blk: App.ptr.prototype.calculateResult, $c: true, $r, _period, _price, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _tuple, _tuple$1, _tuple$2, _tuple$3, a, dp, e, err, finalerr, fixedInterests, fixedPeriods, floatInterest, floatPeriod, period, price, result, sumFixedPeriod, $s, $deferred};return $f; } }
+		/* */ } return; } } catch(err) { $err = err; $s = -1; } finally { $callDeferred($deferred, $err); if($curGoroutine.asleep) { var $f = {$blk: App.ptr.prototype.calculateResult, $c: true, $r, _period, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _tuple, _tuple$1, _tuple$2, _tuple$3, a, dp, e, err, finalerr, fixedInterests, fixedPeriods, floatInterest, floatPeriod, period, price, result, sumFixedPeriod, $s, $deferred};return $f; } }
 	};
 	App.prototype.calculateResult = function(e) { return this.$val.calculateResult(e); };
 	App.ptr.prototype.renderResult = function(result) {
@@ -59932,7 +59989,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 	};
 	App.prototype.renderResult = function(result) { return this.$val.renderResult(result); };
 	ptrType$1.methods = [{prop: "add", name: "add", pkg: "github.com/tommywijayac/kpr", typ: $funcType([Result], [], false)}, {prop: "format", name: "format", pkg: "github.com/tommywijayac/kpr", typ: $funcType([accounting.Accounting], [FmtResult], false)}];
-	ptrType$2.methods = [{prop: "BindEvents", name: "BindEvents", pkg: "", typ: $funcType([], [], false)}, {prop: "updatePeriodInMonth", name: "updatePeriodInMonth", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "updateFloatingPeriod", name: "updateFloatingPeriod", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "calculateResult", name: "calculateResult", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "renderResult", name: "renderResult", pkg: "github.com/tommywijayac/kpr", typ: $funcType([Result], [], false)}];
+	ptrType$2.methods = [{prop: "BindEvents", name: "BindEvents", pkg: "", typ: $funcType([], [], false)}, {prop: "updatePriceFormatted", name: "updatePriceFormatted", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "updateDownPayment", name: "updateDownPayment", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "updatePeriodInMonth", name: "updatePeriodInMonth", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "updateFloatingPeriod", name: "updateFloatingPeriod", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "calculateResult", name: "calculateResult", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "renderResult", name: "renderResult", pkg: "github.com/tommywijayac/kpr", typ: $funcType([Result], [], false)}];
 	Result.init("", [{prop: "Interests", name: "Interests", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "Periods", name: "Periods", embedded: false, exported: true, typ: sliceType$1, tag: ""}, {prop: "Installment", name: "Installment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "InterestInstallment", name: "InterestInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PrincipalInstallment", name: "PrincipalInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PeriodMonthlyInstallment", name: "PeriodMonthlyInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PeriodSumInstallment", name: "PeriodSumInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PeriodSumInterestInstallment", name: "PeriodSumInterestInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PeriodSumPrincipalInstallment", name: "PeriodSumPrincipalInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "Principal", name: "Principal", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "TotalInstallment", name: "TotalInstallment", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "TotalInterests", name: "TotalInterests", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "TotalPrincipal", name: "TotalPrincipal", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "PrincipalBeforeFloat", name: "PrincipalBeforeFloat", embedded: false, exported: true, typ: $Float64, tag: ""}]);
 	FmtResult.init("", [{prop: "Interests", name: "Interests", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "Periods", name: "Periods", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "Installment", name: "Installment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "InterestInstallment", name: "InterestInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PrincipalInstallment", name: "PrincipalInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PeriodMonthlyInstallment", name: "PeriodMonthlyInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PeriodSumInstallment", name: "PeriodSumInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PeriodSumInterestInstallment", name: "PeriodSumInterestInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PeriodSumPrincipalInstallment", name: "PeriodSumPrincipalInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "Principal", name: "Principal", embedded: false, exported: true, typ: $String, tag: ""}, {prop: "TotalInstallment", name: "TotalInstallment", embedded: false, exported: true, typ: $String, tag: ""}, {prop: "TotalInterests", name: "TotalInterests", embedded: false, exported: true, typ: $String, tag: ""}, {prop: "TotalPrincipal", name: "TotalPrincipal", embedded: false, exported: true, typ: $String, tag: ""}, {prop: "PrincipalBeforeFloat", name: "PrincipalBeforeFloat", embedded: false, exported: true, typ: $String, tag: ""}]);
 	App.init("github.com/tommywijayac/kpr", [{prop: "acfmt", name: "acfmt", embedded: false, exported: false, typ: accounting.Accounting, tag: ""}, {prop: "resultTemplate", name: "resultTemplate", embedded: false, exported: false, typ: ptrType, tag: ""}, {prop: "jqResult", name: "jqResult", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqPriceInput", name: "jqPriceInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqDownPaymentInput", name: "jqDownPaymentInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqPeriodInput", name: "jqPeriodInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqFixedInterestInputs", name: "jqFixedInterestInputs", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqFixedPeriodInputs", name: "jqFixedPeriodInputs", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqFloatInterestInput", name: "jqFloatInterestInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqFloatPeriodInput", name: "jqFloatPeriodInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqCalculateButton", name: "jqCalculateButton", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}]);
