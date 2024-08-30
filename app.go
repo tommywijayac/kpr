@@ -165,9 +165,23 @@ func (a *App) calculateResult(e jquery.Event) {
 	println(floatInterest)
 	println(floatPeriod)
 
-	calculateResult(price, dp, period, fixedInterests, fixedPeriods, floatInterest, floatPeriod)
+	result := calculateResult(price, dp, period, fixedInterests, fixedPeriods, floatInterest, floatPeriod)
+
+	println(result.interests)
+	println(result.periods)
+	println(result.periodMonthlyInstallment)
+
+	println(result.periodSumInstallment)
+	println(result.periodSumInterestInstallment)
+	println(result.periodSumPrincipalInstallment)
+
+	println(result.totalInstallment)
+	println(result.totalInterests)
+	println(result.totalPrincipal)
 }
 
 func (a *App) renderResult() {
+	// remove existing
 
+	// re-add template
 }
