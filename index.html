@@ -10,101 +10,97 @@
     <div class="row">
       <h1>Kalkulator KPR Fix Bertingkat</h1>
 
-      <div class="col-6">
-        <form>
-          <div class="mb-3">
-            <label for="price" class="form-label">Harga rumah</label>
-            <input type="number" class="form-control" id="price" aria-describedby="price" min="0" max="100" placeholder="0">
-          </div>
-          <div class="mb-3">
-            <label for="downPayment" class="form-label">Down Payment (%)</label>
-            <input type="number" class="form-control" id="downPayment" aria-describedby="downPayment" min="0" max="100" placeholder="0">
-          </div>
-          <div class="mb-3">
-            <label for="totalPeriod" class="form-label">Lama Pinjaman (bulan)</label>
-            <input type="number" class="form-control" id="totalPeriod" aria-describedby="totalPeriod" min="0" max="100" placeholder="0">
-          </div>
+      <form>
+        <div class="mb-3">
+          <label for="price" class="form-label">Harga rumah</label>
+          <input type="number" class="form-control" id="price" aria-describedby="price" min="0" max="100" placeholder="0">
+        </div>
+        <div class="mb-3">
+          <label for="downPayment" class="form-label">Down Payment (%)</label>
+          <input type="number" class="form-control" id="downPayment" aria-describedby="downPayment" min="0" max="100" placeholder="0">
+        </div>
+        <div class="mb-3">
+          <label for="totalPeriod" class="form-label">Lama Pinjaman (bulan)</label>
+          <input type="number" class="form-control" id="totalPeriod" aria-describedby="totalPeriod" min="0" max="100" placeholder="0">
+        </div>
 
-          <hr>
+        <hr>
 
-          <table class="table">
-            <h3>Bunga Fix</h3>
-            <p class="form-text">Masukkan bunga fix bertingkat. Biarkan 0 untuk tingkat yang tidak berlaku.</p>
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Bunga (%)</th>
-                <th scope="col">Durasi (bulan)</th>            
-              </tr>
-            </thead>
-            <tbody id="fixedInterest">
-              <tr>
-                <th scope="row">1</th>
-                <td><input type="number" class="form-control interest" id="fixedInterest-1" aria-describedby="fixedInterest" min="0" max="100" placeholder="0"></td>
-                <td><input type="number" class="form-control period" id="fixedInterestPeriod-1" aria-describedby="fixedInterestPeriod" placeholder="0"></td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td><input type="number" class="form-control interest" id="fixedInterest-2" aria-describedby="fixedInterest" min="0" max="100" placeholder="0"></td>
-                <td><input type="number" class="form-control period" id="fixedInterestPeriod-2" aria-describedby="fixedInterestPeriod" placeholder="0"></td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td><input type="number" class="form-control interest" id="fixedInterest-3" aria-describedby="fixedInterest" min="0" max="100" placeholder="0"></td>
-                <td><input type="number" class="form-control period" id="fixedInterestPeriod-3" aria-describedby="fixedInterestPeriod" placeholder="0"></td>
-              </tr>
-              <tr>
-                <th scope="row">4</th>
-                <td><input type="number" class="form-control interest" id="fixedInterest-4" aria-describedby="fixedInterest" min="0" max="100" placeholder="0"></td>
-                <td><input type="number" class="form-control period" id="fixedInterestPeriod-4" aria-describedby="fixedInterestPeriod" placeholder="0"></td>
-              </tr>
-            </tbody>
-          </table>
-
-          <table class="table">
-            <h3>Bunga Floating</h3>
-            <p class="form-text">Diasumsikan bunga float tetap sama selama durasi floating</p>
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Bunga (%)</th>
-                <th scope="col">Durasi (bulan)</th>            
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row"></th>
-                <td>
-                  <input type="number" class="form-control" id="floatInterest" aria-describedby="floatInterest" min="0" max="100" placeholder="0">
-                </td>
-                <td>
-                  <input type="number" class="form-control" id="floatInterestPeriod" aria-describedby="floatInterestPeriod" disabled>  
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <button type="button" class="btn btn-primary" id="calculate">Hitung!</button>
-        </form>
-      </div>
-
-      <div class="col-6">
-        <h1>Hasil</h1>
         <table class="table">
+          <h3>Bunga Fix</h3>
+          <p class="form-text">Masukkan bunga fix bertingkat. Biarkan 0 untuk tingkat yang tidak berlaku.</p>
           <thead>
             <tr>
               <th scope="col">#</th>
               <th scope="col">Bunga (%)</th>
-              <th scope="col">Durasi (bulan)</th>
-              <th scope="col">Cicilan per bulan</th>
-              <th scope="col">Total cicilan</th>
-              <th scope="col">Total cicilan pokok</th>
-              <th scope="col">Total cicilan bunga</th>
+              <th scope="col">Durasi (bulan)</th>            
             </tr>
           </thead>
-          <tbody id="result"></tbody>
+          <tbody id="fixedInterest">
+            <tr>
+              <th scope="row">1</th>
+              <td><input type="number" class="form-control interest" id="fixedInterest-1" aria-describedby="fixedInterest" min="0" max="100" placeholder="0"></td>
+              <td><input type="number" class="form-control period" id="fixedInterestPeriod-1" aria-describedby="fixedInterestPeriod" placeholder="0"></td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td><input type="number" class="form-control interest" id="fixedInterest-2" aria-describedby="fixedInterest" min="0" max="100" placeholder="0"></td>
+              <td><input type="number" class="form-control period" id="fixedInterestPeriod-2" aria-describedby="fixedInterestPeriod" placeholder="0"></td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td><input type="number" class="form-control interest" id="fixedInterest-3" aria-describedby="fixedInterest" min="0" max="100" placeholder="0"></td>
+              <td><input type="number" class="form-control period" id="fixedInterestPeriod-3" aria-describedby="fixedInterestPeriod" placeholder="0"></td>
+            </tr>
+            <tr>
+              <th scope="row">4</th>
+              <td><input type="number" class="form-control interest" id="fixedInterest-4" aria-describedby="fixedInterest" min="0" max="100" placeholder="0"></td>
+              <td><input type="number" class="form-control period" id="fixedInterestPeriod-4" aria-describedby="fixedInterestPeriod" placeholder="0"></td>
+            </tr>
+          </tbody>
         </table>
-      </div>
+
+        <table class="table">
+          <h3>Bunga Floating</h3>
+          <p class="form-text">Diasumsikan bunga float tetap sama selama durasi floating</p>
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Bunga (%)</th>
+              <th scope="col">Durasi (bulan)</th>            
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"></th>
+              <td>
+                <input type="number" class="form-control" id="floatInterest" aria-describedby="floatInterest" min="0" max="100" placeholder="0">
+              </td>
+              <td>
+                <input type="number" class="form-control form-control-plaintext" id="floatInterestPeriod" aria-describedby="floatInterestPeriod" readonly>  
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <button type="button" class="btn btn-primary" id="calculate">Hitung!</button>
+      </form>
+
+      <h1>Hasil</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Bunga (%)</th>
+            <th scope="col">Durasi (bulan)</th>
+            <th scope="col">Cicilan per bulan</th>
+            <th scope="col">Total cicilan</th>
+            <th scope="col">Total cicilan pokok</th>
+            <th scope="col">Total cicilan bunga</th>
+          </tr>
+        </thead>
+        <tbody id="result"></tbody>
+      </table>
     </div>
   </body>
 

@@ -160,10 +160,13 @@ func (a *App) calculateResult(e jquery.Event) {
 		return
 	}
 
-	floatInterest, err = strconv.ParseFloat(a.jqFloatInterestInput.Val(), 64)
-	if err != nil {
-		finalerr = errors.New("fail to parse float interest " + err.Error())
-		return
+	// only validates if valid
+	if floatPeriod > 0 {
+		floatInterest, err = strconv.ParseFloat(a.jqFloatInterestInput.Val(), 64)
+		if err != nil {
+			finalerr = errors.New("fail to parse float interest " + err.Error())
+			return
+		}
 	}
 
 	result := calculateResult(price, dp, period, fixedInterests, fixedPeriods, floatInterest, floatPeriod)

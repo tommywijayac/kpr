@@ -59364,7 +59364,7 @@ $packages["text/template"] = (function() {
 	return $pkg;
 })();
 $packages["github.com/tommywijayac/kpr"] = (function() {
-	var $pkg = {}, $init, bytes, errors, fmt, jquery, accounting, math, strconv, template, Result, FmtResult, App, sliceType, sliceType$1, sliceType$2, sliceType$3, ptrType, funcType, sliceType$4, ptrType$1, ptrType$2, ac, jQuery, main, calculateResult, calculate, NewApp;
+	var $pkg = {}, $init, bytes, errors, fmt, jquery, accounting, math, strconv, template, Result, FmtResult, App, sliceType, sliceType$1, sliceType$2, sliceType$3, ptrType, funcType, sliceType$4, ptrType$1, ptrType$2, jQuery, main, calculateResult, calculate, NewApp;
 	bytes = $packages["bytes"];
 	errors = $packages["errors"];
 	fmt = $packages["fmt"];
@@ -59373,7 +59373,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 	math = $packages["math"];
 	strconv = $packages["strconv"];
 	template = $packages["text/template"];
-	Result = $pkg.Result = $newType(0, $kindStruct, "main.Result", true, "github.com/tommywijayac/kpr", true, function(Interests_, Periods_, Installment_, InterestInstallment_, PrincipalInstallment_, PeriodMonthlyInstallment_, PeriodSumInstallment_, PeriodSumInterestInstallment_, PeriodSumPrincipalInstallment_, TotalInstallment_, TotalInterests_, TotalPrincipal_, PrincipalBeforeFloat_) {
+	Result = $pkg.Result = $newType(0, $kindStruct, "main.Result", true, "github.com/tommywijayac/kpr", true, function(Interests_, Periods_, Installment_, InterestInstallment_, PrincipalInstallment_, PeriodMonthlyInstallment_, PeriodSumInstallment_, PeriodSumInterestInstallment_, PeriodSumPrincipalInstallment_, Principal_, TotalInstallment_, TotalInterests_, TotalPrincipal_, PrincipalBeforeFloat_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Interests = sliceType.nil;
@@ -59385,6 +59385,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			this.PeriodSumInstallment = sliceType.nil;
 			this.PeriodSumInterestInstallment = sliceType.nil;
 			this.PeriodSumPrincipalInstallment = sliceType.nil;
+			this.Principal = 0;
 			this.TotalInstallment = 0;
 			this.TotalInterests = 0;
 			this.TotalPrincipal = 0;
@@ -59400,12 +59401,13 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 		this.PeriodSumInstallment = PeriodSumInstallment_;
 		this.PeriodSumInterestInstallment = PeriodSumInterestInstallment_;
 		this.PeriodSumPrincipalInstallment = PeriodSumPrincipalInstallment_;
+		this.Principal = Principal_;
 		this.TotalInstallment = TotalInstallment_;
 		this.TotalInterests = TotalInterests_;
 		this.TotalPrincipal = TotalPrincipal_;
 		this.PrincipalBeforeFloat = PrincipalBeforeFloat_;
 	});
-	FmtResult = $pkg.FmtResult = $newType(0, $kindStruct, "main.FmtResult", true, "github.com/tommywijayac/kpr", true, function(Interests_, Periods_, Installment_, InterestInstallment_, PrincipalInstallment_, PeriodMonthlyInstallment_, PeriodSumInstallment_, PeriodSumInterestInstallment_, PeriodSumPrincipalInstallment_, TotalInstallment_, TotalInterests_, TotalPrincipal_, PrincipalBeforeFloat_) {
+	FmtResult = $pkg.FmtResult = $newType(0, $kindStruct, "main.FmtResult", true, "github.com/tommywijayac/kpr", true, function(Interests_, Periods_, Installment_, InterestInstallment_, PrincipalInstallment_, PeriodMonthlyInstallment_, PeriodSumInstallment_, PeriodSumInterestInstallment_, PeriodSumPrincipalInstallment_, Principal_, TotalInstallment_, TotalInterests_, TotalPrincipal_, PrincipalBeforeFloat_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.Interests = sliceType$2.nil;
@@ -59417,6 +59419,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			this.PeriodSumInstallment = sliceType$2.nil;
 			this.PeriodSumInterestInstallment = sliceType$2.nil;
 			this.PeriodSumPrincipalInstallment = sliceType$2.nil;
+			this.Principal = "";
 			this.TotalInstallment = "";
 			this.TotalInterests = "";
 			this.TotalPrincipal = "";
@@ -59432,6 +59435,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 		this.PeriodSumInstallment = PeriodSumInstallment_;
 		this.PeriodSumInterestInstallment = PeriodSumInterestInstallment_;
 		this.PeriodSumPrincipalInstallment = PeriodSumPrincipalInstallment_;
+		this.Principal = Principal_;
 		this.TotalInstallment = TotalInstallment_;
 		this.TotalInterests = TotalInterests_;
 		this.TotalPrincipal = TotalPrincipal_;
@@ -59484,16 +59488,15 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 		/* */ } return; } var $f = {$blk: main, $c: true, $r, _r, app, $s};return $f;
 	};
 	calculateResult = function(price, downPayment, totalPeriod, fixedInterest, fixedPeriod, floatInterest, floatPeriod) {
-		var {_r, _r$1, _result, _result$1, _tuple, _tuple$1, downPayment, finalResult, fixedInterest, fixedPeriod, floatInterest, floatPeriod, i, price, principal, totalPeriod, $s, $r, $c} = $restore(this, {price, downPayment, totalPeriod, fixedInterest, fixedPeriod, floatInterest, floatPeriod});
-		/* */ $s = $s || 0; s: while (true) { switch ($s) { case 0:
-		finalResult = new Result.ptr(sliceType.nil, sliceType$1.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, 0, 0, 0, 0);
+		var _result, _result$1, _tuple, _tuple$1, downPayment, finalResult, fixedInterest, fixedPeriod, floatInterest, floatPeriod, i, price, principal, totalPeriod;
+		finalResult = new Result.ptr(sliceType.nil, sliceType$1.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, 0, 0, 0, 0, 0);
 		principal = (price) * (1 - downPayment / 100);
+		finalResult.Principal = principal;
 		i = 0;
-		/* while (true) { */ case 1:
-			/* if (!(i < fixedPeriod.$length)) { break; } */ if(!(i < fixedPeriod.$length)) { $s = 2; continue; }
-			_result = new Result.ptr(sliceType.nil, sliceType$1.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, 0, 0, 0, 0);
-			_r = calculate(principal, ((i < 0 || i >= fixedInterest.$length) ? ($throwRuntimeError("index out of range"), undefined) : fixedInterest.$array[fixedInterest.$offset + i]), ((i < 0 || i >= fixedPeriod.$length) ? ($throwRuntimeError("index out of range"), undefined) : fixedPeriod.$array[fixedPeriod.$offset + i]), totalPeriod); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-			_tuple = _r;
+		while (true) {
+			if (!(i < fixedPeriod.$length)) { break; }
+			_result = new Result.ptr(sliceType.nil, sliceType$1.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, 0, 0, 0, 0, 0);
+			_tuple = calculate(principal, ((i < 0 || i >= fixedInterest.$length) ? ($throwRuntimeError("index out of range"), undefined) : fixedInterest.$array[fixedInterest.$offset + i]), ((i < 0 || i >= fixedPeriod.$length) ? ($throwRuntimeError("index out of range"), undefined) : fixedPeriod.$array[fixedPeriod.$offset + i]), totalPeriod);
 			principal = _tuple[0];
 			Result.copy(_result, _tuple[1]);
 			finalResult.Interests = $append(finalResult.Interests, ((i < 0 || i >= fixedInterest.$length) ? ($throwRuntimeError("index out of range"), undefined) : fixedInterest.$array[fixedInterest.$offset + i]));
@@ -59501,50 +59504,38 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			finalResult.add($clone(_result, Result));
 			totalPeriod = totalPeriod - ((i < 0 || i >= fixedPeriod.$length) ? ($throwRuntimeError("index out of range"), undefined) : fixedPeriod.$array[fixedPeriod.$offset + i]) >> 0;
 			i = i + (1) >> 0;
-		$s = 1; continue;
-		case 2:
-		/* */ if (floatPeriod > 0) { $s = 4; continue; }
-		/* */ $s = 5; continue;
-		/* if (floatPeriod > 0) { */ case 4:
-			_r$1 = calculate(principal, floatInterest, floatPeriod, totalPeriod); /* */ $s = 6; case 6: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-			_tuple$1 = _r$1;
+		}
+		if (floatPeriod > 0) {
+			_tuple$1 = calculate(principal, floatInterest, floatPeriod, totalPeriod);
 			_result$1 = $clone(_tuple$1[1], Result);
 			finalResult.PrincipalBeforeFloat = principal;
 			finalResult.Interests = $append(finalResult.Interests, floatInterest);
 			finalResult.Periods = $append(finalResult.Periods, floatPeriod);
 			finalResult.add($clone(_result$1, Result));
-		/* } */ case 5:
-		$s = -1; return finalResult;
-		/* */ } return; } var $f = {$blk: calculateResult, $c: true, $r, _r, _r$1, _result, _result$1, _tuple, _tuple$1, downPayment, finalResult, fixedInterest, fixedPeriod, floatInterest, floatPeriod, i, price, principal, totalPeriod, $s};return $f;
+		}
+		return finalResult;
 	};
 	calculate = function(principal, interestRate, interestPeriod, totalPeriod) {
-		var {_r, _r$1, _r$2, i, installment, interestInstallment, interestPeriod, interestRate, loan, monthlyInstallment, monthlyInterestRate, principal, principalInstallment, result, totalLoan, totalPeriod, $s, $r, $c} = $restore(this, {principal, interestRate, interestPeriod, totalPeriod});
-		/* */ $s = $s || 0; s: while (true) { switch ($s) { case 0:
+		var i, installment, interestInstallment, interestPeriod, interestRate, loan, monthlyInstallment, monthlyInterestRate, principal, principalInstallment, result, totalLoan, totalPeriod;
 		monthlyInterestRate = (interestRate) / 100 / 12;
 		loan = 1 + monthlyInterestRate;
 		totalLoan = math.Pow(loan, (totalPeriod));
 		installment = 1 - 1 / totalLoan;
 		interestInstallment = principal * monthlyInterestRate;
 		monthlyInstallment = interestInstallment / installment;
-		result = new Result.ptr(sliceType.nil, sliceType$1.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, 0, 0, 0, 0);
+		result = new Result.ptr(sliceType.nil, sliceType$1.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, 0, 0, 0, 0, 0);
 		i = 0;
-		/* while (true) { */ case 1:
-			/* if (!(i < interestPeriod)) { break; } */ if(!(i < interestPeriod)) { $s = 2; continue; }
+		while (true) {
+			if (!(i < interestPeriod)) { break; }
 			interestInstallment = principal * monthlyInterestRate;
 			principalInstallment = monthlyInstallment - interestInstallment;
-			_r = ac.FormatMoney(new $Float64(monthlyInstallment)); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-			_r$1 = ac.FormatMoney(new $Float64(interestInstallment)); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-			_r$2 = ac.FormatMoney(new $Float64(principalInstallment)); /* */ $s = 5; case 5: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-			console.log("[%d] cicilan: %v, bunga: %v, pokok: %v\n", i + 1 >> 0, _r, _r$1, _r$2);
 			result.Installment = $append(result.Installment, monthlyInstallment);
 			result.InterestInstallment = $append(result.InterestInstallment, interestInstallment);
 			result.PrincipalInstallment = $append(result.PrincipalInstallment, principalInstallment);
 			principal = principal - (principalInstallment);
 			i = i + (1) >> 0;
-		$s = 1; continue;
-		case 2:
-		$s = -1; return [principal, result];
-		/* */ } return; } var $f = {$blk: calculate, $c: true, $r, _r, _r$1, _r$2, i, installment, interestInstallment, interestPeriod, interestRate, loan, monthlyInstallment, monthlyInterestRate, principal, principalInstallment, result, totalLoan, totalPeriod, $s};return $f;
+		}
+		return [principal, result];
 	};
 	Result.ptr.prototype.add = function(temp) {
 		var _i, _i$1, _i$2, _ref, _ref$1, _ref$2, idx, r, temp, v, v$1, v$2, x, x$1, x$2, x$3, x$4, x$5, x$6, x$7, x$8, x$9;
@@ -59588,78 +59579,80 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 	};
 	Result.prototype.add = function(temp) { return this.$val.add(temp); };
 	Result.ptr.prototype.format = function(acfmt) {
-		var {_i, _i$1, _i$2, _i$3, _i$4, _i$5, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _ref, _ref$1, _ref$2, _ref$3, _ref$4, _ref$5, acfmt, r, result, v, v$1, v$2, v$3, v$4, v$5, $s, $r, $c} = $restore(this, {acfmt});
+		var {_i, _i$1, _i$2, _i$3, _i$4, _i$5, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _r$9, _ref, _ref$1, _ref$2, _ref$3, _ref$4, _ref$5, acfmt, r, result, v, v$1, v$2, v$3, v$4, v$5, $s, $r, $c} = $restore(this, {acfmt});
 		/* */ $s = $s || 0; s: while (true) { switch ($s) { case 0:
 		r = this;
-		result = new FmtResult.ptr(sliceType$2.nil, sliceType$2.nil, sliceType$2.nil, sliceType$2.nil, sliceType$2.nil, sliceType$2.nil, sliceType$2.nil, sliceType$2.nil, sliceType$2.nil, "", "", "", "");
+		result = new FmtResult.ptr(sliceType$2.nil, sliceType$2.nil, sliceType$2.nil, sliceType$2.nil, sliceType$2.nil, sliceType$2.nil, sliceType$2.nil, sliceType$2.nil, sliceType$2.nil, "", "", "", "", "");
+		_r = acfmt.FormatMoneyFloat64(r.Principal); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+		result.Principal = _r;
 		_ref = r.Interests;
 		_i = 0;
-		/* while (true) { */ case 1:
-			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 2; continue; }
+		/* while (true) { */ case 2:
+			/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 3; continue; }
 			v = ((_i < 0 || _i >= _ref.$length) ? ($throwRuntimeError("index out of range"), undefined) : _ref.$array[_ref.$offset + _i]);
-			_r = accounting.FormatNumberFloat64(v, 2, ",", "."); /* */ $s = 3; case 3: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
-			result.Interests = $append(result.Interests, _r);
+			_r$1 = accounting.FormatNumberFloat64(v, 2, ",", "."); /* */ $s = 4; case 4: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+			result.Interests = $append(result.Interests, _r$1);
 			_i++;
-		$s = 1; continue;
-		case 2:
+		$s = 2; continue;
+		case 3:
 		_ref$1 = r.Periods;
 		_i$1 = 0;
-		/* while (true) { */ case 4:
-			/* if (!(_i$1 < _ref$1.$length)) { break; } */ if(!(_i$1 < _ref$1.$length)) { $s = 5; continue; }
+		/* while (true) { */ case 5:
+			/* if (!(_i$1 < _ref$1.$length)) { break; } */ if(!(_i$1 < _ref$1.$length)) { $s = 6; continue; }
 			v$1 = ((_i$1 < 0 || _i$1 >= _ref$1.$length) ? ($throwRuntimeError("index out of range"), undefined) : _ref$1.$array[_ref$1.$offset + _i$1]);
-			_r$1 = fmt.Sprintf("%d", new sliceType$3([new $Int(v$1)])); /* */ $s = 6; case 6: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
-			result.Periods = $append(result.Periods, _r$1);
+			_r$2 = fmt.Sprintf("%d", new sliceType$3([new $Int(v$1)])); /* */ $s = 7; case 7: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+			result.Periods = $append(result.Periods, _r$2);
 			_i$1++;
-		$s = 4; continue;
-		case 5:
+		$s = 5; continue;
+		case 6:
 		_ref$2 = r.PeriodMonthlyInstallment;
 		_i$2 = 0;
-		/* while (true) { */ case 7:
-			/* if (!(_i$2 < _ref$2.$length)) { break; } */ if(!(_i$2 < _ref$2.$length)) { $s = 8; continue; }
+		/* while (true) { */ case 8:
+			/* if (!(_i$2 < _ref$2.$length)) { break; } */ if(!(_i$2 < _ref$2.$length)) { $s = 9; continue; }
 			v$2 = ((_i$2 < 0 || _i$2 >= _ref$2.$length) ? ($throwRuntimeError("index out of range"), undefined) : _ref$2.$array[_ref$2.$offset + _i$2]);
-			_r$2 = acfmt.FormatMoneyFloat64(v$2); /* */ $s = 9; case 9: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
-			result.PeriodMonthlyInstallment = $append(result.PeriodMonthlyInstallment, _r$2);
+			_r$3 = acfmt.FormatMoneyFloat64(v$2); /* */ $s = 10; case 10: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+			result.PeriodMonthlyInstallment = $append(result.PeriodMonthlyInstallment, _r$3);
 			_i$2++;
-		$s = 7; continue;
-		case 8:
+		$s = 8; continue;
+		case 9:
 		_ref$3 = r.PeriodSumInstallment;
 		_i$3 = 0;
-		/* while (true) { */ case 10:
-			/* if (!(_i$3 < _ref$3.$length)) { break; } */ if(!(_i$3 < _ref$3.$length)) { $s = 11; continue; }
+		/* while (true) { */ case 11:
+			/* if (!(_i$3 < _ref$3.$length)) { break; } */ if(!(_i$3 < _ref$3.$length)) { $s = 12; continue; }
 			v$3 = ((_i$3 < 0 || _i$3 >= _ref$3.$length) ? ($throwRuntimeError("index out of range"), undefined) : _ref$3.$array[_ref$3.$offset + _i$3]);
-			_r$3 = acfmt.FormatMoneyFloat64(v$3); /* */ $s = 12; case 12: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-			result.PeriodSumInstallment = $append(result.PeriodSumInstallment, _r$3);
+			_r$4 = acfmt.FormatMoneyFloat64(v$3); /* */ $s = 13; case 13: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+			result.PeriodSumInstallment = $append(result.PeriodSumInstallment, _r$4);
 			_i$3++;
-		$s = 10; continue;
-		case 11:
+		$s = 11; continue;
+		case 12:
 		_ref$4 = r.PeriodSumInterestInstallment;
 		_i$4 = 0;
-		/* while (true) { */ case 13:
-			/* if (!(_i$4 < _ref$4.$length)) { break; } */ if(!(_i$4 < _ref$4.$length)) { $s = 14; continue; }
+		/* while (true) { */ case 14:
+			/* if (!(_i$4 < _ref$4.$length)) { break; } */ if(!(_i$4 < _ref$4.$length)) { $s = 15; continue; }
 			v$4 = ((_i$4 < 0 || _i$4 >= _ref$4.$length) ? ($throwRuntimeError("index out of range"), undefined) : _ref$4.$array[_ref$4.$offset + _i$4]);
-			_r$4 = acfmt.FormatMoneyFloat64(v$4); /* */ $s = 15; case 15: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
-			result.PeriodSumInterestInstallment = $append(result.PeriodSumInterestInstallment, _r$4);
+			_r$5 = acfmt.FormatMoneyFloat64(v$4); /* */ $s = 16; case 16: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
+			result.PeriodSumInterestInstallment = $append(result.PeriodSumInterestInstallment, _r$5);
 			_i$4++;
-		$s = 13; continue;
-		case 14:
+		$s = 14; continue;
+		case 15:
 		_ref$5 = r.PeriodSumPrincipalInstallment;
 		_i$5 = 0;
-		/* while (true) { */ case 16:
-			/* if (!(_i$5 < _ref$5.$length)) { break; } */ if(!(_i$5 < _ref$5.$length)) { $s = 17; continue; }
+		/* while (true) { */ case 17:
+			/* if (!(_i$5 < _ref$5.$length)) { break; } */ if(!(_i$5 < _ref$5.$length)) { $s = 18; continue; }
 			v$5 = ((_i$5 < 0 || _i$5 >= _ref$5.$length) ? ($throwRuntimeError("index out of range"), undefined) : _ref$5.$array[_ref$5.$offset + _i$5]);
-			_r$5 = acfmt.FormatMoneyFloat64(v$5); /* */ $s = 18; case 18: if($c) { $c = false; _r$5 = _r$5.$blk(); } if (_r$5 && _r$5.$blk !== undefined) { break s; }
-			result.PeriodSumPrincipalInstallment = $append(result.PeriodSumPrincipalInstallment, _r$5);
+			_r$6 = acfmt.FormatMoneyFloat64(v$5); /* */ $s = 19; case 19: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
+			result.PeriodSumPrincipalInstallment = $append(result.PeriodSumPrincipalInstallment, _r$6);
 			_i$5++;
-		$s = 16; continue;
-		case 17:
-		_r$6 = acfmt.FormatMoneyFloat64(r.TotalInstallment); /* */ $s = 19; case 19: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
-		result.TotalInstallment = _r$6;
-		_r$7 = acfmt.FormatMoneyFloat64(r.TotalInterests); /* */ $s = 20; case 20: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
-		result.TotalInterests = _r$7;
-		_r$8 = acfmt.FormatMoneyFloat64(r.TotalPrincipal); /* */ $s = 21; case 21: if($c) { $c = false; _r$8 = _r$8.$blk(); } if (_r$8 && _r$8.$blk !== undefined) { break s; }
-		result.TotalPrincipal = _r$8;
+		$s = 17; continue;
+		case 18:
+		_r$7 = acfmt.FormatMoneyFloat64(r.TotalInstallment); /* */ $s = 20; case 20: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
+		result.TotalInstallment = _r$7;
+		_r$8 = acfmt.FormatMoneyFloat64(r.TotalInterests); /* */ $s = 21; case 21: if($c) { $c = false; _r$8 = _r$8.$blk(); } if (_r$8 && _r$8.$blk !== undefined) { break s; }
+		result.TotalInterests = _r$8;
+		_r$9 = acfmt.FormatMoneyFloat64(r.TotalPrincipal); /* */ $s = 22; case 22: if($c) { $c = false; _r$9 = _r$9.$blk(); } if (_r$9 && _r$9.$blk !== undefined) { break s; }
+		result.TotalPrincipal = _r$9;
 		$s = -1; return result;
-		/* */ } return; } var $f = {$blk: Result.ptr.prototype.format, $c: true, $r, _i, _i$1, _i$2, _i$3, _i$4, _i$5, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _ref, _ref$1, _ref$2, _ref$3, _ref$4, _ref$5, acfmt, r, result, v, v$1, v$2, v$3, v$4, v$5, $s};return $f;
+		/* */ } return; } var $f = {$blk: Result.ptr.prototype.format, $c: true, $r, _i, _i$1, _i$2, _i$3, _i$4, _i$5, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _r$9, _ref, _ref$1, _ref$2, _ref$3, _ref$4, _ref$5, acfmt, r, result, v, v$1, v$2, v$3, v$4, v$5, $s};return $f;
 	};
 	Result.prototype.format = function(acfmt) { return this.$val.format(acfmt); };
 	NewApp = function() {
@@ -59733,7 +59726,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 	};
 	App.prototype.updateFloatingPeriod = function(e) { return this.$val.updateFloatingPeriod(e); };
 	App.ptr.prototype.calculateResult = function(e) {
-		var {_period, _price, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _tuple, _tuple$1, _tuple$2, _tuple$3, a, dp, e, err, finalerr, fixedInterests, fixedPeriods, floatInterest, floatPeriod, period, price, result, sumFixedPeriod, $s, $deferred, $r, $c} = $restore(this, {e});
+		var {_period, _price, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _tuple, _tuple$1, _tuple$2, _tuple$3, a, dp, e, err, finalerr, fixedInterests, fixedPeriods, floatInterest, floatPeriod, period, price, result, sumFixedPeriod, $s, $deferred, $r, $c} = $restore(this, {e});
 		/* */ $s = $s || 0; var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $curGoroutine.deferStack.push($deferred);
 		e = [e];
 		finalerr = [finalerr];
@@ -59852,22 +59845,25 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			finalerr[0] = errors.New("fail to calculate floating period: doesn't add up");
 			$s = 21; case 21: return;
 		/* } */ case 20:
-		_tuple$3 = strconv.ParseFloat($clone(a.jqFloatInterestInput, jquery.JQuery).Val(), 64);
-		floatInterest = _tuple$3[0];
-		err = _tuple$3[1];
-		/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 22; continue; }
+		/* */ if (floatPeriod > 0) { $s = 22; continue; }
 		/* */ $s = 23; continue;
-		/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 22:
-			_r$6 = err.Error(); /* */ $s = 24; case 24: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
-			_r$7 = errors.New("fail to parse float interest " + _r$6); /* */ $s = 25; case 25: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
-			finalerr[0] = _r$7;
-			$s = 26; case 26: return;
+		/* if (floatPeriod > 0) { */ case 22:
+			_tuple$3 = strconv.ParseFloat($clone(a.jqFloatInterestInput, jquery.JQuery).Val(), 64);
+			floatInterest = _tuple$3[0];
+			err = _tuple$3[1];
+			/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 24; continue; }
+			/* */ $s = 25; continue;
+			/* if (!($interfaceIsEqual(err, $ifaceNil))) { */ case 24:
+				_r$6 = err.Error(); /* */ $s = 26; case 26: if($c) { $c = false; _r$6 = _r$6.$blk(); } if (_r$6 && _r$6.$blk !== undefined) { break s; }
+				_r$7 = errors.New("fail to parse float interest " + _r$6); /* */ $s = 27; case 27: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
+				finalerr[0] = _r$7;
+				$s = 28; case 28: return;
+			/* } */ case 25:
 		/* } */ case 23:
-		_r$8 = calculateResult(price, dp, period, fixedInterests[0], fixedPeriods[0], floatInterest, floatPeriod); /* */ $s = 27; case 27: if($c) { $c = false; _r$8 = _r$8.$blk(); } if (_r$8 && _r$8.$blk !== undefined) { break s; }
-		result = $clone(_r$8, Result);
-		$r = a.renderResult($clone(result, Result)); /* */ $s = 28; case 28: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+		result = $clone(calculateResult(price, dp, period, fixedInterests[0], fixedPeriods[0], floatInterest, floatPeriod), Result);
+		$r = a.renderResult($clone(result, Result)); /* */ $s = 29; case 29: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$s = -1; return;
-		/* */ } return; } } catch(err) { $err = err; $s = -1; } finally { $callDeferred($deferred, $err); if($curGoroutine.asleep) { var $f = {$blk: App.ptr.prototype.calculateResult, $c: true, $r, _period, _price, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _tuple, _tuple$1, _tuple$2, _tuple$3, a, dp, e, err, finalerr, fixedInterests, fixedPeriods, floatInterest, floatPeriod, period, price, result, sumFixedPeriod, $s, $deferred};return $f; } }
+		/* */ } return; } } catch(err) { $err = err; $s = -1; } finally { $callDeferred($deferred, $err); if($curGoroutine.asleep) { var $f = {$blk: App.ptr.prototype.calculateResult, $c: true, $r, _period, _price, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _tuple, _tuple$1, _tuple$2, _tuple$3, a, dp, e, err, finalerr, fixedInterests, fixedPeriods, floatInterest, floatPeriod, period, price, result, sumFixedPeriod, $s, $deferred};return $f; } }
 	};
 	App.prototype.calculateResult = function(e) { return this.$val.calculateResult(e); };
 	App.ptr.prototype.renderResult = function(result) {
@@ -59888,8 +59884,8 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 	App.prototype.renderResult = function(result) { return this.$val.renderResult(result); };
 	ptrType$1.methods = [{prop: "add", name: "add", pkg: "github.com/tommywijayac/kpr", typ: $funcType([Result], [], false)}, {prop: "format", name: "format", pkg: "github.com/tommywijayac/kpr", typ: $funcType([accounting.Accounting], [FmtResult], false)}];
 	ptrType$2.methods = [{prop: "BindEvents", name: "BindEvents", pkg: "", typ: $funcType([], [], false)}, {prop: "updateFloatingPeriod", name: "updateFloatingPeriod", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "calculateResult", name: "calculateResult", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "renderResult", name: "renderResult", pkg: "github.com/tommywijayac/kpr", typ: $funcType([Result], [], false)}];
-	Result.init("", [{prop: "Interests", name: "Interests", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "Periods", name: "Periods", embedded: false, exported: true, typ: sliceType$1, tag: ""}, {prop: "Installment", name: "Installment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "InterestInstallment", name: "InterestInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PrincipalInstallment", name: "PrincipalInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PeriodMonthlyInstallment", name: "PeriodMonthlyInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PeriodSumInstallment", name: "PeriodSumInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PeriodSumInterestInstallment", name: "PeriodSumInterestInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PeriodSumPrincipalInstallment", name: "PeriodSumPrincipalInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "TotalInstallment", name: "TotalInstallment", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "TotalInterests", name: "TotalInterests", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "TotalPrincipal", name: "TotalPrincipal", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "PrincipalBeforeFloat", name: "PrincipalBeforeFloat", embedded: false, exported: true, typ: $Float64, tag: ""}]);
-	FmtResult.init("", [{prop: "Interests", name: "Interests", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "Periods", name: "Periods", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "Installment", name: "Installment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "InterestInstallment", name: "InterestInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PrincipalInstallment", name: "PrincipalInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PeriodMonthlyInstallment", name: "PeriodMonthlyInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PeriodSumInstallment", name: "PeriodSumInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PeriodSumInterestInstallment", name: "PeriodSumInterestInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PeriodSumPrincipalInstallment", name: "PeriodSumPrincipalInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "TotalInstallment", name: "TotalInstallment", embedded: false, exported: true, typ: $String, tag: ""}, {prop: "TotalInterests", name: "TotalInterests", embedded: false, exported: true, typ: $String, tag: ""}, {prop: "TotalPrincipal", name: "TotalPrincipal", embedded: false, exported: true, typ: $String, tag: ""}, {prop: "PrincipalBeforeFloat", name: "PrincipalBeforeFloat", embedded: false, exported: true, typ: $String, tag: ""}]);
+	Result.init("", [{prop: "Interests", name: "Interests", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "Periods", name: "Periods", embedded: false, exported: true, typ: sliceType$1, tag: ""}, {prop: "Installment", name: "Installment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "InterestInstallment", name: "InterestInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PrincipalInstallment", name: "PrincipalInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PeriodMonthlyInstallment", name: "PeriodMonthlyInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PeriodSumInstallment", name: "PeriodSumInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PeriodSumInterestInstallment", name: "PeriodSumInterestInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PeriodSumPrincipalInstallment", name: "PeriodSumPrincipalInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "Principal", name: "Principal", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "TotalInstallment", name: "TotalInstallment", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "TotalInterests", name: "TotalInterests", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "TotalPrincipal", name: "TotalPrincipal", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "PrincipalBeforeFloat", name: "PrincipalBeforeFloat", embedded: false, exported: true, typ: $Float64, tag: ""}]);
+	FmtResult.init("", [{prop: "Interests", name: "Interests", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "Periods", name: "Periods", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "Installment", name: "Installment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "InterestInstallment", name: "InterestInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PrincipalInstallment", name: "PrincipalInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PeriodMonthlyInstallment", name: "PeriodMonthlyInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PeriodSumInstallment", name: "PeriodSumInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PeriodSumInterestInstallment", name: "PeriodSumInterestInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PeriodSumPrincipalInstallment", name: "PeriodSumPrincipalInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "Principal", name: "Principal", embedded: false, exported: true, typ: $String, tag: ""}, {prop: "TotalInstallment", name: "TotalInstallment", embedded: false, exported: true, typ: $String, tag: ""}, {prop: "TotalInterests", name: "TotalInterests", embedded: false, exported: true, typ: $String, tag: ""}, {prop: "TotalPrincipal", name: "TotalPrincipal", embedded: false, exported: true, typ: $String, tag: ""}, {prop: "PrincipalBeforeFloat", name: "PrincipalBeforeFloat", embedded: false, exported: true, typ: $String, tag: ""}]);
 	App.init("github.com/tommywijayac/kpr", [{prop: "acfmt", name: "acfmt", embedded: false, exported: false, typ: accounting.Accounting, tag: ""}, {prop: "resultTemplate", name: "resultTemplate", embedded: false, exported: false, typ: ptrType, tag: ""}, {prop: "jqResult", name: "jqResult", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqPriceInput", name: "jqPriceInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqDownPaymentInput", name: "jqDownPaymentInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqPeriodInput", name: "jqPeriodInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqFixedInterestInputs", name: "jqFixedInterestInputs", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqFixedPeriodInputs", name: "jqFixedPeriodInputs", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqFloatInterestInput", name: "jqFloatInterestInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqFloatPeriodInput", name: "jqFloatPeriodInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqCalculateButton", name: "jqCalculateButton", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}]);
 	$init = function() {
 		$pkg.$init = function() {};
@@ -59902,7 +59898,6 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 		$r = math.$init(); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = strconv.$init(); /* */ $s = 7; case 7: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = template.$init(); /* */ $s = 8; case 8: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
-		ac = new accounting.Accounting.ptr("", 0, "", "", "", "", "", false);
 		jQuery = jquery.NewJQuery;
 		/* */ if ($pkg === $mainPkg) { $s = 9; continue; }
 		/* */ $s = 10; continue;
