@@ -200,20 +200,30 @@ func (a *App) calculateResult() error {
 	a.jqFixedInterestInputs.Each(func(i int, input interface{}) {
 		jqin := jQuery(input)
 		it, err := strconv.ParseFloat(jqin.Val(), 64)
-		if err != nil {
+		if err != nil && len(jqin.Val()) != 0 {
 			finalerr = errors.New("fail to parse fixed interest " + err.Error())
 			return
 		}
+
+		if it == 0 {
+			return
+		}
+
 		fixedInterests = append(fixedInterests, it)
 	})
 
 	a.jqFixedPeriodInputs.Each(func(i int, input interface{}) {
 		jqin := jQuery(input)
 		p, err := strconv.ParseInt(jqin.Val(), 10, 64)
-		if err != nil {
+		if err != nil && len(jqin.Val()) != 0 {
 			finalerr = errors.New("fail to parse fixed period " + err.Error())
 			return
 		}
+
+		if p == 0 {
+			return
+		}
+
 		p = p * 12
 		sumFixedPeriod += int(p)
 		fixedPeriods = append(fixedPeriods, int(p))

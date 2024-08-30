@@ -59940,14 +59940,17 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			_tuple$3 = strconv.ParseFloat($clone(jqin, jquery.JQuery).Val(), 64);
 			it = _tuple$3[0];
 			err$1 = _tuple$3[1];
-			/* */ if (!($interfaceIsEqual(err$1, $ifaceNil))) { $s = 2; continue; }
+			/* */ if (!($interfaceIsEqual(err$1, $ifaceNil)) && !(($clone(jqin, jquery.JQuery).Val().length === 0))) { $s = 2; continue; }
 			/* */ $s = 3; continue;
-			/* if (!($interfaceIsEqual(err$1, $ifaceNil))) { */ case 2:
+			/* if (!($interfaceIsEqual(err$1, $ifaceNil)) && !(($clone(jqin, jquery.JQuery).Val().length === 0))) { */ case 2:
 				_r$7 = err$1.Error(); /* */ $s = 4; case 4: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
 				_r$8 = errors.New("fail to parse fixed interest " + _r$7); /* */ $s = 5; case 5: if($c) { $c = false; _r$8 = _r$8.$blk(); } if (_r$8 && _r$8.$blk !== undefined) { break s; }
 				finalerr[0] = _r$8;
 				$s = -1; return;
 			/* } */ case 3:
+			if (it === 0) {
+				$s = -1; return;
+			}
 			fixedInterests[0] = $append(fixedInterests[0], it);
 			$s = -1; return;
 			/* */ } return; } var $f = {$blk: $b, $c: true, $r, _r$6, _r$7, _r$8, _tuple$3, err$1, i, input, it, jqin, $s};return $f;
@@ -59960,14 +59963,17 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			_tuple$3 = strconv.ParseInt($clone(jqin, jquery.JQuery).Val(), 10, 64);
 			p = _tuple$3[0];
 			err$1 = _tuple$3[1];
-			/* */ if (!($interfaceIsEqual(err$1, $ifaceNil))) { $s = 2; continue; }
+			/* */ if (!($interfaceIsEqual(err$1, $ifaceNil)) && !(($clone(jqin, jquery.JQuery).Val().length === 0))) { $s = 2; continue; }
 			/* */ $s = 3; continue;
-			/* if (!($interfaceIsEqual(err$1, $ifaceNil))) { */ case 2:
+			/* if (!($interfaceIsEqual(err$1, $ifaceNil)) && !(($clone(jqin, jquery.JQuery).Val().length === 0))) { */ case 2:
 				_r$7 = err$1.Error(); /* */ $s = 4; case 4: if($c) { $c = false; _r$7 = _r$7.$blk(); } if (_r$7 && _r$7.$blk !== undefined) { break s; }
 				_r$8 = errors.New("fail to parse fixed period " + _r$7); /* */ $s = 5; case 5: if($c) { $c = false; _r$8 = _r$8.$blk(); } if (_r$8 && _r$8.$blk !== undefined) { break s; }
 				finalerr[0] = _r$8;
 				$s = -1; return;
 			/* } */ case 3:
+			if ((p.$high === 0 && p.$low === 0)) {
+				$s = -1; return;
+			}
 			p = $mul64(p, new $Int64(0, 12));
 			sumFixedPeriod[0] = sumFixedPeriod[0] + ((((p.$low + ((p.$high >> 31) * 4294967296)) >> 0))) >> 0;
 			fixedPeriods[0] = $append(fixedPeriods[0], (((p.$low + ((p.$high >> 31) * 4294967296)) >> 0)));
