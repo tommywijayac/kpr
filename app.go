@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"errors"
+	"fmt"
 	"strconv"
 	"text/template"
 
@@ -51,15 +52,42 @@ func NewApp() *App {
 
 func (a *App) BindEvents() {
 	a.jqPeriodInput.On(jquery.CHANGE, a.updateFloatingPeriod)
+	a.jqPeriodInput.On(jquery.CHANGE, a.updatePeriodInMonth)
+
 	a.jqFixedPeriodInputs.On(jquery.CHANGE, a.updateFloatingPeriod)
+	a.jqFixedPeriodInputs.On(jquery.CHANGE, a.updatePeriodInMonth)
+
 	a.jqCalculateButton.On(jquery.CLICK, a.calculateResult)
 }
 
+func (a *App) updatePeriodInMonth(e jquery.Event) {
+	el := jQuery(e.Target)
+
+	text := ""
+	year, err := strconv.ParseInt(el.Val(), 10, 64)
+	if err != nil {
+		println("ERR fail to parse period: " + err.Error())
+	} else {
+		text = fmt.Sprintf("= %d bulan", year*12)
+	}
+
+	el.Parent().Next().Find("span").SetText(text)
+}
+
 func (a *App) updateFloatingPeriod(e jquery.Event) {
+	var (
+		finalerr error
+	)
+	defer func() {
+		if finalerr != nil {
+			println("ERR " + finalerr.Error())
+			e.PreventDefault()
+		}
+	}()
+
 	_period, err := strconv.ParseInt(a.jqPeriodInput.Val(), 10, 64)
 	if err != nil {
-		// TODO: report error
-		println("ERR fail to parse period: ", err.Error())
+		finalerr = errors.New("fail to parse period " + err.Error())
 		return
 	}
 	// need to work with int instead of int64, bc gopherjs will translate int64 to object instead
@@ -70,8 +98,7 @@ func (a *App) updateFloatingPeriod(e jquery.Event) {
 		jqin := jQuery(input)
 		p, err := strconv.ParseInt(jqin.Val(), 10, 64)
 		if err != nil {
-			// TODO: report error
-			println("ERR fail to parse fixed period: ", err.Error())
+			finalerr = errors.New("fail to parse fixed period " + err.Error())
 			return
 		}
 		fixedPeriod += int(p)
@@ -83,6 +110,7 @@ func (a *App) updateFloatingPeriod(e jquery.Event) {
 	}
 
 	a.jqFloatPeriodInput.SetVal(floatPeriod)
+	a.jqFloatPeriodInput.Parent().Next().Find("span").SetText(fmt.Sprintf("= %d bulan", floatPeriod*12))
 }
 
 func (a *App) calculateResult(e jquery.Event) {
@@ -119,7 +147,7 @@ func (a *App) calculateResult(e jquery.Event) {
 		finalerr = errors.New("fail to parse period " + err.Error())
 		return
 	}
-	period = int(_period)
+	period = int(_period) * 12
 
 	var (
 		fixedInterests []float64
@@ -145,6 +173,7 @@ func (a *App) calculateResult(e jquery.Event) {
 			finalerr = errors.New("fail to parse fixed period " + err.Error())
 			return
 		}
+		p = p * 12
 		sumFixedPeriod += int(p)
 		fixedPeriods = append(fixedPeriods, int(p))
 	})

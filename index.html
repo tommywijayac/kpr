@@ -19,9 +19,15 @@
           <label for="downPayment" class="form-label">Down Payment (%)</label>
           <input type="number" class="form-control" id="downPayment" aria-describedby="downPayment" min="0" max="100" placeholder="0">
         </div>
-        <div class="mb-3">
-          <label for="totalPeriod" class="form-label">Lama Pinjaman (bulan)</label>
-          <input type="number" class="form-control" id="totalPeriod" aria-describedby="totalPeriod" min="0" max="100" placeholder="0">
+        <div class="row mb-3 align-items-center">
+          <div class="col-auto">
+            <label for="totalPeriod" class="form-label">Lama Pinjaman (tahun)</label>
+            <input type="number" class="form-control" id="totalPeriod" aria-describedby="totalPeriod" min="0" max="100" placeholder="0">
+          </div>
+          <div class="col-auto">
+            <div>&nbsp;</div>
+            <span class="form-text"></span>
+          </div>
         </div>
 
         <hr>
@@ -33,7 +39,8 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col">Bunga (%)</th>
-              <th scope="col">Durasi (bulan)</th>            
+              <th scope="col">Durasi (tahun)</th>
+              <th scope="col">&nbsp;</th>
             </tr>
           </thead>
           <tbody id="fixedInterest">
@@ -41,21 +48,25 @@
               <th scope="row">1</th>
               <td><input type="number" class="form-control interest" id="fixedInterest-1" aria-describedby="fixedInterest" min="0" max="100" placeholder="0"></td>
               <td><input type="number" class="form-control period" id="fixedInterestPeriod-1" aria-describedby="fixedInterestPeriod" placeholder="0"></td>
+              <td><span class="form-text"></span></td>
             </tr>
             <tr>
               <th scope="row">2</th>
               <td><input type="number" class="form-control interest" id="fixedInterest-2" aria-describedby="fixedInterest" min="0" max="100" placeholder="0"></td>
               <td><input type="number" class="form-control period" id="fixedInterestPeriod-2" aria-describedby="fixedInterestPeriod" placeholder="0"></td>
+              <td><span class="form-text"></span></td>
             </tr>
             <tr>
               <th scope="row">3</th>
               <td><input type="number" class="form-control interest" id="fixedInterest-3" aria-describedby="fixedInterest" min="0" max="100" placeholder="0"></td>
               <td><input type="number" class="form-control period" id="fixedInterestPeriod-3" aria-describedby="fixedInterestPeriod" placeholder="0"></td>
+              <td><span class="form-text"></span></td>
             </tr>
             <tr>
               <th scope="row">4</th>
               <td><input type="number" class="form-control interest" id="fixedInterest-4" aria-describedby="fixedInterest" min="0" max="100" placeholder="0"></td>
               <td><input type="number" class="form-control period" id="fixedInterestPeriod-4" aria-describedby="fixedInterestPeriod" placeholder="0"></td>
+              <td><span class="form-text"></span></td>
             </tr>
           </tbody>
         </table>
@@ -67,18 +78,16 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col">Bunga (%)</th>
-              <th scope="col">Durasi (bulan)</th>            
+              <th scope="col">Durasi (tahun)</th>
+              <th scope="col">&nbsp;</th>         
             </tr>
           </thead>
           <tbody>
             <tr>
               <th scope="row"></th>
-              <td>
-                <input type="number" class="form-control" id="floatInterest" aria-describedby="floatInterest" min="0" max="100" placeholder="0">
-              </td>
-              <td>
-                <input type="number" class="form-control form-control-plaintext" id="floatInterestPeriod" aria-describedby="floatInterestPeriod" readonly>  
-              </td>
+              <td><input type="number" class="form-control" id="floatInterest" aria-describedby="floatInterest" min="0" max="100" placeholder="0"></td>
+              <td><input type="number" class="form-control form-control-plaintext" id="floatInterestPeriod" aria-describedby="floatInterestPeriod" readonly></td>
+              <td><span class="form-text"></span></td>
             </tr>
           </tbody>
         </table>
