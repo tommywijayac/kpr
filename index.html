@@ -20,7 +20,7 @@
   </head>
   <body class="container">
     <div class="row mt-3">
-      <h1 class="text-center">Kalkulator KPR Fix Berjenjang 🇮🇩</h1>
+      <h1 class="text-center">Simulasi KPR Fix Berjenjang 🇮🇩</h1>
 
       <hr>
 
@@ -125,21 +125,23 @@
 
       <hr>
 
-      <h1>Hasil</h1>
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Bunga (%)</th>
-            <th scope="col">Durasi (bulan)</th>
-            <th scope="col">Cicilan per bulan</th>
-            <th scope="col">Total cicilan</th>
-            <th scope="col">Total cicilan pokok</th>
-            <th scope="col">Total cicilan bunga</th>
-          </tr>
-        </thead>
-        <tbody id="result"></tbody>
-      </table>
+      <h3>Hasil</h3>
+      <div class="overflow-x-auto">
+        <table class="table align-middle">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Bunga (%)</th>
+              <th scope="col">Durasi (bulan)</th>
+              <th scope="col" class="bg-warning">Cicilan per bulan</th>
+              <th scope="col">Total cicilan</th>
+              <th scope="col">Total cicilan pokok</th>
+              <th scope="col">Total cicilan bunga</th>
+            </tr>
+          </thead>
+          <tbody id="result" class="table-group-divider"></tbody>
+        </table>
+      </div>
     </div>
   </body>
 
@@ -150,20 +152,17 @@
       <th>{{ $i }}</th>
       <td>{{ index $.Interests $i }}</td>
       <td>{{ index $.Periods $i }}</td>
-      <td>{{ index $.PeriodMonthlyInstallment $i }}</td>
+      <td class="bg-warning">{{ index $.PeriodMonthlyInstallment $i }}</td>
       <td>{{ index $.PeriodSumInstallment $i }}</td>
       <td>{{ index $.PeriodSumPrincipalInstallment $i }}</td>
       <td>{{ index $.PeriodSumInterestInstallment $i }}</td>
     </tr>
   {{ end }}
     <tr>
-      <th></th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>{{ .TotalInstallment }}</td>
-      <td>{{ .TotalPrincipal }}</td>
-      <td>{{ .TotalInterests }}</td>
+      <td colspan="4" class="text-end"><b>Total</b></th>
+      <td class="bg-warning">{{ .TotalInstallment }}</td>
+      <td class="bg-warning">{{ .TotalPrincipal }}</td>
+      <td class="bg-warning">{{ .TotalInterests }}</td>
     </tr>
   </script>
 
