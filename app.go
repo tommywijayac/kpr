@@ -22,8 +22,8 @@ type App struct {
 	jqPriceInput          jquery.JQuery
 	jqDownPaymentInput    jquery.JQuery
 	jqPeriodInput         jquery.JQuery
-	jqFixedInterestInputs jquery.JQuery
-	jqFixedPeriodInputs   jquery.JQuery
+	jqFixedInterestInputs []jquery.JQuery
+	jqFixedPeriodInputs   []jquery.JQuery
 	jqFloatInterestInput  jquery.JQuery
 	jqFloatPeriodInput    jquery.JQuery
 	jqCalculateButton     jquery.JQuery
@@ -32,6 +32,15 @@ type App struct {
 func NewApp() *App {
 	form := jQuery("form")
 	resultHtml := jQuery("#result-template").Html()
+
+	var jqFixedInterestInputs []jquery.JQuery
+	form.Find("#fixedInterest").Find("input.interest").Each(func(i int, input interface{}) {
+		jqFixedInterestInputs = append(jqFixedInterestInputs, jQuery(input))
+	})
+	var jqFixedPeriodInputs []jquery.JQuery
+	form.Find("#fixedInterest").Find("input.period").Each(func(i int, input interface{}) {
+		jqFixedPeriodInputs = append(jqFixedPeriodInputs, jQuery(input))
+	})
 
 	return &App{
 		acfmt: accounting.Accounting{Symbol: "IDR ", Precision: 2},
@@ -42,8 +51,8 @@ func NewApp() *App {
 		jqPriceInput:          form.Find("#price"),
 		jqDownPaymentInput:    form.Find("#downPayment"),
 		jqPeriodInput:         form.Find("#totalPeriod"),
-		jqFixedInterestInputs: form.Find("#fixedInterest").Find("input.interest"),
-		jqFixedPeriodInputs:   form.Find("#fixedInterest").Find("input.period"),
+		jqFixedInterestInputs: jqFixedInterestInputs,
+		jqFixedPeriodInputs:   jqFixedPeriodInputs,
 		jqFloatInterestInput:  form.Find("#floatInterest"),
 		jqFloatPeriodInput:    form.Find("#floatInterestPeriod"),
 		jqCalculateButton:     form.Find("#calculate"),
@@ -55,7 +64,9 @@ func (a *App) BindEvents() {
 	a.jqDownPaymentInput.On(jquery.KEYUP, a.onDownPaymentKeyup)
 
 	a.jqPeriodInput.On(jquery.CHANGE, a.onPeriodChange)
-	a.jqFixedPeriodInputs.On(jquery.CHANGE, a.onPeriodChange)
+	for i := range a.jqFixedPeriodInputs {
+		a.jqFixedPeriodInputs[i].On(jquery.CHANGE, a.onPeriodChange)
+	}
 
 	a.jqCalculateButton.On(jquery.CLICK, a.onCalculate)
 }
@@ -64,9 +75,9 @@ func (a *App) Render() {
 	a.updatePriceFormatted(a.jqPriceInput)
 	a.updateDownPaymentAmount(a.jqDownPaymentInput)
 	a.updatePeriodInMonth(a.jqPeriodInput)
-	a.jqFixedPeriodInputs.Each(func(i int, input interface{}) {
-		a.updatePeriodInMonth(jQuery(input))
-	})
+	for i := range a.jqFixedPeriodInputs {
+		a.updatePeriodInMonth(a.jqFixedPeriodInputs[i])
+	}
 	a.updateFloatingPeriod()
 }
 
@@ -137,20 +148,16 @@ func (a *App) updateFloatingPeriod() {
 	period := int(_period)
 
 	fixedPeriod := 0
-	a.jqFixedPeriodInputs.Each(func(i int, input interface{}) {
-		jqin := jQuery(input)
-		p, err := strconv.ParseInt(jqin.Val(), 10, 64)
-		if err != nil && len(jqin.Val()) != 0 {
+	for i := range a.jqFixedPeriodInputs {
+		p, err := strconv.ParseInt(a.jqFixedPeriodInputs[i].Val(), 10, 64)
+		if err != nil && len(a.jqFixedPeriodInputs[i].Val()) != 0 {
 			finalerr = errors.New("fail to parse fixed period " + err.Error())
 			return
 		}
 		fixedPeriod += int(p)
-	})
+	}
 
 	floatPeriod := period - fixedPeriod
-	if floatPeriod < 0 {
-		floatPeriod = 0
-	}
 
 	a.jqFloatPeriodInput.SetVal(floatPeriod)
 	a.jqFloatPeriodInput.Parent().Next().Find("span").SetText(fmt.Sprintf("%d bulan", floatPeriod*12))
@@ -171,6 +178,7 @@ func (a *App) calculateResult() error {
 		price  float64
 		dp     float64
 	)
+
 	price, err := strconv.ParseFloat(a.jqPriceInput.Val(), 64)
 	if err != nil {
 		finalerr = errors.New("fail to parse price " + err.Error())
@@ -203,52 +211,60 @@ func (a *App) calculateResult() error {
 		floatInterest  float64
 		floatPeriod    int
 	)
-	a.jqFixedInterestInputs.Each(func(i int, input interface{}) {
-		jqin := jQuery(input)
-		it, err := strconv.ParseFloat(jqin.Val(), 64)
-		if err != nil && len(jqin.Val()) != 0 {
+
+	// check both interest and period, must form a pair
+	// use interest to iterate
+	for i := range a.jqFixedInterestInputs {
+		interest, err := strconv.ParseFloat(a.jqFixedInterestInputs[i].Val(), 64)
+		if err != nil && len(a.jqFixedInterestInputs[i].Val()) != 0 {
 			finalerr = errors.New("fail to parse fixed interest " + err.Error())
-			return
+			a.jqFixedInterestInputs[i].AddClass("is-invalid")
+			return finalerr
 		}
 
-		// if empty, ignore
-		if it == 0 {
-			return
+		period, err := strconv.ParseInt(a.jqFixedPeriodInputs[i].Val(), 10, 64)
+		if err != nil && len(a.jqFixedPeriodInputs[i].Val()) != 0 {
+			finalerr = errors.New("fail to parse fixed interest " + err.Error())
+			a.jqFixedPeriodInputs[i].AddClass("is-invalid")
+			return finalerr
 		}
 
-		fixedInterests = append(fixedInterests, it)
-	})
-
-	a.jqFixedPeriodInputs.Each(func(i int, input interface{}) {
-		jqin := jQuery(input)
-		p, err := strconv.ParseInt(jqin.Val(), 10, 64)
-		if err != nil && len(jqin.Val()) != 0 {
-			finalerr = errors.New("fail to parse fixed period " + err.Error())
-			return
+		if interest == 0 && period == 0 {
+			continue
+		} else if interest != 0 && period == 0 {
+			a.jqFixedPeriodInputs[i].AddClass("is-invalid")
+			continue
+		} else if interest == 0 && period != 0 {
+			a.jqFixedInterestInputs[i].AddClass("is-invalid")
+			continue
 		}
 
-		// if empty, ignore
-		if p == 0 {
-			return
-		}
+		a.jqFixedInterestInputs[i].RemoveClass("is-invalid")
+		a.jqFixedPeriodInputs[i].RemoveClass("is-invalid")
 
-		p = p * 12
-		sumFixedPeriod += int(p)
-		fixedPeriods = append(fixedPeriods, int(p))
-	})
+		fixedInterests = append(fixedInterests, interest)
 
-	if len(fixedInterests) != len(fixedPeriods) {
-		finalerr = errors.New("mismatched len of fixed interest and fixed period")
-		return finalerr
+		period = period * 12
+		sumFixedPeriod += int(period)
+		fixedPeriods = append(fixedPeriods, int(period))
 	}
 
 	floatPeriod = period - sumFixedPeriod
 	if floatPeriod < 0 {
 		finalerr = errors.New("fail to calculate floating period: doesn't add up")
+
+		// highlight last non-empty input in fixed period
+		for i := len(a.jqFixedPeriodInputs) - 1; i >= 0; i-- {
+			period, _ := strconv.ParseInt(a.jqFixedPeriodInputs[i].Val(), 10, 64)
+			if period > 0 {
+				a.jqFixedPeriodInputs[i].AddClass("is-invalid")
+			}
+		}
+
 		return finalerr
 	}
 
-	// only validates if valid
+	// only validate interest if period is valid
 	if floatPeriod > 0 {
 		floatInterest, err = strconv.ParseFloat(a.jqFloatInterestInput.Val(), 64)
 		if err != nil {
