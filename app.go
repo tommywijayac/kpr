@@ -19,9 +19,12 @@ type App struct {
 	resultTemplate *template.Template
 	jqResult       jquery.JQuery
 
-	jqPriceInput          jquery.JQuery
-	jqDownPaymentInput    jquery.JQuery
-	jqPeriodInput         jquery.JQuery
+	jqPriceInput         jquery.JQuery
+	jqDownPaymentInput   jquery.JQuery
+	jqDownPaymentButtons jquery.JQuery
+	jqPeriodInput        jquery.JQuery
+	jqPeriodButtons      jquery.JQuery
+
 	jqFixedInterestInputs []jquery.JQuery
 	jqFixedPeriodInputs   []jquery.JQuery
 	jqFloatInterestInput  jquery.JQuery
@@ -50,7 +53,9 @@ func NewApp() *App {
 
 		jqPriceInput:          form.Find("#price"),
 		jqDownPaymentInput:    form.Find("#downPayment"),
+		jqDownPaymentButtons:  form.Find("#easyInputDownPayment"),
 		jqPeriodInput:         form.Find("#totalPeriod"),
+		jqPeriodButtons:       form.Find("#easyInputPeriod"),
 		jqFixedInterestInputs: jqFixedInterestInputs,
 		jqFixedPeriodInputs:   jqFixedPeriodInputs,
 		jqFloatInterestInput:  form.Find("#floatInterest"),
@@ -62,8 +67,10 @@ func NewApp() *App {
 func (a *App) BindEvents() {
 	a.jqPriceInput.On(jquery.KEYUP, a.onPriceKeyup)
 	a.jqDownPaymentInput.On(jquery.KEYUP, a.onDownPaymentKeyup)
-
+	a.jqDownPaymentButtons.On(jquery.CLICK, a.onDownPaymentClick)
 	a.jqPeriodInput.On(jquery.CHANGE, a.onPeriodChange)
+	a.jqPeriodButtons.On(jquery.CLICK, a.onPeriodClick)
+
 	for i := range a.jqFixedPeriodInputs {
 		a.jqFixedPeriodInputs[i].On(jquery.CHANGE, a.onPeriodChange)
 	}
@@ -93,9 +100,22 @@ func (a *App) onDownPaymentKeyup(e jquery.Event) {
 	a.updateDownPaymentAmount(el)
 }
 
+func (a *App) onDownPaymentClick(e jquery.Event) {
+	el := jQuery(e.Target)
+	a.jqDownPaymentInput.SetVal(el.Val())
+	a.updateDownPaymentAmount(a.jqDownPaymentInput)
+}
+
 func (a *App) onPeriodChange(e jquery.Event) {
 	el := jQuery(e.Target)
 	a.updatePeriodInMonth(el)
+	a.updateFloatingPeriod()
+}
+
+func (a *App) onPeriodClick(e jquery.Event) {
+	el := jQuery(e.Target)
+	a.jqPeriodInput.SetVal(el.Val())
+	a.updatePeriodInMonth(a.jqPeriodInput)
 	a.updateFloatingPeriod()
 }
 
