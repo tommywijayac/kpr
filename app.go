@@ -16,8 +16,11 @@ var jQuery = jquery.NewJQuery //for convenience
 type App struct {
 	acfmt accounting.Accounting
 
-	resultTemplate *template.Template
-	jqResult       jquery.JQuery
+	resultTemplate    *template.Template
+	breakdownTemplate *template.Template
+
+	jqResult    jquery.JQuery
+	jqBreakdown jquery.JQuery
 
 	jqPriceInput         jquery.JQuery
 	jqDownPaymentInput   jquery.JQuery
@@ -35,6 +38,7 @@ type App struct {
 func NewApp() *App {
 	form := jQuery("form")
 	resultHtml := jQuery("#result-template").Html()
+	breakdownHtml := jQuery("#breakdown-template").Html()
 
 	var jqFixedInterestInputs []jquery.JQuery
 	form.Find("#fixedInterest").Find("input.interest").Each(func(i int, input interface{}) {
@@ -48,8 +52,11 @@ func NewApp() *App {
 	return &App{
 		acfmt: accounting.Accounting{Symbol: "IDR ", Precision: 2},
 
-		resultTemplate: template.Must(template.New("result").Parse(resultHtml)),
-		jqResult:       jQuery("#result"),
+		resultTemplate:    template.Must(template.New("result").Parse(resultHtml)),
+		breakdownTemplate: template.Must(template.New("breakdown").Parse(breakdownHtml)),
+
+		jqResult:    jQuery("#result"),
+		jqBreakdown: jQuery("#breakdown"),
 
 		jqPriceInput:          form.Find("#price"),
 		jqDownPaymentInput:    form.Find("#downPayment"),
@@ -302,6 +309,7 @@ func (a *App) calculateResult() error {
 
 	result := calculateResult(price, dp, period, fixedInterests, fixedPeriods, floatInterest, floatPeriod)
 	a.renderResult(result)
+	a.renderBreakdown(result)
 
 	return nil
 }
@@ -311,7 +319,15 @@ func (a *App) renderResult(result Result) {
 
 	var b bytes.Buffer
 	a.resultTemplate.Execute(&b, fmtResult)
-
 	content := b.String()
 	a.jqResult.SetHtml(content)
+}
+
+func (a *App) renderBreakdown(result Result) {
+	fmtResult := result.format(a.acfmt)
+
+	var b bytes.Buffer
+	a.breakdownTemplate.Execute(&b, fmtResult)
+	content := b.String()
+	a.jqBreakdown.SetHtml(content)
 }

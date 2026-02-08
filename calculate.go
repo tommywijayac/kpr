@@ -11,12 +11,14 @@ type Result struct {
 	Interests []float64
 	Periods   []int
 
-	// breakdown
+	// per month
 	Installment          []float64
 	InterestInstallment  []float64
 	PrincipalInstallment []float64
 
-	// per period
+	// per given fixed tier
+	// e.g. if defined "fixed berjenjang" of x%-1yr, y%-3yr
+	// then each member is total of each element for x% and y% periods.
 	PeriodMonthlyInstallment      []float64
 	PeriodSumInstallment          []float64
 	PeriodSumInterestInstallment  []float64
@@ -30,6 +32,8 @@ type Result struct {
 	PrincipalBeforeFloat float64
 }
 
+// FmtResult is formatted result for display
+// all fields are one to one
 type FmtResult struct {
 	Interests []string
 	Periods   []string
@@ -155,6 +159,16 @@ func (r *Result) format(acfmt accounting.Accounting) FmtResult {
 	}
 	for _, v := range r.Periods {
 		result.Periods = append(result.Periods, fmt.Sprintf("%d", v))
+	}
+
+	for _, v := range r.Installment {
+		result.Installment = append(result.Installment, acfmt.FormatMoneyFloat64(v))
+	}
+	for _, v := range r.InterestInstallment {
+		result.InterestInstallment = append(result.InterestInstallment, acfmt.FormatMoneyFloat64(v))
+	}
+	for _, v := range r.PrincipalInstallment {
+		result.PrincipalInstallment = append(result.PrincipalInstallment, acfmt.FormatMoneyFloat64(v))
 	}
 
 	for _, v := range r.PeriodMonthlyInstallment {
