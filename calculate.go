@@ -12,13 +12,20 @@ type Result struct {
 	Periods   []int
 
 	// per month
-	Installment          []float64
-	InterestInstallment  []float64
-	PrincipalInstallment []float64
+	Installment          []float64 // monthly installment
+	InterestInstallment  []float64 // monthly interest installment
+	PrincipalInstallment []float64 // monthly principal installment
+
+	// per year
+	YearlyRowNum               []int
+	YearlyInstallment          []float64
+	YearlyInterestInstallment  []float64
+	YearlyPrincipalInstallment []float64
 
 	// per given fixed tier
 	// e.g. if defined "fixed berjenjang" of x%-1yr, y%-3yr
 	// then each member is total of each element for x% and y% periods.
+	PeriodRowNum                  []int
 	PeriodMonthlyInstallment      []float64
 	PeriodSumInstallment          []float64
 	PeriodSumInterestInstallment  []float64
@@ -42,6 +49,12 @@ type FmtResult struct {
 	InterestInstallment  []string
 	PrincipalInstallment []string
 
+	YearlyRowNum               []int
+	YearlyInstallment          []string
+	YearlyInterestInstallment  []string
+	YearlyPrincipalInstallment []string
+
+	PeriodRowNum                  []int
 	PeriodMonthlyInstallment      []string
 	PeriodSumInstallment          []string
 	PeriodSumInterestInstallment  []string
@@ -60,7 +73,7 @@ func calculateResult(price, downPayment float64, totalPeriod int, fixedInterest 
 	principal := price * (1 - downPayment/100)
 	finalResult.Principal = principal
 
-	// calculate tiered fix
+	// calculate tiered fix period
 	for i := 0; i < len(fixedPeriod); i++ {
 		// update pokok with remaining
 		var _result Result
@@ -74,8 +87,8 @@ func calculateResult(price, downPayment float64, totalPeriod int, fixedInterest 
 		totalPeriod = totalPeriod - fixedPeriod[i]
 	}
 
+	// calculate remaining period as floating
 	if floatPeriod > 0 {
-		// calculate remaining as floating
 		_, _result := calculate(principal, floatInterest, floatPeriod, totalPeriod)
 
 		finalResult.PrincipalBeforeFloat = principal
@@ -124,11 +137,25 @@ func (r *Result) add(temp Result) {
 	r.InterestInstallment = append(r.InterestInstallment, temp.InterestInstallment...)
 	r.PrincipalInstallment = append(r.PrincipalInstallment, temp.PrincipalInstallment...)
 
+	for i := range temp.Installment {
+		if i%12 == 0 {
+			r.YearlyRowNum = append(r.YearlyRowNum, len(r.YearlyRowNum)+1)
+			r.YearlyInstallment = append(r.YearlyInstallment, temp.Installment[i])
+			r.YearlyInterestInstallment = append(r.YearlyInterestInstallment, temp.InterestInstallment[i])
+			r.YearlyPrincipalInstallment = append(r.YearlyPrincipalInstallment, temp.PrincipalInstallment[i])
+		} else {
+			r.YearlyInstallment[int(i/12)] += temp.Installment[i]
+			r.YearlyInterestInstallment[int(i/12)] += temp.InterestInstallment[i]
+			r.YearlyPrincipalInstallment[int(i/12)] += temp.PrincipalInstallment[i]
+		}
+	}
+
 	// summarize
 	r.PeriodMonthlyInstallment = append(r.PeriodMonthlyInstallment, temp.Installment[0])
 
 	// assume all array are growing at same rate, so index can be re-used
 	idx := len(r.PeriodSumInstallment)
+	r.PeriodRowNum = append(r.PeriodRowNum, idx+1)
 
 	r.PeriodSumInstallment = append(r.PeriodSumInstallment, 0)
 	for _, v := range temp.Installment {
@@ -171,6 +198,18 @@ func (r *Result) format(acfmt accounting.Accounting) FmtResult {
 		result.PrincipalInstallment = append(result.PrincipalInstallment, acfmt.FormatMoneyFloat64(v))
 	}
 
+	result.YearlyRowNum = append(result.YearlyRowNum, r.YearlyRowNum...)
+	for _, v := range r.YearlyInstallment {
+		result.YearlyInstallment = append(result.YearlyInstallment, acfmt.FormatMoneyFloat64(v))
+	}
+	for _, v := range r.YearlyInterestInstallment {
+		result.YearlyInterestInstallment = append(result.YearlyInterestInstallment, acfmt.FormatMoneyFloat64(v))
+	}
+	for _, v := range r.YearlyPrincipalInstallment {
+		result.YearlyPrincipalInstallment = append(result.YearlyPrincipalInstallment, acfmt.FormatMoneyFloat64(v))
+	}
+
+	result.PeriodRowNum = append(result.PeriodRowNum, r.PeriodRowNum...)
 	for _, v := range r.PeriodMonthlyInstallment {
 		result.PeriodMonthlyInstallment = append(result.PeriodMonthlyInstallment, acfmt.FormatMoneyFloat64(v))
 	}

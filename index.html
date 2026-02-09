@@ -185,9 +185,9 @@
       <thead>
         <tr>
           <th scope="col">Tahun</th>
-          <th scope="col">Cicilan per bulan</th>
-          <th scope="col">Total cicilan pokok</th>
-          <th scope="col">Total cicilan bunga</th>
+          <th scope="col">Cicilan per tahun</th>
+          <th scope="col">Cicilan pokok</th>
+          <th scope="col">Cicilan bunga</th>
           <th scope="col" class="bg-warning">Pelunasan</th>
           <th scope="col" class="bg-warning">Denda Pelunasan</th>
           <th scope="col" class="bg-warning">Sisa pokok</th>
@@ -208,7 +208,7 @@
 <script id="result-template" type="text/x-golang-template">
   {{ range $i, $v := .Interests }}
   <tr>
-    <th>{{ $i }}</th>
+    <th>{{ index $.PeriodRowNum $i }}</th>
     <td>{{ index $.Interests $i }}</td>
     <td>{{ index $.Periods $i }}</td>
     <td class="bg-warning">{{ index $.PeriodMonthlyInstallment $i }}</td>
@@ -226,12 +226,12 @@
 </script>
 
 <script id="breakdown-template" type="text/x-golang-template">
-  {{ range $i, $v := .Installment }}
+  {{ range $i, $v := .YearlyInstallment }}
   <tr>
-    <th>{{ $i }}</th>
+    <th>{{ index $.YearlyRowNum $i }}</th>
     <td>{{ $v }}</td>
-    <td>{{ index $.PrincipalInstallment $i }}</td>
-    <td>{{ index $.InterestInstallment $i }}</td>
+    <td>{{ index $.YearlyPrincipalInstallment $i }}</td>
+    <td>{{ index $.YearlyInterestInstallment $i }}</td>
   </tr>
   {{ end }}
 </script>
