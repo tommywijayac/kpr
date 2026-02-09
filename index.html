@@ -35,6 +35,7 @@
 <body class="container">
   <div class="row mt-3">
     <h1 class="text-center">Simulasi KPR Fix Berjenjang 🇮🇩</h1>
+    <button id="seed" style="display: hidden;">seed</button>
 
     <hr>
 
@@ -229,8 +230,8 @@
   <tr>
     <th>{{ $i }}</th>
     <td>{{ $v }}</td>
-    <td>{{ index $.InterestInstallment $i }}</td>
     <td>{{ index $.PrincipalInstallment $i }}</td>
+    <td>{{ index $.InterestInstallment $i }}</td>
   </tr>
   {{ end }}
 </script>

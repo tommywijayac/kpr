@@ -33,6 +33,9 @@ type App struct {
 	jqFloatInterestInput  jquery.JQuery
 	jqFloatPeriodInput    jquery.JQuery
 	jqCalculateButton     jquery.JQuery
+
+	// debug
+	jqSeed jquery.JQuery
 }
 
 func NewApp() *App {
@@ -68,6 +71,8 @@ func NewApp() *App {
 		jqFloatInterestInput:  form.Find("#floatInterest"),
 		jqFloatPeriodInput:    form.Find("#floatInterestPeriod"),
 		jqCalculateButton:     form.Find("#calculate"),
+
+		jqSeed: jQuery("#seed"),
 	}
 }
 
@@ -83,6 +88,7 @@ func (a *App) BindEvents() {
 	}
 
 	a.jqCalculateButton.On(jquery.CLICK, a.onCalculate)
+	a.jqSeed.On(jquery.CLICK, a.seed)
 }
 
 func (a *App) Render() {
@@ -205,7 +211,6 @@ func (a *App) calculateResult() error {
 		price  float64
 		dp     float64
 	)
-
 	price, err := strconv.ParseFloat(a.jqPriceInput.Val(), 64)
 	if err != nil {
 		finalerr = errors.New("fail to parse price " + err.Error())
@@ -330,4 +335,33 @@ func (a *App) renderBreakdown(result Result) {
 	a.breakdownTemplate.Execute(&b, fmtResult)
 	content := b.String()
 	a.jqBreakdown.SetHtml(content)
+}
+
+func (a *App) seed() {
+	// mock values
+	if a.jqPriceInput.Val() == "" {
+		a.jqPriceInput.SetVal("500000000")
+		a.updatePriceFormatted(a.jqPriceInput)
+	}
+	if a.jqDownPaymentInput.Val() == "" {
+		a.jqDownPaymentInput.SetVal("20")
+		a.updateDownPaymentAmount(a.jqDownPaymentInput)
+	}
+	if a.jqPeriodInput.Val() == "" {
+		a.jqPeriodInput.SetVal("15")
+		a.updatePeriodInMonth(a.jqPeriodInput)
+	}
+	// default fixed interest
+	if len(a.jqFixedInterestInputs) > 0 && a.jqFixedInterestInputs[0].Val() == "" {
+		a.jqFixedInterestInputs[0].SetVal("4.5")
+		a.jqFixedPeriodInputs[0].SetVal("3")
+		a.updatePeriodInMonth(a.jqFixedPeriodInputs[0])
+	}
+	// update float period after setting mock values
+	a.updateFloatingPeriod()
+
+	// default float interest
+	if a.jqFloatInterestInput.Val() == "" {
+		a.jqFloatInterestInput.SetVal("11.0")
+	}
 }
