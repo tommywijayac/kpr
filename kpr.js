@@ -59495,7 +59495,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			/* */ if (a.jqFixedInterestInputs.$length > 0 && $clone((x = a.jqFixedInterestInputs, (0 >= x.$length ? ($throwRuntimeError("index out of range"), undefined) : x.$array[x.$offset + 0])), jquery.JQuery).Val() === "") { $s = 10; continue; }
 			/* */ $s = 11; continue;
 			/* if (a.jqFixedInterestInputs.$length > 0 && $clone((x = a.jqFixedInterestInputs, (0 >= x.$length ? ($throwRuntimeError("index out of range"), undefined) : x.$array[x.$offset + 0])), jquery.JQuery).Val() === "") { */ case 10:
-				$clone((x$1 = a.jqFixedInterestInputs, (0 >= x$1.$length ? ($throwRuntimeError("index out of range"), undefined) : x$1.$array[x$1.$offset + 0])), jquery.JQuery).SetVal(new $String("4.5"));
+				$clone((x$1 = a.jqFixedInterestInputs, (0 >= x$1.$length ? ($throwRuntimeError("index out of range"), undefined) : x$1.$array[x$1.$offset + 0])), jquery.JQuery).SetVal(new $String("4"));
 				$clone((x$2 = a.jqFixedPeriodInputs, (0 >= x$2.$length ? ($throwRuntimeError("index out of range"), undefined) : x$2.$array[x$2.$offset + 0])), jquery.JQuery).SetVal(new $String("3"));
 				$r = a.updatePeriodInMonth($clone((x$3 = a.jqFixedPeriodInputs, (0 >= x$3.$length ? ($throwRuntimeError("index out of range"), undefined) : x$3.$array[x$3.$offset + 0])), jquery.JQuery)); /* */ $s = 12; case 12: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			/* } */ case 11:

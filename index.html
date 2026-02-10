@@ -33,9 +33,9 @@
 </head>
 
 <body class="container">
-  <div class="row mt-3">
+  <div class="row my-5">
     <h1 class="text-center">Simulasi KPR Fix Berjenjang 🇮🇩</h1>
-    <button id="seed" style="display: hidden;">seed</button>
+    <button id="seed" style="display: hidden;">🌱seed</button>
 
     <hr>
 
@@ -162,7 +162,12 @@
 
     <hr>
 
-    <h3>Hasil</h3>
+    <h3>
+      Hasil
+      <button class="btn btn-warning" type="button" data-bs-toggle="collapse" data-bs-target="#breakdown-container">
+        🔎 Lihat Detail per Tahun
+      </button>
+    </h3>
     <div class="overflow-x-auto">
       <table class="table align-middle">
         <thead>
@@ -180,27 +185,27 @@
       </table>
     </div>
 
-    <h3>Breakdown</h3>
-    <table class="table align-middle">
-      <thead>
-        <tr>
-          <th scope="col">Tahun</th>
-          <th scope="col">Cicilan per tahun</th>
-          <th scope="col">Cicilan pokok</th>
-          <th scope="col">Cicilan bunga</th>
-          <th scope="col" class="bg-warning">Pelunasan</th>
-          <th scope="col" class="bg-warning">Denda Pelunasan</th>
-          <th scope="col" class="bg-warning">Sisa pokok</th>
-        </tr>
-      </thead>
-      <tbody id="breakdown" class="table-group-divider"></tbody>
-    </table>
-    <div class="overflow-x-auto">
-      <div class="text-center">
-        <button type="button" class="btn btn-primary" id="recalculate">Recalculate!</button>
+    <div id="breakdown-container" class="collapse mt-3">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th scope="col">Tahun</th>
+            <th scope="col">Cicilan per tahun</th>
+            <th scope="col">Cicilan pokok</th>
+            <th scope="col">Cicilan bunga</th>
+            <th scope="col" class="bg-warning">Pelunasan</th>
+            <th scope="col" class="bg-warning">Denda Pelunasan</th>
+            <th scope="col" class="bg-warning">Sisa pokok</th>
+          </tr>
+        </thead>
+        <tbody id="breakdown" class="table-group-divider"></tbody>
+      </table>
+      <div class="overflow-x-auto">
+        <div class="text-center">
+          <button type="button" class="btn btn-primary" id="recalculate">Recalculate!</button>
+        </div>
       </div>
     </div>
-
   </div>
 </body>
 
@@ -232,6 +237,9 @@
     <td>{{ $v }}</td>
     <td>{{ index $.YearlyPrincipalInstallment $i }}</td>
     <td>{{ index $.YearlyInterestInstallment $i }}</td>
+    <td><input type="number" class="form-control repayment-input" data-year="{{ index $.YearlyRowNum $i }}"></td>
+    <td></td>
+    <td></td>
   </tr>
   {{ end }}
 </script>
