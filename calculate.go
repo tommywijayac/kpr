@@ -137,16 +137,18 @@ func (r *Result) add(temp Result) {
 	r.InterestInstallment = append(r.InterestInstallment, temp.InterestInstallment...)
 	r.PrincipalInstallment = append(r.PrincipalInstallment, temp.PrincipalInstallment...)
 
+	j := len(r.YearlyRowNum)
 	for i := range temp.Installment {
 		if i%12 == 0 {
-			r.YearlyRowNum = append(r.YearlyRowNum, len(r.YearlyRowNum)+1)
+			j += 1
+			r.YearlyRowNum = append(r.YearlyRowNum, j)
 			r.YearlyInstallment = append(r.YearlyInstallment, temp.Installment[i])
 			r.YearlyInterestInstallment = append(r.YearlyInterestInstallment, temp.InterestInstallment[i])
 			r.YearlyPrincipalInstallment = append(r.YearlyPrincipalInstallment, temp.PrincipalInstallment[i])
 		} else {
-			r.YearlyInstallment[int(i/12)] += temp.Installment[i]
-			r.YearlyInterestInstallment[int(i/12)] += temp.InterestInstallment[i]
-			r.YearlyPrincipalInstallment[int(i/12)] += temp.PrincipalInstallment[i]
+			r.YearlyInstallment[j-1] += temp.Installment[i]
+			r.YearlyInterestInstallment[j-1] += temp.InterestInstallment[i]
+			r.YearlyPrincipalInstallment[j-1] += temp.PrincipalInstallment[i]
 		}
 	}
 

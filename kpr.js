@@ -58811,28 +58811,30 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			return [principal, result];
 		};
 		$ptrType(Result).prototype.add = function Result·add(temp) {
-			var _i, _i$1, _i$2, _i$3, _index, _index$1, _index$2, _q, _q$1, _q$2, _r, _ref, _ref$1, _ref$2, _ref$3, i, idx, r, temp, v, v$1, v$2, x, x$1, x$10, x$11, x$12, x$13, x$14, x$15, x$16, x$17, x$18, x$19, x$2, x$20, x$21, x$3, x$4, x$5, x$6, x$7, x$8, x$9;
+			var _i, _i$1, _i$2, _i$3, _index, _index$1, _index$2, _r, _ref, _ref$1, _ref$2, _ref$3, i, idx, j, r, temp, v, v$1, v$2, x, x$1, x$10, x$11, x$12, x$13, x$14, x$15, x$16, x$17, x$18, x$19, x$2, x$20, x$21, x$3, x$4, x$5, x$6, x$7, x$8, x$9;
 			r = this;
 			r.PeriodMonthlyInstallment = $appendSlice(r.PeriodMonthlyInstallment, temp.PeriodMonthlyInstallment);
 			r.Installment = $appendSlice(r.Installment, temp.Installment);
 			r.InterestInstallment = $appendSlice(r.InterestInstallment, temp.InterestInstallment);
 			r.PrincipalInstallment = $appendSlice(r.PrincipalInstallment, temp.PrincipalInstallment);
+			j = r.YearlyRowNum.$length;
 			_ref = temp.Installment;
 			_i = 0;
 			while (true) {
 				if (!(_i < _ref.$length)) { break; }
 				i = _i;
 				if ((_r = i % 12, _r === _r ? _r : $throwRuntimeError("integer divide by zero")) === 0) {
-					r.YearlyRowNum = $append(r.YearlyRowNum, r.YearlyRowNum.$length + 1 >> 0);
+					j = j + (1) >> 0;
+					r.YearlyRowNum = $append(r.YearlyRowNum, j);
 					r.YearlyInstallment = $append(r.YearlyInstallment, (x = temp.Installment, ((i < 0 || i >= x.$length) ? ($throwRuntimeError("index out of range"), undefined) : x.$array[x.$offset + i])));
 					r.YearlyInterestInstallment = $append(r.YearlyInterestInstallment, (x$1 = temp.InterestInstallment, ((i < 0 || i >= x$1.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$1.$array[x$1.$offset + i])));
 					r.YearlyPrincipalInstallment = $append(r.YearlyPrincipalInstallment, (x$2 = temp.PrincipalInstallment, ((i < 0 || i >= x$2.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$2.$array[x$2.$offset + i])));
 				} else {
-					_index = ((_q = i / 12, (_q === _q && _q !== 1/0 && _q !== -1/0) ? _q >> 0 : $throwRuntimeError("integer divide by zero")));
+					_index = j - 1 >> 0;
 					(x$5 = r.YearlyInstallment, ((_index < 0 || _index >= x$5.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$5.$array[x$5.$offset + _index] = (x$3 = r.YearlyInstallment, ((_index < 0 || _index >= x$3.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$3.$array[x$3.$offset + _index])) + ((x$4 = temp.Installment, ((i < 0 || i >= x$4.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$4.$array[x$4.$offset + i])))));
-					_index$1 = ((_q$1 = i / 12, (_q$1 === _q$1 && _q$1 !== 1/0 && _q$1 !== -1/0) ? _q$1 >> 0 : $throwRuntimeError("integer divide by zero")));
+					_index$1 = j - 1 >> 0;
 					(x$8 = r.YearlyInterestInstallment, ((_index$1 < 0 || _index$1 >= x$8.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$8.$array[x$8.$offset + _index$1] = (x$6 = r.YearlyInterestInstallment, ((_index$1 < 0 || _index$1 >= x$6.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$6.$array[x$6.$offset + _index$1])) + ((x$7 = temp.InterestInstallment, ((i < 0 || i >= x$7.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$7.$array[x$7.$offset + i])))));
-					_index$2 = ((_q$2 = i / 12, (_q$2 === _q$2 && _q$2 !== 1/0 && _q$2 !== -1/0) ? _q$2 >> 0 : $throwRuntimeError("integer divide by zero")));
+					_index$2 = j - 1 >> 0;
 					(x$11 = r.YearlyPrincipalInstallment, ((_index$2 < 0 || _index$2 >= x$11.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$11.$array[x$11.$offset + _index$2] = (x$9 = r.YearlyPrincipalInstallment, ((_index$2 < 0 || _index$2 >= x$9.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$9.$array[x$9.$offset + _index$2])) + ((x$10 = temp.PrincipalInstallment, ((i < 0 || i >= x$10.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$10.$array[x$10.$offset + i])))));
 				}
 				_i++;

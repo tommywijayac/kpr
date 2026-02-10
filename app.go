@@ -353,7 +353,7 @@ func (a *App) seed() {
 	}
 	// default fixed interest
 	if len(a.jqFixedInterestInputs) > 0 && a.jqFixedInterestInputs[0].Val() == "" {
-		a.jqFixedInterestInputs[0].SetVal("4.5")
+		a.jqFixedInterestInputs[0].SetVal("4")
 		a.jqFixedPeriodInputs[0].SetVal("3")
 		a.updatePeriodInMonth(a.jqFixedPeriodInputs[0])
 	}
