@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"text/template"
 
+	"github.com/gopherjs/gopherjs/js"
 	"github.com/gopherjs/jquery"
 	"github.com/leekchan/accounting"
 )
@@ -34,6 +35,9 @@ type App struct {
 	jqFloatPeriodInput    jquery.JQuery
 	jqCalculateButton     jquery.JQuery
 
+	jqCopyResultButton    jquery.JQuery
+	jqCopyBreakdownButton jquery.JQuery
+
 	// debug
 	jqSeed jquery.JQuery
 }
@@ -53,7 +57,7 @@ func NewApp() *App {
 	})
 
 	return &App{
-		acfmt: accounting.Accounting{Symbol: "IDR ", Precision: 2},
+		acfmt: accounting.Accounting{Precision: 2},
 
 		resultTemplate:    template.Must(template.New("result").Parse(resultHtml)),
 		breakdownTemplate: template.Must(template.New("breakdown").Parse(breakdownHtml)),
@@ -72,11 +76,16 @@ func NewApp() *App {
 		jqFloatPeriodInput:    form.Find("#floatInterestPeriod"),
 		jqCalculateButton:     form.Find("#calculate"),
 
+		jqCopyResultButton:    jQuery("#copyResult"),
+		jqCopyBreakdownButton: jQuery("#copyBreakdown"),
+
 		jqSeed: jQuery("#seed"),
 	}
 }
 
 func (a *App) BindEvents() {
+	println("App BindEvents. Result Btn Len:", a.jqCopyResultButton.Length) // Debug log
+
 	a.jqPriceInput.On(jquery.KEYUP, a.onPriceKeyup)
 	a.jqDownPaymentInput.On(jquery.KEYUP, a.onDownPaymentKeyup)
 	a.jqDownPaymentButtons.On(jquery.CLICK, a.onDownPaymentClick)
@@ -88,7 +97,38 @@ func (a *App) BindEvents() {
 	}
 
 	a.jqCalculateButton.On(jquery.CLICK, a.onCalculate)
+	a.jqCopyResultButton.On(jquery.CLICK, func(e jquery.Event) {
+		a.copyToClipboard(a.jqResult)
+	})
+	a.jqCopyBreakdownButton.On(jquery.CLICK, func(e jquery.Event) {
+		a.copyToClipboard(a.jqBreakdown)
+	})
 	a.jqSeed.On(jquery.CLICK, a.seed)
+}
+
+func (a *App) copyToClipboard(jq jquery.JQuery) {
+	doc := js.Global.Get("document")
+	win := js.Global.Get("window")
+
+	rangeObj := doc.Call("createRange")
+	rangeObj.Call("selectNode", jq.Get(0))
+
+	selection := win.Call("getSelection")
+	selection.Call("removeAllRanges")
+	selection.Call("addRange", rangeObj)
+
+	success := doc.Call("execCommand", "copy").Bool()
+
+	if success {
+		toastEl := doc.Call("getElementById", "copyToast")
+		bootstrap := js.Global.Get("bootstrap")
+		if toastEl != nil && bootstrap != nil && bootstrap != js.Undefined {
+			toast := bootstrap.Get("Toast").Call("getOrCreateInstance", toastEl)
+			toast.Call("show")
+		}
+	}
+
+	selection.Call("removeAllRanges")
 }
 
 func (a *App) Render() {

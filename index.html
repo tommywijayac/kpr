@@ -164,21 +164,24 @@
 
     <h3>
       Hasil
-      <button class="btn btn-warning" type="button" data-bs-toggle="collapse" data-bs-target="#breakdown-container">
+      <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#breakdown-container">
         🔎 Lihat Detail per Tahun
+      </button>
+      <button class="btn btn-light" type="button" id="copyResult">
+        📋
       </button>
     </h3>
     <div class="overflow-x-auto">
       <table class="table align-middle">
         <thead>
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">Bunga (%)</th>
-            <th scope="col">Durasi (bulan)</th>
-            <th scope="col" class="bg-warning">Cicilan per bulan</th>
-            <th scope="col">Total cicilan</th>
-            <th scope="col">Total cicilan pokok</th>
-            <th scope="col">Total cicilan bunga</th>
+            <th scope="col" class="text-end">#</th>
+            <th scope="col" class="text-end">Bunga (%)</th>
+            <th scope="col" class="text-end">Durasi (bulan)</th>
+            <th scope="col" class="bg-warning text-end">Cicilan per bulan (IDR)</th>
+            <th scope="col" class="text-end">Total cicilan (IDR)</th>
+            <th scope="col" class="text-end">Total cicilan pokok (IDR)</th>
+            <th scope="col" class="text-end">Total cicilan bunga (IDR)</th>
           </tr>
         </thead>
         <tbody id="result" class="table-group-divider"></tbody>
@@ -186,23 +189,40 @@
     </div>
 
     <div id="breakdown-container" class="collapse mt-3">
+      <h3>
+        Detail
+        <button class="btn btn-light" type="button" id="copyBreakdown">
+          📋
+        </button>
+      </h3>
       <table class="table align-middle">
         <thead>
           <tr>
-            <th scope="col">Tahun</th>
-            <th scope="col">Cicilan per tahun</th>
-            <th scope="col">Cicilan pokok</th>
-            <th scope="col">Cicilan bunga</th>
-            <th scope="col" class="bg-warning">Pelunasan</th>
-            <th scope="col" class="bg-warning">Denda Pelunasan</th>
-            <th scope="col" class="bg-warning">Sisa pokok</th>
+            <th scope="col" class="text-end">Tahun</th>
+            <th scope="col" class="text-end">Cicilan per tahun (IDR)</th>
+            <th scope="col" class="text-end">Cicilan pokok (IDR)</th>
+            <th scope="col" class="text-end">Cicilan bunga (IDR)</th>
+            <th scope="col" class="bg-warning text-end">Pelunasan (IDR)</th>
+            <th scope="col" class="bg-warning text-end">Denda Pelunasan (IDR)</th>
+            <th scope="col" class="bg-warning text-end">Sisa pokok (IDR)</th>
           </tr>
         </thead>
         <tbody id="breakdown" class="table-group-divider"></tbody>
       </table>
       <div class="overflow-x-auto">
         <div class="text-center">
-          <button type="button" class="btn btn-primary" id="recalculate">Recalculate!</button>
+          <button type="button" class="btn btn-success" id="recalculate">Hitung Ulang!</button>
+        </div>
+      </div>
+    </div>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div id="copyToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <strong class="me-auto">ℹ️ Notifikasi</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+          Berhasil disalin!
         </div>
       </div>
     </div>
@@ -214,19 +234,19 @@
   {{ range $i, $v := .Interests }}
   <tr>
     <th>{{ index $.PeriodRowNum $i }}</th>
-    <td>{{ index $.Interests $i }}</td>
-    <td>{{ index $.Periods $i }}</td>
-    <td class="bg-warning">{{ index $.PeriodMonthlyInstallment $i }}</td>
-    <td>{{ index $.PeriodSumInstallment $i }}</td>
-    <td>{{ index $.PeriodSumPrincipalInstallment $i }}</td>
-    <td>{{ index $.PeriodSumInterestInstallment $i }}</td>
+    <td class="text-end font-monospace">{{ index $.Interests $i }}</td>
+    <td class="text-end font-monospace">{{ index $.Periods $i }}</td>
+    <td class="bg-warning text-end font-monospace">{{ index $.PeriodMonthlyInstallment $i }}</td>
+    <td class="text-end font-monospace">{{ index $.PeriodSumInstallment $i }}</td>
+    <td class="text-end font-monospace">{{ index $.PeriodSumPrincipalInstallment $i }}</td>
+    <td class="text-end font-monospace">{{ index $.PeriodSumInterestInstallment $i }}</td>
   </tr>
   {{ end }}
   <tr>
     <td colspan="4" class="text-end"><b>Total</b></th>
-    <td class="bg-warning">{{ .TotalInstallment }}</td>
-    <td class="bg-warning">{{ .TotalPrincipal }}</td>
-    <td class="bg-warning">{{ .TotalInterests }}</td>
+    <td class="bg-warning text-end font-monospace">{{ .TotalInstallment }}</td>
+    <td class="bg-warning text-end font-monospace">{{ .TotalPrincipal }}</td>
+    <td class="bg-warning text-end font-monospace">{{ .TotalInterests }}</td>
   </tr>
 </script>
 
@@ -234,12 +254,12 @@
   {{ range $i, $v := .YearlyInstallment }}
   <tr>
     <th>{{ index $.YearlyRowNum $i }}</th>
-    <td>{{ $v }}</td>
-    <td>{{ index $.YearlyPrincipalInstallment $i }}</td>
-    <td>{{ index $.YearlyInterestInstallment $i }}</td>
-    <td><input type="number" class="form-control repayment-input" data-year="{{ index $.YearlyRowNum $i }}"></td>
-    <td></td>
-    <td></td>
+    <td class="text-end font-monospace">{{ $v }}</td>
+    <td class="text-end font-monospace">{{ index $.YearlyPrincipalInstallment $i }}</td>
+    <td class="text-end font-monospace">{{ index $.YearlyInterestInstallment $i }}</td>
+    <td class="text-end font-monospace"><input type="number" class="form-control repayment-input text-end font-monospace" data-year="{{ index $.YearlyRowNum $i }}"></td>
+    <td class="text-end font-monospace"></td>
+    <td class="text-end font-monospace"></td>
   </tr>
   {{ end }}
 </script>
