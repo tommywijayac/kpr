@@ -38,7 +38,7 @@ type App struct {
 	jqCopyResultButton    jquery.JQuery
 	jqCopyBreakdownButton jquery.JQuery
 
-	// debug
+	// internal usage
 	jqSeed jquery.JQuery
 }
 
@@ -103,6 +103,7 @@ func (a *App) BindEvents() {
 	a.jqCopyBreakdownButton.On(jquery.CLICK, func(e jquery.Event) {
 		a.copyToClipboard(a.jqBreakdown)
 	})
+
 	a.jqSeed.On(jquery.CLICK, a.seed)
 }
 
@@ -267,14 +268,14 @@ func (a *App) calculateResult() error {
 	}
 	a.jqDownPaymentInput.RemoveClass("is-invalid")
 
-	_period, err := strconv.ParseInt(a.jqPeriodInput.Val(), 10, 64)
+	yearPeriod, err := strconv.ParseInt(a.jqPeriodInput.Val(), 10, 64)
 	if err != nil {
 		finalerr = errors.New("fail to parse period " + err.Error())
 		a.jqPeriodInput.AddClass("is-invalid")
 		return finalerr
 	}
 	a.jqPeriodInput.RemoveClass("is-invalid")
-	period = int(_period) * 12
+	period = int(yearPeriod) * 12
 
 	var (
 		fixedInterests []float64
@@ -294,19 +295,19 @@ func (a *App) calculateResult() error {
 			return finalerr
 		}
 
-		period, err := strconv.ParseInt(a.jqFixedPeriodInputs[i].Val(), 10, 64)
+		fixedPeriod, err := strconv.ParseInt(a.jqFixedPeriodInputs[i].Val(), 10, 64)
 		if err != nil && len(a.jqFixedPeriodInputs[i].Val()) != 0 {
 			finalerr = errors.New("fail to parse fixed interest " + err.Error())
 			a.jqFixedPeriodInputs[i].AddClass("is-invalid")
 			return finalerr
 		}
 
-		if interest == 0 && period == 0 {
+		if interest == 0 && fixedPeriod == 0 {
 			continue
-		} else if interest != 0 && period == 0 {
+		} else if interest != 0 && fixedPeriod == 0 {
 			a.jqFixedPeriodInputs[i].AddClass("is-invalid")
 			continue
-		} else if interest == 0 && period != 0 {
+		} else if interest == 0 && fixedPeriod != 0 {
 			a.jqFixedInterestInputs[i].AddClass("is-invalid")
 			continue
 		}
@@ -316,9 +317,9 @@ func (a *App) calculateResult() error {
 
 		fixedInterests = append(fixedInterests, interest)
 
-		period = period * 12
-		sumFixedPeriod += int(period)
-		fixedPeriods = append(fixedPeriods, int(period))
+		fixedPeriod = fixedPeriod * 12
+		sumFixedPeriod += int(fixedPeriod)
+		fixedPeriods = append(fixedPeriods, int(fixedPeriod))
 	}
 
 	floatPeriod = period - sumFixedPeriod
@@ -327,8 +328,8 @@ func (a *App) calculateResult() error {
 
 		// highlight last non-empty input in fixed period
 		for i := len(a.jqFixedPeriodInputs) - 1; i >= 0; i-- {
-			period, _ := strconv.ParseInt(a.jqFixedPeriodInputs[i].Val(), 10, 64)
-			if period > 0 {
+			fixedPeriod, _ := strconv.ParseInt(a.jqFixedPeriodInputs[i].Val(), 10, 64)
+			if fixedPeriod > 0 {
 				a.jqFixedPeriodInputs[i].AddClass("is-invalid")
 			}
 		}
@@ -352,7 +353,15 @@ func (a *App) calculateResult() error {
 	}
 	a.jqFloatInterestInput.RemoveClass("is-invalid")
 
-	result := calculateResult(price, dp, period, fixedInterests, fixedPeriods, floatInterest, floatPeriod)
+	result := calculateResult(MortgageSchema{
+		Price:         price,
+		DownPayment:   dp,
+		TotalPeriod:   period,
+		FixedInterest: fixedInterests,
+		FixedPeriod:   fixedPeriods,
+		FloatInterest: floatInterest,
+		FloatPeriod:   floatPeriod,
+	})
 	a.renderResult(result)
 	a.renderBreakdown(result)
 

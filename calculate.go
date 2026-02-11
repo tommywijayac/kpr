@@ -7,6 +7,19 @@ import (
 	"github.com/leekchan/accounting"
 )
 
+type MortgageSchema struct {
+	Price         float64
+	DownPayment   float64
+	TotalPeriod   int
+	FixedInterest []float64
+	FixedPeriod   []int
+	FloatInterest float64
+	FloatPeriod   int
+
+	EarlyPaymentFee float64
+	EarlyPayment    []float64
+}
+
 type Result struct {
 	Interests []float64
 	Periods   []int
@@ -67,33 +80,33 @@ type FmtResult struct {
 	PrincipalBeforeFloat string
 }
 
-func calculateResult(price, downPayment float64, totalPeriod int, fixedInterest []float64, fixedPeriod []int, floatInterest float64, floatPeriod int) Result {
+func calculateResult(schema MortgageSchema) Result {
 	var finalResult Result
 
-	principal := price * (1 - downPayment/100)
+	principal := schema.Price * (1 - schema.DownPayment/100)
 	finalResult.Principal = principal
 
 	// calculate tiered fix period
-	for i := 0; i < len(fixedPeriod); i++ {
+	for i := 0; i < len(schema.FixedPeriod); i++ {
 		// update pokok with remaining
 		var _result Result
-		principal, _result = calculate(principal, fixedInterest[i], fixedPeriod[i], totalPeriod)
+		principal, _result = calculate(principal, schema.FixedInterest[i], schema.FixedPeriod[i], schema.TotalPeriod)
 
-		finalResult.Interests = append(finalResult.Interests, fixedInterest[i])
-		finalResult.Periods = append(finalResult.Periods, fixedPeriod[i])
+		finalResult.Interests = append(finalResult.Interests, schema.FixedInterest[i])
+		finalResult.Periods = append(finalResult.Periods, schema.FixedPeriod[i])
 		finalResult.add(_result)
 
 		// update values for next tiered fix
-		totalPeriod = totalPeriod - fixedPeriod[i]
+		schema.TotalPeriod = schema.TotalPeriod - schema.FixedPeriod[i]
 	}
 
 	// calculate remaining period as floating
-	if floatPeriod > 0 {
-		_, _result := calculate(principal, floatInterest, floatPeriod, totalPeriod)
+	if schema.FloatPeriod > 0 {
+		_, _result := calculate(principal, schema.FloatInterest, schema.FloatPeriod, schema.TotalPeriod)
 
 		finalResult.PrincipalBeforeFloat = principal
-		finalResult.Interests = append(finalResult.Interests, floatInterest)
-		finalResult.Periods = append(finalResult.Periods, floatPeriod)
+		finalResult.Interests = append(finalResult.Interests, schema.FloatInterest)
+		finalResult.Periods = append(finalResult.Periods, schema.FloatPeriod)
 		finalResult.add(_result)
 	}
 

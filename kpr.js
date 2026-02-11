@@ -58600,7 +58600,7 @@ $packages["text/template"] = (function() {
 	return $pkg;
 })();
 $packages["github.com/tommywijayac/kpr"] = (function() {
-	var $pkg = {}, $init, bytes, errors, fmt, js, jquery, accounting, math, strconv, template, Result, FmtResult, App, sliceType, sliceType$1, sliceType$2, sliceType$3, sliceType$4, ptrType, funcType, funcType$1, sliceType$5, ptrType$1, ptrType$2, jQuery, main, calculateResult, calculate, NewApp;
+	var $pkg = {}, $init, bytes, errors, fmt, js, jquery, accounting, math, strconv, template, MortgageSchema, Result, FmtResult, App, sliceType, sliceType$1, sliceType$2, sliceType$3, sliceType$4, ptrType, funcType, funcType$1, sliceType$5, ptrType$1, ptrType$2, jQuery, main, calculateResult, calculate, NewApp;
 	bytes = $packages["bytes"];
 	errors = $packages["errors"];
 	fmt = $packages["fmt"];
@@ -58610,6 +58610,30 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 	math = $packages["math"];
 	strconv = $packages["strconv"];
 	template = $packages["text/template"];
+	MortgageSchema = $newType(0, $kindStruct, "main.MortgageSchema", true, "github.com/tommywijayac/kpr", true, function(Price_, DownPayment_, TotalPeriod_, FixedInterest_, FixedPeriod_, FloatInterest_, FloatPeriod_, EarlyPaymentFee_, EarlyPayment_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.Price = 0;
+			this.DownPayment = 0;
+			this.TotalPeriod = 0;
+			this.FixedInterest = sliceType.nil;
+			this.FixedPeriod = sliceType$1.nil;
+			this.FloatInterest = 0;
+			this.FloatPeriod = 0;
+			this.EarlyPaymentFee = 0;
+			this.EarlyPayment = sliceType.nil;
+			return;
+		}
+		this.Price = Price_;
+		this.DownPayment = DownPayment_;
+		this.TotalPeriod = TotalPeriod_;
+		this.FixedInterest = FixedInterest_;
+		this.FixedPeriod = FixedPeriod_;
+		this.FloatInterest = FloatInterest_;
+		this.FloatPeriod = FloatPeriod_;
+		this.EarlyPaymentFee = EarlyPaymentFee_;
+		this.EarlyPayment = EarlyPayment_;
+	});
 	Result = $newType(0, $kindStruct, "main.Result", true, "github.com/tommywijayac/kpr", true, function(Interests_, Periods_, Installment_, InterestInstallment_, PrincipalInstallment_, YearlyRowNum_, YearlyInstallment_, YearlyInterestInstallment_, YearlyPrincipalInstallment_, PeriodRowNum_, PeriodMonthlyInstallment_, PeriodSumInstallment_, PeriodSumInterestInstallment_, PeriodSumPrincipalInstallment_, Principal_, TotalInstallment_, TotalInterests_, TotalPrincipal_, PrincipalBeforeFloat_) {
 		this.$val = this;
 		if (arguments.length === 0) {
@@ -58740,6 +58764,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 		this.jqCopyBreakdownButton = jqCopyBreakdownButton_;
 		this.jqSeed = jqSeed_;
 	});
+	$pkg.MortgageSchema = MortgageSchema;
 	$pkg.Result = Result;
 	$pkg.FmtResult = FmtResult;
 	$pkg.App = App;
@@ -58765,30 +58790,30 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			$s = -1; return;
 			/* */ } return; } var $f = {$blk: main$1, $c: true, $r, _r, app, $s};return $f;
 		};
-		calculateResult = function calculateResult$1(price, downPayment, totalPeriod, fixedInterest, fixedPeriod, floatInterest, floatPeriod) {
-			var _result, _result$1, _tuple, _tuple$1, downPayment, finalResult, fixedInterest, fixedPeriod, floatInterest, floatPeriod, i, price, principal, totalPeriod;
+		calculateResult = function calculateResult$1(schema) {
+			var _result, _result$1, _tuple, _tuple$1, finalResult, i, principal, schema, x, x$1, x$2, x$3, x$4;
 			finalResult = new Result.ptr(sliceType.nil, sliceType$1.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType$1.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType$1.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, 0, 0, 0, 0, 0);
-			principal = price * (1 - downPayment / 100);
+			principal = schema.Price * (1 - schema.DownPayment / 100);
 			finalResult.Principal = principal;
 			i = 0;
 			while (true) {
-				if (!(i < fixedPeriod.$length)) { break; }
+				if (!(i < schema.FixedPeriod.$length)) { break; }
 				_result = new Result.ptr(sliceType.nil, sliceType$1.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType$1.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType$1.nil, sliceType.nil, sliceType.nil, sliceType.nil, sliceType.nil, 0, 0, 0, 0, 0);
-				_tuple = calculate(principal, ((i < 0 || i >= fixedInterest.$length) ? ($throwRuntimeError("index out of range"), undefined) : fixedInterest.$array[fixedInterest.$offset + i]), ((i < 0 || i >= fixedPeriod.$length) ? ($throwRuntimeError("index out of range"), undefined) : fixedPeriod.$array[fixedPeriod.$offset + i]), totalPeriod);
+				_tuple = calculate(principal, (x = schema.FixedInterest, ((i < 0 || i >= x.$length) ? ($throwRuntimeError("index out of range"), undefined) : x.$array[x.$offset + i])), (x$1 = schema.FixedPeriod, ((i < 0 || i >= x$1.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$1.$array[x$1.$offset + i])), schema.TotalPeriod);
 				principal = _tuple[0];
 				Result.copy(_result, _tuple[1]);
-				finalResult.Interests = $append(finalResult.Interests, ((i < 0 || i >= fixedInterest.$length) ? ($throwRuntimeError("index out of range"), undefined) : fixedInterest.$array[fixedInterest.$offset + i]));
-				finalResult.Periods = $append(finalResult.Periods, ((i < 0 || i >= fixedPeriod.$length) ? ($throwRuntimeError("index out of range"), undefined) : fixedPeriod.$array[fixedPeriod.$offset + i]));
+				finalResult.Interests = $append(finalResult.Interests, (x$2 = schema.FixedInterest, ((i < 0 || i >= x$2.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$2.$array[x$2.$offset + i])));
+				finalResult.Periods = $append(finalResult.Periods, (x$3 = schema.FixedPeriod, ((i < 0 || i >= x$3.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$3.$array[x$3.$offset + i])));
 				finalResult.add($clone(_result, Result));
-				totalPeriod = totalPeriod - ((i < 0 || i >= fixedPeriod.$length) ? ($throwRuntimeError("index out of range"), undefined) : fixedPeriod.$array[fixedPeriod.$offset + i]) >> 0;
+				schema.TotalPeriod = schema.TotalPeriod - (x$4 = schema.FixedPeriod, ((i < 0 || i >= x$4.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$4.$array[x$4.$offset + i])) >> 0;
 				i = i + (1) >> 0;
 			}
-			if (floatPeriod > 0) {
-				_tuple$1 = calculate(principal, floatInterest, floatPeriod, totalPeriod);
+			if (schema.FloatPeriod > 0) {
+				_tuple$1 = calculate(principal, schema.FloatInterest, schema.FloatPeriod, schema.TotalPeriod);
 				_result$1 = $clone(_tuple$1[1], Result);
 				finalResult.PrincipalBeforeFloat = principal;
-				finalResult.Interests = $append(finalResult.Interests, floatInterest);
-				finalResult.Periods = $append(finalResult.Periods, floatPeriod);
+				finalResult.Interests = $append(finalResult.Interests, schema.FloatInterest);
+				finalResult.Periods = $append(finalResult.Periods, schema.FloatPeriod);
 				finalResult.add($clone(_result$1, Result));
 			}
 			return finalResult;
@@ -59306,7 +59331,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			/* */ } return; } } catch(err) { $err = err; $s = -1; } finally { $callDeferred($deferred, $err); if($curGoroutine.asleep) { var $f = {$blk: App·updateFloatingPeriod, $c: true, $r, _i, _period, _r, _r$1, _r$2, _r$3, _r$4, _r$5, _ref, _tuple, _tuple$1, a, err, err$1, finalerr, fixedPeriod, floatPeriod, i, p, period, x, x$1, $s, $deferred};return $f; } }
 		};
 		$ptrType(App).prototype.calculateResult = function App·calculateResult() {
-			var {$24r, $24r$1, $24r$2, $24r$3, $24r$4, $24r$5, $24r$6, $24r$7, $24r$8, _i, _period, _r, _r$1, _r$10, _r$11, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _r$9, _ref, _tuple, _tuple$1, _tuple$2, _tuple$3, _tuple$4, _tuple$5, _tuple$6, a, dp, err, err$1, finalerr, fixedInterests, fixedPeriods, floatInterest, floatPeriod, i, i$1, interest, period, period$1, period$2, price, result, sumFixedPeriod, x, x$1, x$10, x$11, x$2, x$3, x$4, x$5, x$6, x$7, x$8, x$9, $s, $deferred, $r, $c} = $restore(this, {});
+			var {$24r, $24r$1, $24r$2, $24r$3, $24r$4, $24r$5, $24r$6, $24r$7, $24r$8, _i, _r, _r$1, _r$10, _r$11, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _r$9, _ref, _tuple, _tuple$1, _tuple$2, _tuple$3, _tuple$4, _tuple$5, _tuple$6, a, dp, err, err$1, finalerr, fixedInterests, fixedPeriod, fixedPeriod$1, fixedPeriods, floatInterest, floatPeriod, i, i$1, interest, period, price, result, sumFixedPeriod, x, x$1, x$10, x$11, x$2, x$3, x$4, x$5, x$6, x$7, x$8, x$9, yearPeriod, $s, $deferred, $r, $c} = $restore(this, {});
 			/* */ $s = $s || 0; var $err = null; try { s: while (true) { switch ($s) { case 0: $deferred = []; $curGoroutine.deferStack.push($deferred);
 			finalerr = [finalerr];
 			a = this;
@@ -59355,7 +59380,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			/* } */ case 7:
 			$clone(a.jqDownPaymentInput, jquery.JQuery).RemoveClass("is-invalid");
 			_tuple$2 = strconv.ParseInt($clone(a.jqPeriodInput, jquery.JQuery).Val(), 10, 64);
-			_period = _tuple$2[0];
+			yearPeriod = _tuple$2[0];
 			err = _tuple$2[1];
 			/* */ if (!($interfaceIsEqual(err, $ifaceNil))) { $s = 11; continue; }
 			/* */ $s = 12; continue;
@@ -59368,7 +59393,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 				$s = 15; case 15: return $24r$2;
 			/* } */ case 12:
 			$clone(a.jqPeriodInput, jquery.JQuery).RemoveClass("is-invalid");
-			period = $imul((((_period.$low + ((_period.$high >> 31) * 4294967296)) >> 0)), 12);
+			period = $imul((((yearPeriod.$low + ((yearPeriod.$high >> 31) * 4294967296)) >> 0)), 12);
 			fixedInterests = sliceType.nil;
 			fixedPeriods = sliceType$1.nil;
 			sumFixedPeriod = 0;
@@ -59393,7 +59418,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 					$s = 22; case 22: return $24r$3;
 				/* } */ case 19:
 				_tuple$4 = strconv.ParseInt($clone((x$3 = a.jqFixedPeriodInputs, ((i < 0 || i >= x$3.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$3.$array[x$3.$offset + i])), jquery.JQuery).Val(), 10, 64);
-				period$1 = _tuple$4[0];
+				fixedPeriod = _tuple$4[0];
 				err$1 = _tuple$4[1];
 				/* */ if (!($interfaceIsEqual(err$1, $ifaceNil)) && !(($clone((x$4 = a.jqFixedPeriodInputs, ((i < 0 || i >= x$4.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$4.$array[x$4.$offset + i])), jquery.JQuery).Val().length === 0))) { $s = 23; continue; }
 				/* */ $s = 24; continue;
@@ -59405,14 +59430,14 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 					$24r$4 = finalerr[0];
 					$s = 27; case 27: return $24r$4;
 				/* } */ case 24:
-				if ((interest === 0) && (period$1.$high === 0 && period$1.$low === 0)) {
+				if ((interest === 0) && (fixedPeriod.$high === 0 && fixedPeriod.$low === 0)) {
 					_i++;
 					/* continue; */ $s = 16; continue;
-				} else if (!((interest === 0)) && (period$1.$high === 0 && period$1.$low === 0)) {
+				} else if (!((interest === 0)) && (fixedPeriod.$high === 0 && fixedPeriod.$low === 0)) {
 					$clone((x$6 = a.jqFixedPeriodInputs, ((i < 0 || i >= x$6.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$6.$array[x$6.$offset + i])), jquery.JQuery).AddClass(new $String("is-invalid"));
 					_i++;
 					/* continue; */ $s = 16; continue;
-				} else if ((interest === 0) && !((period$1.$high === 0 && period$1.$low === 0))) {
+				} else if ((interest === 0) && !((fixedPeriod.$high === 0 && fixedPeriod.$low === 0))) {
 					$clone((x$7 = a.jqFixedInterestInputs, ((i < 0 || i >= x$7.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$7.$array[x$7.$offset + i])), jquery.JQuery).AddClass(new $String("is-invalid"));
 					_i++;
 					/* continue; */ $s = 16; continue;
@@ -59420,9 +59445,9 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 				$clone((x$8 = a.jqFixedInterestInputs, ((i < 0 || i >= x$8.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$8.$array[x$8.$offset + i])), jquery.JQuery).RemoveClass("is-invalid");
 				$clone((x$9 = a.jqFixedPeriodInputs, ((i < 0 || i >= x$9.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$9.$array[x$9.$offset + i])), jquery.JQuery).RemoveClass("is-invalid");
 				fixedInterests = $append(fixedInterests, interest);
-				period$1 = $mul64(period$1, new $Int64(0, 12));
-				sumFixedPeriod = sumFixedPeriod + ((((period$1.$low + ((period$1.$high >> 31) * 4294967296)) >> 0))) >> 0;
-				fixedPeriods = $append(fixedPeriods, (((period$1.$low + ((period$1.$high >> 31) * 4294967296)) >> 0)));
+				fixedPeriod = $mul64(fixedPeriod, new $Int64(0, 12));
+				sumFixedPeriod = sumFixedPeriod + ((((fixedPeriod.$low + ((fixedPeriod.$high >> 31) * 4294967296)) >> 0))) >> 0;
+				fixedPeriods = $append(fixedPeriods, (((fixedPeriod.$low + ((fixedPeriod.$high >> 31) * 4294967296)) >> 0)));
 				_i++;
 			$s = 16; continue;
 			case 17:
@@ -59435,8 +59460,8 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 				while (true) {
 					if (!(i$1 >= 0)) { break; }
 					_tuple$5 = strconv.ParseInt($clone((x$10 = a.jqFixedPeriodInputs, ((i$1 < 0 || i$1 >= x$10.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$10.$array[x$10.$offset + i$1])), jquery.JQuery).Val(), 10, 64);
-					period$2 = _tuple$5[0];
-					if ((period$2.$high > 0 || (period$2.$high === 0 && period$2.$low > 0))) {
+					fixedPeriod$1 = _tuple$5[0];
+					if ((fixedPeriod$1.$high > 0 || (fixedPeriod$1.$high === 0 && fixedPeriod$1.$low > 0))) {
 						$clone((x$11 = a.jqFixedPeriodInputs, ((i$1 < 0 || i$1 >= x$11.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$11.$array[x$11.$offset + i$1])), jquery.JQuery).AddClass(new $String("is-invalid"));
 					}
 					i$1 = i$1 - (1) >> 0;
@@ -59470,12 +59495,12 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 				/* } */ case 39:
 			/* } */ case 32:
 			$clone(a.jqFloatInterestInput, jquery.JQuery).RemoveClass("is-invalid");
-			result = $clone(calculateResult(price, dp, period, fixedInterests, fixedPeriods, floatInterest, floatPeriod), Result);
+			result = $clone(calculateResult($clone(new MortgageSchema.ptr(price, dp, period, fixedInterests, fixedPeriods, floatInterest, floatPeriod, 0, sliceType.nil), MortgageSchema)), Result);
 			$r = a.renderResult($clone(result, Result)); /* */ $s = 41; case 41: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			$r = a.renderBreakdown($clone(result, Result)); /* */ $s = 42; case 42: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			$24r$8 = $ifaceNil;
 			$s = 43; case 43: return $24r$8;
-			/* */ } return; } } catch(err) { $err = err; $s = -1; return $ifaceNil; } finally { $callDeferred($deferred, $err); if($curGoroutine.asleep) { var $f = {$blk: App·calculateResult, $c: true, $r, $24r, $24r$1, $24r$2, $24r$3, $24r$4, $24r$5, $24r$6, $24r$7, $24r$8, _i, _period, _r, _r$1, _r$10, _r$11, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _r$9, _ref, _tuple, _tuple$1, _tuple$2, _tuple$3, _tuple$4, _tuple$5, _tuple$6, a, dp, err, err$1, finalerr, fixedInterests, fixedPeriods, floatInterest, floatPeriod, i, i$1, interest, period, period$1, period$2, price, result, sumFixedPeriod, x, x$1, x$10, x$11, x$2, x$3, x$4, x$5, x$6, x$7, x$8, x$9, $s, $deferred};return $f; } }
+			/* */ } return; } } catch(err) { $err = err; $s = -1; return $ifaceNil; } finally { $callDeferred($deferred, $err); if($curGoroutine.asleep) { var $f = {$blk: App·calculateResult, $c: true, $r, $24r, $24r$1, $24r$2, $24r$3, $24r$4, $24r$5, $24r$6, $24r$7, $24r$8, _i, _r, _r$1, _r$10, _r$11, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _r$9, _ref, _tuple, _tuple$1, _tuple$2, _tuple$3, _tuple$4, _tuple$5, _tuple$6, a, dp, err, err$1, finalerr, fixedInterests, fixedPeriod, fixedPeriod$1, fixedPeriods, floatInterest, floatPeriod, i, i$1, interest, period, price, result, sumFixedPeriod, x, x$1, x$10, x$11, x$2, x$3, x$4, x$5, x$6, x$7, x$8, x$9, yearPeriod, $s, $deferred};return $f; } }
 		};
 		$ptrType(App).prototype.renderResult = function App·renderResult(result) {
 			var {_r, _r$1, a, b, content, fmtResult, result, $s, $r, $c} = $restore(this, {result});
@@ -59545,6 +59570,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 		};
 		ptrType$1.methods = [{prop: "add", name: "add", pkg: "github.com/tommywijayac/kpr", typ: $funcType([Result], [], false)}, {prop: "format", name: "format", pkg: "github.com/tommywijayac/kpr", typ: $funcType([accounting.Accounting], [FmtResult], false)}];
 		ptrType$2.methods = [{prop: "BindEvents", name: "BindEvents", pkg: "", typ: $funcType([], [], false)}, {prop: "copyToClipboard", name: "copyToClipboard", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.JQuery], [], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [], false)}, {prop: "onPriceKeyup", name: "onPriceKeyup", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "onDownPaymentKeyup", name: "onDownPaymentKeyup", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "onDownPaymentClick", name: "onDownPaymentClick", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "onPeriodChange", name: "onPeriodChange", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "onPeriodClick", name: "onPeriodClick", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "onCalculate", name: "onCalculate", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "updatePriceFormatted", name: "updatePriceFormatted", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.JQuery], [], false)}, {prop: "updateDownPaymentAmount", name: "updateDownPaymentAmount", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.JQuery], [], false)}, {prop: "updatePeriodInMonth", name: "updatePeriodInMonth", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.JQuery], [], false)}, {prop: "updateFloatingPeriod", name: "updateFloatingPeriod", pkg: "github.com/tommywijayac/kpr", typ: $funcType([], [], false)}, {prop: "calculateResult", name: "calculateResult", pkg: "github.com/tommywijayac/kpr", typ: $funcType([], [$error], false)}, {prop: "renderResult", name: "renderResult", pkg: "github.com/tommywijayac/kpr", typ: $funcType([Result], [], false)}, {prop: "renderBreakdown", name: "renderBreakdown", pkg: "github.com/tommywijayac/kpr", typ: $funcType([Result], [], false)}, {prop: "seed", name: "seed", pkg: "github.com/tommywijayac/kpr", typ: $funcType([], [], false)}];
+		MortgageSchema.init("", [{prop: "Price", name: "Price", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "DownPayment", name: "DownPayment", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "TotalPeriod", name: "TotalPeriod", embedded: false, exported: true, typ: $Int, tag: ""}, {prop: "FixedInterest", name: "FixedInterest", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "FixedPeriod", name: "FixedPeriod", embedded: false, exported: true, typ: sliceType$1, tag: ""}, {prop: "FloatInterest", name: "FloatInterest", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "FloatPeriod", name: "FloatPeriod", embedded: false, exported: true, typ: $Int, tag: ""}, {prop: "EarlyPaymentFee", name: "EarlyPaymentFee", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "EarlyPayment", name: "EarlyPayment", embedded: false, exported: true, typ: sliceType, tag: ""}]);
 		Result.init("", [{prop: "Interests", name: "Interests", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "Periods", name: "Periods", embedded: false, exported: true, typ: sliceType$1, tag: ""}, {prop: "Installment", name: "Installment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "InterestInstallment", name: "InterestInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PrincipalInstallment", name: "PrincipalInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "YearlyRowNum", name: "YearlyRowNum", embedded: false, exported: true, typ: sliceType$1, tag: ""}, {prop: "YearlyInstallment", name: "YearlyInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "YearlyInterestInstallment", name: "YearlyInterestInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "YearlyPrincipalInstallment", name: "YearlyPrincipalInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PeriodRowNum", name: "PeriodRowNum", embedded: false, exported: true, typ: sliceType$1, tag: ""}, {prop: "PeriodMonthlyInstallment", name: "PeriodMonthlyInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PeriodSumInstallment", name: "PeriodSumInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PeriodSumInterestInstallment", name: "PeriodSumInterestInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PeriodSumPrincipalInstallment", name: "PeriodSumPrincipalInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "Principal", name: "Principal", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "TotalInstallment", name: "TotalInstallment", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "TotalInterests", name: "TotalInterests", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "TotalPrincipal", name: "TotalPrincipal", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "PrincipalBeforeFloat", name: "PrincipalBeforeFloat", embedded: false, exported: true, typ: $Float64, tag: ""}]);
 		FmtResult.init("", [{prop: "Interests", name: "Interests", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "Periods", name: "Periods", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "Installment", name: "Installment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "InterestInstallment", name: "InterestInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PrincipalInstallment", name: "PrincipalInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "YearlyRowNum", name: "YearlyRowNum", embedded: false, exported: true, typ: sliceType$1, tag: ""}, {prop: "YearlyInstallment", name: "YearlyInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "YearlyInterestInstallment", name: "YearlyInterestInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "YearlyPrincipalInstallment", name: "YearlyPrincipalInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PeriodRowNum", name: "PeriodRowNum", embedded: false, exported: true, typ: sliceType$1, tag: ""}, {prop: "PeriodMonthlyInstallment", name: "PeriodMonthlyInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PeriodSumInstallment", name: "PeriodSumInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PeriodSumInterestInstallment", name: "PeriodSumInterestInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PeriodSumPrincipalInstallment", name: "PeriodSumPrincipalInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "Principal", name: "Principal", embedded: false, exported: true, typ: $String, tag: ""}, {prop: "TotalInstallment", name: "TotalInstallment", embedded: false, exported: true, typ: $String, tag: ""}, {prop: "TotalInterests", name: "TotalInterests", embedded: false, exported: true, typ: $String, tag: ""}, {prop: "TotalPrincipal", name: "TotalPrincipal", embedded: false, exported: true, typ: $String, tag: ""}, {prop: "PrincipalBeforeFloat", name: "PrincipalBeforeFloat", embedded: false, exported: true, typ: $String, tag: ""}]);
 		App.init("github.com/tommywijayac/kpr", [{prop: "acfmt", name: "acfmt", embedded: false, exported: false, typ: accounting.Accounting, tag: ""}, {prop: "resultTemplate", name: "resultTemplate", embedded: false, exported: false, typ: ptrType, tag: ""}, {prop: "breakdownTemplate", name: "breakdownTemplate", embedded: false, exported: false, typ: ptrType, tag: ""}, {prop: "jqResult", name: "jqResult", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqBreakdown", name: "jqBreakdown", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqPriceInput", name: "jqPriceInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqDownPaymentInput", name: "jqDownPaymentInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqDownPaymentButtons", name: "jqDownPaymentButtons", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqPeriodInput", name: "jqPeriodInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqPeriodButtons", name: "jqPeriodButtons", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqFixedInterestInputs", name: "jqFixedInterestInputs", embedded: false, exported: false, typ: sliceType$4, tag: ""}, {prop: "jqFixedPeriodInputs", name: "jqFixedPeriodInputs", embedded: false, exported: false, typ: sliceType$4, tag: ""}, {prop: "jqFloatInterestInput", name: "jqFloatInterestInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqFloatPeriodInput", name: "jqFloatPeriodInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqCalculateButton", name: "jqCalculateButton", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqCopyResultButton", name: "jqCopyResultButton", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqCopyBreakdownButton", name: "jqCopyBreakdownButton", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqSeed", name: "jqSeed", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}]);
