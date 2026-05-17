@@ -178,7 +178,7 @@ func (a *App) onDownPaymentKeyup(e jquery.Event) {
 
 func (a *App) onDownPaymentClick(e jquery.Event) {
 	el := jQuery(e.Target)
-	a.jqDownPaymentInput.SetVal(el.Val())
+	a.jqDownPaymentInput.SetVal(el.Text())
 	a.updateDownPaymentAmount(a.jqDownPaymentInput)
 }
 
@@ -190,7 +190,7 @@ func (a *App) onPeriodChange(e jquery.Event) {
 
 func (a *App) onPeriodClick(e jquery.Event) {
 	el := jQuery(e.Target)
-	a.jqPeriodInput.SetVal(el.Val())
+	a.jqPeriodInput.SetVal(el.Text())
 	a.updatePeriodInMonth(a.jqPeriodInput)
 	a.updateFloatingPeriod()
 }

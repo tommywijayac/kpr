@@ -59223,7 +59223,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			a = this;
 			_r = jQuery(new sliceType$3([new $jsObjectPtr(e.Object.target)])); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 			el = $clone(_r, jquery.JQuery);
-			$clone(a.jqDownPaymentInput, jquery.JQuery).SetVal(new $String($clone(el, jquery.JQuery).Val()));
+			$clone(a.jqDownPaymentInput, jquery.JQuery).SetVal(new $String($clone(el, jquery.JQuery).Text()));
 			$r = a.updateDownPaymentAmount($clone(a.jqDownPaymentInput, jquery.JQuery)); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			$s = -1; return;
 			/* */ } return; } var $f = {$blk: App·onDownPaymentClick, $c: true, $r, _r, a, e, el, $s};return $f;
@@ -59245,7 +59245,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			a = this;
 			_r = jQuery(new sliceType$3([new $jsObjectPtr(e.Object.target)])); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 			el = $clone(_r, jquery.JQuery);
-			$clone(a.jqPeriodInput, jquery.JQuery).SetVal(new $String($clone(el, jquery.JQuery).Val()));
+			$clone(a.jqPeriodInput, jquery.JQuery).SetVal(new $String($clone(el, jquery.JQuery).Text()));
 			$r = a.updatePeriodInMonth($clone(a.jqPeriodInput, jquery.JQuery)); /* */ $s = 2; case 2: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			$r = a.updateFloatingPeriod(); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			$s = -1; return;

@@ -69,7 +69,7 @@
           <div class="input-group">
             <input type="text" class="form-control" id="deltaPriceCredit" disabled></input>
             <div class="input-group-append">
-              <label class="input-group-text">&nbsp;<span class="badge bg-secondary">1</span></label>
+              <span class="input-group-text">&nbsp;<span class="badge bg-secondary">1</span></span>
             </div>
           </div>
           <small class="form-text text-muted">
@@ -92,7 +92,7 @@
           <div class="input-group">
             <input type="text" class="form-control" id="downPaymentAmount" disabled></input>
             <div class="input-group-append">
-              <label class="input-group-text">&nbsp;<span class="badge bg-secondary ms-1">2</span></label>
+              <span class="input-group-text">&nbsp;<span class="badge bg-secondary ms-1">2</span></span>
             </div>
           </div>
         </div>
@@ -100,13 +100,11 @@
       <div class="row mb-3 align-items-center">
         <div class="col-5 col-lg-2"></div>
         <div class="col-7 col-lg-4">
-          <div class="col-7 col-lg-4">
-            <div class="d-flex mt-2" id="easyInputDownPayment">
-              <input class="btn btn-primary btn-pill btn-success" type="button" value="0"></input>
-              <input class="btn btn-primary btn-pill btn-success" type="button" value="5"></input>
-              <input class="btn btn-primary btn-pill btn-success" type="button" value="10"></input>
-              <input class="btn btn-primary btn-pill btn-success" type="button" value="20"></input>
-            </div>
+          <div class="d-flex mt-2" id="easyInputDownPayment">
+            <button class="btn btn-primary btn-pill btn-success" type="button">0</button>
+            <button class="btn btn-primary btn-pill btn-success" type="button">5</button>
+            <button class="btn btn-primary btn-pill btn-success" type="button">10</button>
+            <button class="btn btn-primary btn-pill btn-success" type="button">20</button>
           </div>
         </div>
       </div>
@@ -126,10 +124,10 @@
         <span class="col-5 col-lg-2">&nbsp;</span>
         <div class="col-5 col-lg-2">
           <div class="d-flex mt-2" id="easyInputPeriod">
-            <input class="btn btn-primary btn-pill" type="button" value="10"></input>
-            <input class="btn btn-primary btn-pill" type="button" value="15"></input>
-            <input class="btn btn-primary btn-pill" type="button" value="20"></input>
-            <input class="btn btn-primary btn-pill" type="button" value="25"></input>
+            <button class="btn btn-primary btn-pill" type="button">10</button>
+            <button class="btn btn-primary btn-pill" type="button">15</button>
+            <button class="btn btn-primary btn-pill" type="button">20</button>
+            <button class="btn btn-primary btn-pill" type="button">25</button>
           </div>
         </div>
       </div>
@@ -148,9 +146,9 @@
         </div>
       </div>
 
+      <h3>Bunga Fix</h3>
+      <p class="form-text">Masukkan bunga fix bertingkat. Biarkan kosong untuk tingkat yang tidak berlaku.</p>
       <table class="table table-sm">
-        <h3>Bunga Fix</h3>
-        <p class="form-text">Masukkan bunga fix bertingkat. Biarkan kosong untuk tingkat yang tidak berlaku.</p>
         <thead>
           <tr>
             <th scope="col" class="col-auto">#</th>
@@ -195,9 +193,9 @@
         </tbody>
       </table>
 
+      <h3>Bunga Floating</h3>
+      <p class="form-text">Masukkan bunga floating untuk sisa periode.</p>
       <table class="table table-sm">
-        <h3>Bunga Floating</h3>
-        <p class="form-text">Masukkan bunga floating untuk sisa periode.</p>
         <thead>
           <tr>
             <th scope="col" class="col-auto">#</th>
