@@ -27,7 +27,6 @@ type App struct {
 	jqPriceInput         jquery.JQuery
 	jqBankAppraisal      jquery.JQuery
 	jqCredit             jquery.JQuery
-	jqDeltaPriceToCredit jquery.JQuery
 	jqDownPaymentInput   jquery.JQuery
 	jqDownPaymentAmount  jquery.JQuery
 	jqDownPaymentButtons jquery.JQuery
@@ -74,7 +73,6 @@ func NewApp() *App {
 		jqPriceInput:          form.Find("#price"),
 		jqBankAppraisal:       form.Find("#bankAppraisal"),
 		jqCredit:              form.Find("#credit"),
-		jqDeltaPriceToCredit:  form.Find("#deltaPriceCredit"),
 		jqDownPaymentInput:    form.Find("#downPayment"),
 		jqDownPaymentButtons:  form.Find("#easyInputDownPayment"),
 		jqDownPaymentAmount:   form.Find("#downPaymentAmount"),
@@ -99,13 +97,17 @@ func (a *App) BindEvents() {
 
 	a.jqPriceInput.On("input", a.onPriceInput)
 	a.jqBankAppraisal.On(jquery.KEYUP, a.onBankAppraisalKeyup)
+	a.jqBankAppraisal.On(jquery.CHANGE, a.onBankAppraisalKeyup)
 	a.jqDownPaymentInput.On(jquery.KEYUP, a.onDownPaymentKeyup)
+	a.jqDownPaymentInput.On(jquery.CHANGE, a.onDownPaymentKeyup)
 	a.jqDownPaymentButtons.On(jquery.CLICK, a.onDownPaymentClick)
 	a.jqPeriodInput.On(jquery.CHANGE, a.onPeriodChange)
+	a.jqPeriodInput.On(jquery.KEYUP, a.onPeriodChange)
 	a.jqPeriodButtons.On(jquery.CLICK, a.onPeriodClick)
 
 	for i := range a.jqFixedPeriodInputs {
 		a.jqFixedPeriodInputs[i].On(jquery.CHANGE, a.onPeriodChange)
+		a.jqFixedPeriodInputs[i].On(jquery.KEYUP, a.onPeriodChange)
 	}
 
 	a.jqCalculateButton.On(jquery.CLICK, a.onCalculate)
@@ -174,25 +176,53 @@ func (a *App) onBankAppraisalKeyup(e jquery.Event) {
 func (a *App) onDownPaymentKeyup(e jquery.Event) {
 	el := jQuery(e.Target)
 	a.updateDownPaymentAmount(el)
+	a.syncDPPillActiveState()
 }
 
 func (a *App) onDownPaymentClick(e jquery.Event) {
 	el := jQuery(e.Target)
-	a.jqDownPaymentInput.SetVal(el.Text())
+	a.jqDownPaymentInput.SetVal(el.Attr("data-value"))
 	a.updateDownPaymentAmount(a.jqDownPaymentInput)
+	a.syncDPPillActiveState()
 }
 
 func (a *App) onPeriodChange(e jquery.Event) {
 	el := jQuery(e.Target)
 	a.updatePeriodInMonth(el)
 	a.updateFloatingPeriod()
+	a.syncPeriodPillActiveState()
 }
 
 func (a *App) onPeriodClick(e jquery.Event) {
 	el := jQuery(e.Target)
-	a.jqPeriodInput.SetVal(el.Text())
+	a.jqPeriodInput.SetVal(el.Attr("data-value"))
 	a.updatePeriodInMonth(a.jqPeriodInput)
 	a.updateFloatingPeriod()
+	a.syncPeriodPillActiveState()
+}
+
+func (a *App) syncDPPillActiveState() {
+	currentVal := a.jqDownPaymentInput.Val()
+	a.jqDownPaymentButtons.Find("button").Each(func(i int, btn interface{}) {
+		jqBtn := jQuery(btn)
+		if jqBtn.Attr("data-value") == currentVal {
+			jqBtn.AddClass("active")
+		} else {
+			jqBtn.RemoveClass("active")
+		}
+	})
+}
+
+func (a *App) syncPeriodPillActiveState() {
+	currentVal := a.jqPeriodInput.Val()
+	a.jqPeriodButtons.Find("button").Each(func(i int, btn interface{}) {
+		jqBtn := jQuery(btn)
+		if jqBtn.Attr("data-value") == currentVal {
+			jqBtn.AddClass("active")
+		} else {
+			jqBtn.RemoveClass("active")
+		}
+	})
 }
 
 func (a *App) onCalculate(e jquery.Event) {
@@ -283,7 +313,6 @@ func (a *App) updateBankAppraisalAmount(el jquery.JQuery) {
 	price, _ := strconv.ParseFloat(strings.ReplaceAll(a.jqPriceInput.Val(), ",", ""), 64)
 	credit := price * bankAppraisal / 100 // if any err, credit is 0
 	a.jqCredit.SetVal(a.acfmt.FormatMoneyFloat64(credit))
-	a.jqDeltaPriceToCredit.SetVal(a.acfmt.FormatMoneyFloat64(price - credit))
 }
 
 func (a *App) updateDownPaymentAmount(el jquery.JQuery) {
@@ -473,6 +502,10 @@ func (a *App) calculateResult() error {
 	a.renderBreakdown(result)
 	a.renderSummary(schema)
 
+	if el := jQuery("#hasil-section"); el.Length > 0 {
+		el.Get(0).Call("scrollIntoView", js.M{"behavior": "smooth", "block": "start"})
+	}
+
 	return nil
 }
 
@@ -558,4 +591,7 @@ func (a *App) seed() {
 	if a.jqFloatInterestInput.Val() == "" {
 		a.jqFloatInterestInput.SetVal("11.0")
 	}
+
+	a.syncDPPillActiveState()
+	a.syncPeriodPillActiveState()
 }

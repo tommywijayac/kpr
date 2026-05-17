@@ -55,26 +55,12 @@
           <input type="number" class="form-control" id="bankAppraisal" aria-describedby="price" min="0" required>
         </div>
       </div>
-      <div class="row mb-1 align-items-center needs-validation" novalidate>
+      <div class="row mb-3 align-items-center needs-validation" novalidate>
         <label for="credit" class="col-5 col-lg-2 col-form-label">Kredit</label>
         <div class="col-7 col-lg-4">
           <div class="input-group">
             <input type="text" class="form-control" id="credit" disabled></input>
           </div>
-        </div>
-      </div>
-      <div class="row mb-3 align-items-center needs-validation" novalidate>
-        <label for="deltaPriceCredit" class="col-5 col-lg-2 col-form-label"></label>
-        <div class="col-7 col-lg-4">
-          <div class="input-group">
-            <input type="text" class="form-control" id="deltaPriceCredit" disabled></input>
-            <div class="input-group-append">
-              <span class="input-group-text">&nbsp;<span class="badge bg-secondary">1</span></span>
-            </div>
-          </div>
-          <small class="form-text text-muted">
-            Selisih Harga Rumah dan Kredit
-          </small>
         </div>
       </div>
 
@@ -89,22 +75,17 @@
       <div class="row mb-1 align-items-center needs-validation" novalidate>
         <label for="downPaymentAmount" class="col-5 col-lg-2 col-form-label">&nbsp;</label>
         <div class="col-7 col-lg-4">
-          <div class="input-group">
-            <input type="text" class="form-control" id="downPaymentAmount" disabled></input>
-            <div class="input-group-append">
-              <span class="input-group-text">&nbsp;<span class="badge bg-secondary ms-1">2</span></span>
-            </div>
-          </div>
+          <input type="text" class="form-control" id="downPaymentAmount" disabled></input>
         </div>
       </div>
       <div class="row mb-3 align-items-center">
         <div class="col-5 col-lg-2"></div>
         <div class="col-7 col-lg-4">
           <div class="d-flex mt-2" id="easyInputDownPayment">
-            <button class="btn btn-primary btn-pill btn-success" type="button">0</button>
-            <button class="btn btn-primary btn-pill btn-success" type="button">5</button>
-            <button class="btn btn-primary btn-pill btn-success" type="button">10</button>
-            <button class="btn btn-primary btn-pill btn-success" type="button">20</button>
+            <button class="btn btn-sm btn-outline-primary mx-1" type="button" data-value="0">0%</button>
+            <button class="btn btn-sm btn-outline-primary mx-1" type="button" data-value="5">5%</button>
+            <button class="btn btn-sm btn-outline-primary mx-1" type="button" data-value="10">10%</button>
+            <button class="btn btn-sm btn-outline-primary mx-1" type="button" data-value="20">20%</button>
           </div>
         </div>
       </div>
@@ -122,12 +103,12 @@
       </div>
       <div class="row mb-3 align-items-center">
         <span class="col-5 col-lg-2">&nbsp;</span>
-        <div class="col-5 col-lg-2">
+        <div class="col-7 col-lg-4">
           <div class="d-flex mt-2" id="easyInputPeriod">
-            <button class="btn btn-primary btn-pill" type="button">10</button>
-            <button class="btn btn-primary btn-pill" type="button">15</button>
-            <button class="btn btn-primary btn-pill" type="button">20</button>
-            <button class="btn btn-primary btn-pill" type="button">25</button>
+            <button class="btn btn-sm btn-outline-primary mx-1" type="button" data-value="10">10 thn</button>
+            <button class="btn btn-sm btn-outline-primary mx-1" type="button" data-value="15">15 thn</button>
+            <button class="btn btn-sm btn-outline-primary mx-1" type="button" data-value="20">20 thn</button>
+            <button class="btn btn-sm btn-outline-primary mx-1" type="button" data-value="25">25 thn</button>
           </div>
         </div>
       </div>
@@ -223,60 +204,78 @@
 
     <hr>
 
-    <h3>
+    <h3 id="hasil-section">
       Hasil
-      <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#breakdown-container">
-        🔎 Lihat Detail per Tahun
-      </button>
-      <button class="btn btn-light" type="button" id="copyResult">
-        📋
-      </button>
     </h3>
 
     <!-- Cash Summary Card -->
     <div class="col-12 col-lg-6 mb-3">
       <div class="card">
-        <div class="card-header fw-semibold">💰 Perkiraan Dana yang Perlu Disiapkan (bergantung pada Bank dan waktu)</div>
+        <div class="card-header fw-semibold">💰 Perkiraan Cash yang Perlu Disiapkan</div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item d-flex justify-content-between align-items-center">
-            <span>Selisih Harga &amp; Kredit Bank <span class="badge bg-secondary ms-1">1</span></span>
+            <span>Selisih Harga &amp; Kredit Bank</span>
             <span class="font-monospace" id="summary-delta">—</span>
           </li>
           <li class="list-group-item d-flex justify-content-between align-items-center">
-            <span>Down Payment <span class="badge bg-secondary ms-1">2</span></span>
+            <span>Down Payment</span>
             <span class="font-monospace" id="summary-dp">—</span>
           </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <span>BPHTB (5% dari Harga Rumah - NJOPTKP. NJOPTKP Jakarta = 60jt)</span>
-            <span class="font-monospace" id="summary-bphtb">—</span>
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <span class="d-flex flex-column">
+              <span>BPHTB</span>
+              <small class="text-muted">5% dari Harga Rumah - NJOPTKP. NJOPTKP Jakarta = 60jt</small>
+            </span>
+            <span class="font-monospace ms-3 text-nowrap" id="summary-bphtb">—</span>
           </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <span>PNBP (0.1% dari Harga Rumah)</span>
-            <span class="font-monospace" id="summary-pnbp">—</span>
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <span class="d-flex flex-column">
+              <span>PNBP</span>
+              <small class="text-muted">0.1% dari Harga Rumah</small>
+            </span>
+            <span class="font-monospace ms-3 text-nowrap" id="summary-pnbp">—</span>
           </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <span>Notaris Biaya Balik Nama (1% dari Harga Rumah)</span>
-            <span class="font-monospace" id="summary-notaris-bbn">—</span>
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <span class="d-flex flex-column">
+              <span>Biaya Balik Nama</span>
+              <small class="text-muted">1% dari Harga Rumah</small>
+            </span>
+            <span class="font-monospace ms-3 text-nowrap" id="summary-notaris-bbn">—</span>
           </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <span>Notaris AJB (2.5% dari Harga Rumah)</span>
-            <span class="font-monospace" id="summary-notaris-ajb">—</span>
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <span class="d-flex flex-column">
+              <span>Notaris AJB</span>
+              <small class="text-muted">2.5% dari Harga Rumah</small>
+            </span>
+            <span class="font-monospace ms-3 text-nowrap" id="summary-notaris-ajb">—</span>
           </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <span>Provisi (1% dari Kredit)</span>
-            <span class="font-monospace" id="summary-provisi">—</span>
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <span class="d-flex flex-column">
+              <span>Provisi</span>
+              <small class="text-muted">1% dari Kredit</small>
+            </span>
+            <span class="font-monospace ms-3 text-nowrap" id="summary-provisi">—</span>
           </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <span>Appraisal (fixed)</span>
-            <span class="font-monospace" id="summary-appraisal">—</span>
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <span class="d-flex flex-column">
+              <span>Appraisal</span>
+              <small class="text-muted">fixed fee</small>
+            </span>
+            <span class="font-monospace ms-3 text-nowrap" id="summary-appraisal">—</span>
           </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <span>Asuransi Jiwa (0.55% dari Kredit)</span>
-            <span class="font-monospace" id="summary-life-insurance">—</span>
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <span class="d-flex flex-column">
+              <span>Asuransi Jiwa</span>
+              <small class="text-muted">0.55% dari Kredit</small>
+            </span>
+            <span class="font-monospace ms-3 text-nowrap" id="summary-life-insurance">—</span>
           </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <span>Asuransi Jaminan (0.11% dari Kredit)</span>
-            <span class="font-monospace" id="summary-object-insurance">—</span>
+          <li class="list-group-item d-flex justify-content-between align-items-start">
+            <span class="d-flex flex-column">
+              <span>Asuransi Jaminan</span>
+              <small class="text-muted">0.11% dari Kredit</small>
+            </span>
+            <span class="font-monospace ms-3 text-nowrap" id="summary-object-insurance">—</span>
           </li>
         </ul>
         <div class="card-footer d-flex justify-content-between align-items-center fw-bold">
@@ -286,8 +285,13 @@
       </div>
     </div>
 
-
     <!-- Mortgage Summary -->
+    <div class="mb-3">
+      <h3>
+        Detail
+        <button class="btn btn-light" type="button" id="copyBreakdown">📋</button>
+      </h3>
+    </div>
     <div class="overflow-x-auto">
       <table class="table align-middle">
         <thead>
@@ -306,12 +310,16 @@
     </div>
 
     <!-- Mortgage Breakdown -->
-    <div id="breakdown-container" class="collapse mt-3">
+    <div class="align-items-center">
+      <button class="btn btn-primary m-3" type="button" data-bs-toggle="collapse" data-bs-target="#breakdown-container">
+        🔎 Lihat Detail per Tahun
+      </button>
+    </div>
+
+    <div id="breakdown-container" class="collapse mb-3">
       <h3>
-        Detail
-        <button class="btn btn-light" type="button" id="copyBreakdown">
-          📋
-        </button>
+        Detail per Tahun
+        <button class="btn btn-light" type="button" id="copyBreakdown">📋</button>
       </h3>
       <table class="table align-middle">
         <thead>
