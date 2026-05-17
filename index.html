@@ -1,8 +1,100 @@
-<html>
+<html lang="id">
 
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Simulasi KPR Indonesia | KPR Fix Berjenjang</title>
+  <meta name="description" content="Simulasi KPR fix berjenjang untuk properti di Indonesia. Hitung cicilan KPR, down payment, biaya notaris, BPHTB, dan total cash yang dibutuhkan. Kalkulator KPR lengkap untuk Jakarta dan seluruh Indonesia.">
+  <meta name="keywords" content="kalkulator kpr, simulasi kpr, kpr indonesia, kpr jakarta, cicilan rumah, kpr fix berjenjang, biaya kpr, down payment rumah">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Kalkulator KPR &amp; Simulasi KPR Indonesia | KPR Fix Berjenjang">
+  <meta property="og:description" content="Simulasi KPR fix berjenjang untuk properti di Indonesia. Hitung cicilan, down payment, biaya notaris, BPHTB, dan total cash yang dibutuhkan.">
+  <meta property="og:url" content="https://tommywijayac.github.io/kpr/">
+  <meta property="og:locale" content="id_ID">
+
+  <link rel="canonical" href="https://tommywijayac.github.io/kpr/">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Kalkulator KPR & Simulasi KPR Indonesia",
+    "description": "Simulasi KPR fix berjenjang untuk properti di Indonesia. Hitung cicilan KPR, down payment, biaya notaris, BPHTB, dan total cash yang dibutuhkan.",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "IDR"
+    },
+    "inLanguage": "id-ID",
+    "areaServed": {
+      "@type": "Country",
+      "name": "Indonesia"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+    {
+        "@type": "Question",
+        "name": "Mengapa simulasi ini dibuat?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Banyak simulasi dan kalkulator KPR yang telah tersedia, tapi saya menginginkan kalkulator yang lengkap, lalu hasilnya dapat dianalisis lebih lanjut di Excel."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Apa itu KPR fix berjenjang?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "KPR fix berjenjang adalah skema kredit pemilikan rumah di mana bunga dikunci (fix) pada tingkat tertentu untuk beberapa tahun pertama, lalu naik bertahap sebelum akhirnya beralih ke bunga floating."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Berapa DP minimum KPR di Indonesia?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Berdasarkan ketentuan OJK, DP minimum KPR untuk rumah pertama umumnya 10–15% dari harga properti. Untuk rumah kedua dan seterusnya, DP minimum bisa lebih tinggi."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Apa saja biaya-biaya yang perlu disiapkan saat KPR di Jakarta?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Selain uang muka, biaya lain meliputi: BPHTB (5% dari harga rumah dikurangi NJOPTKP), PNBP (0,1%), biaya balik nama (1%), notaris & AJB (2,5%), provisi bank (1% dari kredit), serta asuransi jiwa dan asuransi jaminan."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Bagaimana cara menggunakan kalkulator KPR ini?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Masukkan harga rumah, persentase appraisal bank, besaran DP, dan jangka waktu kredit. Isi suku bunga fix berjenjang beserta durasinya dan bunga floating untuk sisa periode, lalu klik Hitung!"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Apakah simulasi KPR ini akurat?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Kalkulator ini memberikan estimasi berdasarkan input yang dimasukkan menggunakan metode anuitas. Angka aktual dapat berbeda tergantung kebijakan bank dan kondisi aktual. Selalu konfirmasi dengan bank atau notaris untuk angka yang pasti."
+        }
+      }
+    ]
+  }
+  ]
+  </script>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -35,6 +127,7 @@
 <body class="container">
   <div class="row my-5">
     <h1 class="text-center">Simulasi KPR Fix Berjenjang 🇮🇩</h1>
+    <p class="text-center text-muted">Hitung rincian cicilan KPR beserta biaya awal yang dibutuhkan, untuk properti dan bank di Indonesia.</p>
     <div class="text-center mt-2 mb-3">
       <button id="seed" class="btn btn-outline-secondary btn-sm">💡 Coba dengan data contoh</button>
     </div>
@@ -341,6 +434,114 @@
         </div>
       </div>
     </div>
+
+    <!-- FAQ Section -->
+    <section class="mt-5" id="faq">
+      <h2 class="mb-4">FAQ — Pertanyaan Umum Seputar KPR</h2>
+      <div class="accordion" id="faqAccordion">
+
+        <div class="accordion-item">
+          <h3 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
+              Mengapa simulasi ini dibuat?
+            </button>
+          </h3>
+          <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Banyak simulasi dan kalkulator KPR yang telah tersedia, tapi saya menginginkan kalkulator yang lengkap, lalu hasilnya dapat dianalisis lebih lanjut di Excel.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h3 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
+              Mengapa ada FAQ?
+            </button>
+          </h3>
+          <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Saya mencoba menaikkan webbsite ke halaman pertama Google untuk keyword "Simulasi KPR", "Kalkulator KPR", "Simulasi KPR BCA", atau "Simulasi KPR BTN"
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h3 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+              Apa itu KPR fix berjenjang?
+            </button>
+          </h3>
+          <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              KPR fix berjenjang adalah skema kredit pemilikan rumah di mana bunga dikunci (fix) pada tingkat tertentu untuk beberapa tahun pertama, lalu naik bertahap sebelum akhirnya beralih ke bunga <em>floating</em>. Contohnya: 3,9% selama 3 tahun, kemudian 7,99% selama 3 tahun, lalu 9,99% selama 4 tahun, baru setelahnya mengikuti suku bunga pasar.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h3 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+              Berapa DP minimum KPR di Indonesia?
+            </button>
+          </h3>
+          <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Berdasarkan ketentuan OJK, DP (uang muka) minimum KPR untuk rumah pertama umumnya 10–15% dari harga properti. Untuk rumah kedua dan seterusnya, DP minimum bisa lebih tinggi. Besaran DP juga mempengaruhi total cicilan dan biaya bunga yang dibayarkan selama masa kredit.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h3 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+              Apa saja biaya-biaya yang perlu disiapkan saat KPR di Jakarta?
+            </button>
+          </h3>
+          <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Selain uang muka, ada beberapa biaya lain yang perlu disiapkan:
+              <ul class="mt-2">
+                <li><strong>BPHTB</strong> — 5% dari harga rumah dikurangi NJOPTKP (di Jakarta sebesar Rp 60 juta)</li>
+                <li><strong>PNBP</strong> — 0,1% dari harga rumah untuk pengecekan sertifikat</li>
+                <li><strong>Biaya Balik Nama</strong> — sekitar 1% dari harga rumah</li>
+                <li><strong>Notaris & AJB</strong> — sekitar 2,5% dari harga rumah</li>
+                <li><strong>Provisi bank</strong> — 1% dari nilai kredit</li>
+                <li><strong>Asuransi jiwa & asuransi jaminan</strong> — dihitung dari nilai kredit</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h3 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+              Bagaimana cara menggunakan kalkulator KPR ini?
+            </button>
+          </h3>
+          <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Masukkan harga rumah, persentase appraisal bank, besaran DP, dan jangka waktu kredit. Lalu isi suku bunga fix berjenjang beserta durasinya, dan bunga floating untuk sisa periode. Klik <strong>Hitung!</strong> untuk melihat estimasi cicilan per bulan, total biaya KPR, dan perkiraan cash yang perlu disiapkan.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h3 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+              Apakah simulasi KPR ini akurat?
+            </button>
+          </h3>
+          <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Kalkulator ini memberikan <em>estimasi</em> berdasarkan input yang Anda masukkan dan menggunakan metode anuitas. Angka aktual dapat berbeda tergantung kebijakan bank, kondisi appraisal, dan biaya-biaya lain yang mungkin berlaku. Selalu konfirmasi dengan bank atau notaris untuk angka yang pasti.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
       <div id="copyToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
