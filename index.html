@@ -35,11 +35,12 @@
 <body class="container">
   <div class="row my-5">
     <h1 class="text-center">Simulasi KPR Fix Berjenjang 🇮🇩</h1>
-    <button id="seed" style="display: hidden;">🌱seed</button>
-
-    <hr>
+    <div class="text-center mt-2 mb-3">
+      <button id="seed" class="btn btn-outline-secondary btn-sm">💡 Coba dengan data contoh</button>
+    </div>
 
     <form>
+      <!-- Price section -->
       <div class="row mb-3 align-items-center needs-validation" novalidate>
         <label for="price" class="col-5 col-lg-2 col-form-label">Harga Rumah</label>
         <div class="col-7 col-lg-4">
@@ -47,13 +48,13 @@
         </div>
       </div>
 
+      <!-- Credit section -->
       <div class="row mb-3 align-items-center needs-validation" novalidate>
         <label for="bankAppraisal" class="col-5 col-lg-2 col-form-label">Appraisal Bank (%)</label>
         <div class="col-7 col-lg-4">
-          <input type="number" class="form-control" id="bankAppraisal" aria-describedby="price" min="0" value="80" required>
+          <input type="number" class="form-control" id="bankAppraisal" aria-describedby="price" min="0" required>
         </div>
       </div>
-
       <div class="row mb-1 align-items-center needs-validation" novalidate>
         <label for="credit" class="col-5 col-lg-2 col-form-label">Kredit</label>
         <div class="col-7 col-lg-4">
@@ -135,6 +136,18 @@
 
       <hr>
 
+      <!-- Preset Loan section -->
+      <div class="row mb-3 align-items-center">
+        <label for="presetLoan" class="col-5 col-lg-2 col-form-label">Preset Bunga</label>
+        <div class="col-7 col-lg-4">
+          <select class="form-select" id="presetLoan">
+            <option value="">-- Pilih preset --</option>
+            <option value="tiered3">Fix 10 tahun: 3.9% (3thn) → 7.99% (3thn) → 9.99% (4thn). Floating 11%</option>
+            <option value="tiered4">Fix 10 tahun: 2.9% (1thn) → 5.99% (2thn) → 7.99% (3thn) → 9.99% (4thn). Floating 11%</option>
+          </select>
+        </div>
+      </div>
+
       <table class="table table-sm">
         <h3>Bunga Fix</h3>
         <p class="form-text">Masukkan bunga fix bertingkat. Biarkan kosong untuk tingkat yang tidak berlaku.</p>
@@ -184,7 +197,7 @@
 
       <table class="table table-sm">
         <h3>Bunga Floating</h3>
-        <p class="form-text">Bunga floating berlaku untuk sisa periode setelah periode bunga fix berakhir.</p>
+        <p class="form-text">Masukkan bunga floating untuk sisa periode.</p>
         <thead>
           <tr>
             <th scope="col" class="col-auto">#</th>

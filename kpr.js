@@ -58600,7 +58600,7 @@ $packages["text/template"] = (function() {
 	return $pkg;
 })();
 $packages["github.com/tommywijayac/kpr"] = (function() {
-	var $pkg = {}, $init, bytes, errors, fmt, js, jquery, accounting, math, strconv, strings, template, MortgageSchema, Result, FmtResult, App, sliceType, sliceType$1, sliceType$2, sliceType$3, sliceType$4, ptrType, funcType, funcType$1, sliceType$5, ptrType$1, ptrType$2, jQuery, main, calculateResult, calculate, NewApp;
+	var $pkg = {}, $init, bytes, errors, fmt, js, jquery, accounting, math, strconv, strings, template, MortgageSchema, Result, FmtResult, App, loanPreset, sliceType, sliceType$1, sliceType$2, sliceType$3, sliceType$4, ptrType, funcType, funcType$1, sliceType$5, ptrType$1, ptrType$2, jQuery, loanPresets, main, calculateResult, calculate, NewApp;
 	bytes = $packages["bytes"];
 	errors = $packages["errors"];
 	fmt = $packages["fmt"];
@@ -58723,7 +58723,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 		this.TotalPrincipal = TotalPrincipal_;
 		this.PrincipalBeforeFloat = PrincipalBeforeFloat_;
 	});
-	App = $newType(0, $kindStruct, "main.App", true, "github.com/tommywijayac/kpr", true, function(acfmt_, resultTemplate_, breakdownTemplate_, jqResult_, jqBreakdown_, jqPriceInput_, jqBankAppraisal_, jqCredit_, jqDeltaPriceToCredit_, jqDownPaymentInput_, jqDownPaymentAmount_, jqDownPaymentButtons_, jqPeriodInput_, jqPeriodButtons_, jqFixedInterestInputs_, jqFixedPeriodInputs_, jqFloatInterestInput_, jqFloatPeriodInput_, jqCalculateButton_, jqCopyResultButton_, jqCopyBreakdownButton_, jqSeed_) {
+	App = $newType(0, $kindStruct, "main.App", true, "github.com/tommywijayac/kpr", true, function(acfmt_, resultTemplate_, breakdownTemplate_, jqResult_, jqBreakdown_, jqPriceInput_, jqBankAppraisal_, jqCredit_, jqDeltaPriceToCredit_, jqDownPaymentInput_, jqDownPaymentAmount_, jqDownPaymentButtons_, jqPeriodInput_, jqPeriodButtons_, jqFixedInterestInputs_, jqFixedPeriodInputs_, jqFloatInterestInput_, jqFloatPeriodInput_, jqCalculateButton_, jqCopyResultButton_, jqCopyBreakdownButton_, jqSeed_, jqPresetLoan_) {
 		this.$val = this;
 		if (arguments.length === 0) {
 			this.acfmt = new accounting.Accounting.ptr("", 0, "", "", "", "", "", false);
@@ -58748,6 +58748,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			this.jqCopyResultButton = new jquery.JQuery.ptr(null, "", "", 0, "");
 			this.jqCopyBreakdownButton = new jquery.JQuery.ptr(null, "", "", 0, "");
 			this.jqSeed = new jquery.JQuery.ptr(null, "", "", 0, "");
+			this.jqPresetLoan = new jquery.JQuery.ptr(null, "", "", 0, "");
 			return;
 		}
 		this.acfmt = acfmt_;
@@ -58772,11 +58773,25 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 		this.jqCopyResultButton = jqCopyResultButton_;
 		this.jqCopyBreakdownButton = jqCopyBreakdownButton_;
 		this.jqSeed = jqSeed_;
+		this.jqPresetLoan = jqPresetLoan_;
+	});
+	loanPreset = $newType(0, $kindStruct, "main.loanPreset", true, "github.com/tommywijayac/kpr", false, function(fixedInterests_, fixedPeriods_, floatInterest_) {
+		this.$val = this;
+		if (arguments.length === 0) {
+			this.fixedInterests = sliceType.nil;
+			this.fixedPeriods = sliceType$1.nil;
+			this.floatInterest = 0;
+			return;
+		}
+		this.fixedInterests = fixedInterests_;
+		this.fixedPeriods = fixedPeriods_;
+		this.floatInterest = floatInterest_;
 	});
 	$pkg.MortgageSchema = MortgageSchema;
 	$pkg.Result = Result;
 	$pkg.FmtResult = FmtResult;
 	$pkg.App = App;
+	$pkg.loanPreset = loanPreset;
 	$pkg.$finishSetup = function() {
 		sliceType = $sliceType($Float64);
 		sliceType$1 = $sliceType($Int);
@@ -59092,7 +59107,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			_r$11 = jQuery(new sliceType$3([new $String("#copyResult")])); /* */ $s = 12; case 12: if($c) { $c = false; _r$11 = _r$11.$blk(); } if (_r$11 && _r$11.$blk !== undefined) { break s; }
 			_r$12 = jQuery(new sliceType$3([new $String("#copyBreakdown")])); /* */ $s = 13; case 13: if($c) { $c = false; _r$12 = _r$12.$blk(); } if (_r$12 && _r$12.$blk !== undefined) { break s; }
 			_r$13 = jQuery(new sliceType$3([new $String("#seed")])); /* */ $s = 14; case 14: if($c) { $c = false; _r$13 = _r$13.$blk(); } if (_r$13 && _r$13.$blk !== undefined) { break s; }
-			$24r = new App.ptr($clone(new accounting.Accounting.ptr("", 0, "", "", "", "", "", false), accounting.Accounting), _r$6, _r$8, $clone(_r$9, jquery.JQuery), $clone(_r$10, jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#price")])), jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#bankAppraisal")])), jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#credit")])), jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#deltaPriceCredit")])), jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#downPayment")])), jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#downPaymentAmount")])), jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#easyInputDownPayment")])), jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#totalPeriod")])), jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#easyInputPeriod")])), jquery.JQuery), jqFixedInterestInputs[0], jqFixedPeriodInputs[0], $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#floatInterest")])), jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#floatInterestPeriod")])), jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#calculate")])), jquery.JQuery), $clone(_r$11, jquery.JQuery), $clone(_r$12, jquery.JQuery), $clone(_r$13, jquery.JQuery));
+			$24r = new App.ptr($clone(new accounting.Accounting.ptr("", 0, "", "", "", "", "", false), accounting.Accounting), _r$6, _r$8, $clone(_r$9, jquery.JQuery), $clone(_r$10, jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#price")])), jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#bankAppraisal")])), jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#credit")])), jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#deltaPriceCredit")])), jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#downPayment")])), jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#downPaymentAmount")])), jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#easyInputDownPayment")])), jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#totalPeriod")])), jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#easyInputPeriod")])), jquery.JQuery), jqFixedInterestInputs[0], jqFixedPeriodInputs[0], $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#floatInterest")])), jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#floatInterestPeriod")])), jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#calculate")])), jquery.JQuery), $clone(_r$11, jquery.JQuery), $clone(_r$12, jquery.JQuery), $clone(_r$13, jquery.JQuery), $clone($clone(form, jquery.JQuery).Find(new sliceType$3([new $String("#presetLoan")])), jquery.JQuery));
 			$s = 15; case 15: return $24r;
 			/* */ } return; } var $f = {$blk: NewApp$1, $c: true, $r, $24r, _r, _r$1, _r$10, _r$11, _r$12, _r$13, _r$2, _r$3, _r$4, _r$5, _r$6, _r$7, _r$8, _r$9, _tuple, _tuple$1, breakdownHtml, form, jqFixedInterestInputs, jqFixedPeriodInputs, resultHtml, $s};return $f;
 		};
@@ -59125,6 +59140,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 					a.copyToClipboard($clone(a.jqBreakdown, jquery.JQuery));
 				}))]));
 			$clone(a.jqSeed, jquery.JQuery).On(new sliceType$3([new $String("click"), new funcType$1($methodVal(a, "seed"))]));
+			$clone(a.jqPresetLoan, jquery.JQuery).On(new sliceType$3([new $String("change"), new funcType($methodVal(a, "onPresetLoanChange"))]));
 		};
 		$ptrType(App).prototype.copyToClipboard = function App·copyToClipboard(jq) {
 			var a, bootstrap, doc, jq, rangeObj, selection, success, toast, toastEl, win;
@@ -59245,6 +59261,60 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			}
 			$s = -1; return;
 			/* */ } return; } var $f = {$blk: App·onCalculate, $c: true, $r, _r, a, e, err, $s};return $f;
+		};
+		$ptrType(App).prototype.onPresetLoanChange = function App·onPresetLoanChange(e) {
+			var {_entry, _i, _i$1, _r, _r$1, _r$2, _r$3, _r$4, _ref, _ref$1, _tuple, a, e, el, i, i$1, interest, ok, preset, presetKey, x, x$1, x$2, x$3, x$4, x$5, x$6, x$7, x$8, $s, $r, $c} = $restore(this, {e});
+			/* */ $s = $s || 0; s: while (true) { switch ($s) { case 0:
+			a = this;
+			_r = jQuery(new sliceType$3([new $jsObjectPtr(e.Object.target)])); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
+			el = $clone(_r, jquery.JQuery);
+			presetKey = $clone(el, jquery.JQuery).Val();
+			_tuple = (_entry = $mapIndex(loanPresets,$String.keyFor(presetKey)), _entry !== undefined ? [_entry.v, true] : [new loanPreset.ptr(sliceType.nil, sliceType$1.nil, 0), false]);
+			preset = $clone(_tuple[0], loanPreset);
+			ok = _tuple[1];
+			if (!ok) {
+				$s = -1; return;
+			}
+			_ref = a.jqFixedInterestInputs;
+			_i = 0;
+			/* while (true) { */ case 2:
+				/* if (!(_i < _ref.$length)) { break; } */ if(!(_i < _ref.$length)) { $s = 3; continue; }
+				i = _i;
+				$clone((x = a.jqFixedInterestInputs, ((i < 0 || i >= x.$length) ? ($throwRuntimeError("index out of range"), undefined) : x.$array[x.$offset + i])), jquery.JQuery).SetVal(new $String(""));
+				$clone((x$1 = a.jqFixedPeriodInputs, ((i < 0 || i >= x$1.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$1.$array[x$1.$offset + i])), jquery.JQuery).SetVal(new $String(""));
+				$clone((x$2 = a.jqFixedInterestInputs, ((i < 0 || i >= x$2.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$2.$array[x$2.$offset + i])), jquery.JQuery).RemoveClass("is-invalid");
+				$clone((x$3 = a.jqFixedPeriodInputs, ((i < 0 || i >= x$3.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$3.$array[x$3.$offset + i])), jquery.JQuery).RemoveClass("is-invalid");
+				$r = a.updatePeriodInMonth($clone((x$4 = a.jqFixedPeriodInputs, ((i < 0 || i >= x$4.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$4.$array[x$4.$offset + i])), jquery.JQuery)); /* */ $s = 4; case 4: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				_i++;
+			$s = 2; continue;
+			case 3:
+			_ref$1 = preset.fixedInterests;
+			_i$1 = 0;
+			/* while (true) { */ case 5:
+				/* if (!(_i$1 < _ref$1.$length)) { break; } */ if(!(_i$1 < _ref$1.$length)) { $s = 6; continue; }
+				i$1 = _i$1;
+				interest = ((_i$1 < 0 || _i$1 >= _ref$1.$length) ? ($throwRuntimeError("index out of range"), undefined) : _ref$1.$array[_ref$1.$offset + _i$1]);
+				if (i$1 >= a.jqFixedInterestInputs.$length) {
+					/* break; */ $s = 6; continue;
+				}
+				_r$1 = fmt.Sprintf("%g", new sliceType$3([new $Float64(interest)])); /* */ $s = 7; case 7: if($c) { $c = false; _r$1 = _r$1.$blk(); } if (_r$1 && _r$1.$blk !== undefined) { break s; }
+				_r$2 = $clone((x$5 = a.jqFixedInterestInputs, ((i$1 < 0 || i$1 >= x$5.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$5.$array[x$5.$offset + i$1])), jquery.JQuery).SetVal(new $String(_r$1)); /* */ $s = 8; case 8: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
+				_r$2;
+				$clone((x$6 = a.jqFixedPeriodInputs, ((i$1 < 0 || i$1 >= x$6.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$6.$array[x$6.$offset + i$1])), jquery.JQuery).SetVal(new $Int((x$7 = preset.fixedPeriods, ((i$1 < 0 || i$1 >= x$7.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$7.$array[x$7.$offset + i$1]))));
+				$r = a.updatePeriodInMonth($clone((x$8 = a.jqFixedPeriodInputs, ((i$1 < 0 || i$1 >= x$8.$length) ? ($throwRuntimeError("index out of range"), undefined) : x$8.$array[x$8.$offset + i$1])), jquery.JQuery)); /* */ $s = 9; case 9: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+				_i$1++;
+			$s = 5; continue;
+			case 6:
+			/* */ if (preset.floatInterest > 0) { $s = 10; continue; }
+			/* */ $s = 11; continue;
+			/* if (preset.floatInterest > 0) { */ case 10:
+				_r$3 = fmt.Sprintf("%g", new sliceType$3([new $Float64(preset.floatInterest)])); /* */ $s = 12; case 12: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+				_r$4 = $clone(a.jqFloatInterestInput, jquery.JQuery).SetVal(new $String(_r$3)); /* */ $s = 13; case 13: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+				_r$4;
+			/* } */ case 11:
+			$r = a.updateFloatingPeriod(); /* */ $s = 14; case 14: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			$s = -1; return;
+			/* */ } return; } var $f = {$blk: App·onPresetLoanChange, $c: true, $r, _entry, _i, _i$1, _r, _r$1, _r$2, _r$3, _r$4, _ref, _ref$1, _tuple, a, e, el, i, i$1, interest, ok, preset, presetKey, x, x$1, x$2, x$3, x$4, x$5, x$6, x$7, x$8, $s};return $f;
 		};
 		$ptrType(App).prototype.updatePriceFormatted = function App·updatePriceFormatted(el) {
 			var {_i, _r, _ref, _rune, _tuple, a, c, currentVal, el, formatted, price, rawVal, $s, $r, $c} = $restore(this, {el});
@@ -59594,29 +59664,35 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			/* */ if ($clone(a.jqPriceInput, jquery.JQuery).Val() === "") { $s = 1; continue; }
 			/* */ $s = 2; continue;
 			/* if ($clone(a.jqPriceInput, jquery.JQuery).Val() === "") { */ case 1:
-				$clone(a.jqPriceInput, jquery.JQuery).SetVal(new $String("500000000"));
+				$clone(a.jqPriceInput, jquery.JQuery).SetVal(new $String("1500000000"));
 				$r = a.updatePriceFormatted($clone(a.jqPriceInput, jquery.JQuery)); /* */ $s = 3; case 3: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			/* } */ case 2:
-			/* */ if ($clone(a.jqDownPaymentInput, jquery.JQuery).Val() === "") { $s = 4; continue; }
+			/* */ if ($clone(a.jqBankAppraisal, jquery.JQuery).Val() === "") { $s = 4; continue; }
 			/* */ $s = 5; continue;
-			/* if ($clone(a.jqDownPaymentInput, jquery.JQuery).Val() === "") { */ case 4:
-				$clone(a.jqDownPaymentInput, jquery.JQuery).SetVal(new $String("20"));
-				$r = a.updateDownPaymentAmount($clone(a.jqDownPaymentInput, jquery.JQuery)); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			/* if ($clone(a.jqBankAppraisal, jquery.JQuery).Val() === "") { */ case 4:
+				$clone(a.jqBankAppraisal, jquery.JQuery).SetVal(new $String("80"));
+				$r = a.updateBankAppraisalAmount($clone(a.jqBankAppraisal, jquery.JQuery)); /* */ $s = 6; case 6: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			/* } */ case 5:
-			/* */ if ($clone(a.jqPeriodInput, jquery.JQuery).Val() === "") { $s = 7; continue; }
+			/* */ if ($clone(a.jqDownPaymentInput, jquery.JQuery).Val() === "") { $s = 7; continue; }
 			/* */ $s = 8; continue;
-			/* if ($clone(a.jqPeriodInput, jquery.JQuery).Val() === "") { */ case 7:
-				$clone(a.jqPeriodInput, jquery.JQuery).SetVal(new $String("15"));
-				$r = a.updatePeriodInMonth($clone(a.jqPeriodInput, jquery.JQuery)); /* */ $s = 9; case 9: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			/* if ($clone(a.jqDownPaymentInput, jquery.JQuery).Val() === "") { */ case 7:
+				$clone(a.jqDownPaymentInput, jquery.JQuery).SetVal(new $String("20"));
+				$r = a.updateDownPaymentAmount($clone(a.jqDownPaymentInput, jquery.JQuery)); /* */ $s = 9; case 9: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			/* } */ case 8:
-			/* */ if (a.jqFixedInterestInputs.$length > 0 && $clone((x = a.jqFixedInterestInputs, (0 >= x.$length ? ($throwRuntimeError("index out of range"), undefined) : x.$array[x.$offset + 0])), jquery.JQuery).Val() === "") { $s = 10; continue; }
+			/* */ if ($clone(a.jqPeriodInput, jquery.JQuery).Val() === "") { $s = 10; continue; }
 			/* */ $s = 11; continue;
-			/* if (a.jqFixedInterestInputs.$length > 0 && $clone((x = a.jqFixedInterestInputs, (0 >= x.$length ? ($throwRuntimeError("index out of range"), undefined) : x.$array[x.$offset + 0])), jquery.JQuery).Val() === "") { */ case 10:
-				$clone((x$1 = a.jqFixedInterestInputs, (0 >= x$1.$length ? ($throwRuntimeError("index out of range"), undefined) : x$1.$array[x$1.$offset + 0])), jquery.JQuery).SetVal(new $String("4"));
-				$clone((x$2 = a.jqFixedPeriodInputs, (0 >= x$2.$length ? ($throwRuntimeError("index out of range"), undefined) : x$2.$array[x$2.$offset + 0])), jquery.JQuery).SetVal(new $String("3"));
-				$r = a.updatePeriodInMonth($clone((x$3 = a.jqFixedPeriodInputs, (0 >= x$3.$length ? ($throwRuntimeError("index out of range"), undefined) : x$3.$array[x$3.$offset + 0])), jquery.JQuery)); /* */ $s = 12; case 12: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			/* if ($clone(a.jqPeriodInput, jquery.JQuery).Val() === "") { */ case 10:
+				$clone(a.jqPeriodInput, jquery.JQuery).SetVal(new $String("15"));
+				$r = a.updatePeriodInMonth($clone(a.jqPeriodInput, jquery.JQuery)); /* */ $s = 12; case 12: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			/* } */ case 11:
-			$r = a.updateFloatingPeriod(); /* */ $s = 13; case 13: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			/* */ if (a.jqFixedInterestInputs.$length > 0 && $clone((x = a.jqFixedInterestInputs, (0 >= x.$length ? ($throwRuntimeError("index out of range"), undefined) : x.$array[x.$offset + 0])), jquery.JQuery).Val() === "") { $s = 13; continue; }
+			/* */ $s = 14; continue;
+			/* if (a.jqFixedInterestInputs.$length > 0 && $clone((x = a.jqFixedInterestInputs, (0 >= x.$length ? ($throwRuntimeError("index out of range"), undefined) : x.$array[x.$offset + 0])), jquery.JQuery).Val() === "") { */ case 13:
+				$clone((x$1 = a.jqFixedInterestInputs, (0 >= x$1.$length ? ($throwRuntimeError("index out of range"), undefined) : x$1.$array[x$1.$offset + 0])), jquery.JQuery).SetVal(new $String("8.75"));
+				$clone((x$2 = a.jqFixedPeriodInputs, (0 >= x$2.$length ? ($throwRuntimeError("index out of range"), undefined) : x$2.$array[x$2.$offset + 0])), jquery.JQuery).SetVal(new $String("10"));
+				$r = a.updatePeriodInMonth($clone((x$3 = a.jqFixedPeriodInputs, (0 >= x$3.$length ? ($throwRuntimeError("index out of range"), undefined) : x$3.$array[x$3.$offset + 0])), jquery.JQuery)); /* */ $s = 15; case 15: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
+			/* } */ case 14:
+			$r = a.updateFloatingPeriod(); /* */ $s = 16; case 16: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 			if ($clone(a.jqFloatInterestInput, jquery.JQuery).Val() === "") {
 				$clone(a.jqFloatInterestInput, jquery.JQuery).SetVal(new $String("11.0"));
 			}
@@ -59624,11 +59700,12 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 			/* */ } return; } var $f = {$blk: App·seed, $c: true, $r, a, x, x$1, x$2, x$3, $s};return $f;
 		};
 		ptrType$1.methods = [{prop: "add", name: "add", pkg: "github.com/tommywijayac/kpr", typ: $funcType([Result], [], false)}, {prop: "format", name: "format", pkg: "github.com/tommywijayac/kpr", typ: $funcType([accounting.Accounting], [FmtResult], false)}];
-		ptrType$2.methods = [{prop: "BindEvents", name: "BindEvents", pkg: "", typ: $funcType([], [], false)}, {prop: "copyToClipboard", name: "copyToClipboard", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.JQuery], [], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [], false)}, {prop: "onPriceInput", name: "onPriceInput", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "onBankAppraisalKeyup", name: "onBankAppraisalKeyup", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "onDownPaymentKeyup", name: "onDownPaymentKeyup", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "onDownPaymentClick", name: "onDownPaymentClick", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "onPeriodChange", name: "onPeriodChange", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "onPeriodClick", name: "onPeriodClick", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "onCalculate", name: "onCalculate", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "updatePriceFormatted", name: "updatePriceFormatted", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.JQuery], [], false)}, {prop: "updateBankAppraisalAmount", name: "updateBankAppraisalAmount", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.JQuery], [], false)}, {prop: "updateDownPaymentAmount", name: "updateDownPaymentAmount", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.JQuery], [], false)}, {prop: "updatePeriodInMonth", name: "updatePeriodInMonth", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.JQuery], [], false)}, {prop: "updateFloatingPeriod", name: "updateFloatingPeriod", pkg: "github.com/tommywijayac/kpr", typ: $funcType([], [], false)}, {prop: "calculateResult", name: "calculateResult", pkg: "github.com/tommywijayac/kpr", typ: $funcType([], [$error], false)}, {prop: "renderResult", name: "renderResult", pkg: "github.com/tommywijayac/kpr", typ: $funcType([Result], [], false)}, {prop: "renderBreakdown", name: "renderBreakdown", pkg: "github.com/tommywijayac/kpr", typ: $funcType([Result], [], false)}, {prop: "seed", name: "seed", pkg: "github.com/tommywijayac/kpr", typ: $funcType([], [], false)}];
+		ptrType$2.methods = [{prop: "BindEvents", name: "BindEvents", pkg: "", typ: $funcType([], [], false)}, {prop: "copyToClipboard", name: "copyToClipboard", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.JQuery], [], false)}, {prop: "Render", name: "Render", pkg: "", typ: $funcType([], [], false)}, {prop: "onPriceInput", name: "onPriceInput", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "onBankAppraisalKeyup", name: "onBankAppraisalKeyup", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "onDownPaymentKeyup", name: "onDownPaymentKeyup", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "onDownPaymentClick", name: "onDownPaymentClick", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "onPeriodChange", name: "onPeriodChange", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "onPeriodClick", name: "onPeriodClick", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "onCalculate", name: "onCalculate", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "onPresetLoanChange", name: "onPresetLoanChange", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.Event], [], false)}, {prop: "updatePriceFormatted", name: "updatePriceFormatted", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.JQuery], [], false)}, {prop: "updateBankAppraisalAmount", name: "updateBankAppraisalAmount", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.JQuery], [], false)}, {prop: "updateDownPaymentAmount", name: "updateDownPaymentAmount", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.JQuery], [], false)}, {prop: "updatePeriodInMonth", name: "updatePeriodInMonth", pkg: "github.com/tommywijayac/kpr", typ: $funcType([jquery.JQuery], [], false)}, {prop: "updateFloatingPeriod", name: "updateFloatingPeriod", pkg: "github.com/tommywijayac/kpr", typ: $funcType([], [], false)}, {prop: "calculateResult", name: "calculateResult", pkg: "github.com/tommywijayac/kpr", typ: $funcType([], [$error], false)}, {prop: "renderResult", name: "renderResult", pkg: "github.com/tommywijayac/kpr", typ: $funcType([Result], [], false)}, {prop: "renderBreakdown", name: "renderBreakdown", pkg: "github.com/tommywijayac/kpr", typ: $funcType([Result], [], false)}, {prop: "seed", name: "seed", pkg: "github.com/tommywijayac/kpr", typ: $funcType([], [], false)}];
 		MortgageSchema.init("", [{prop: "Price", name: "Price", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "DownPayment", name: "DownPayment", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "TotalPeriod", name: "TotalPeriod", embedded: false, exported: true, typ: $Int, tag: ""}, {prop: "FixedInterest", name: "FixedInterest", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "FixedPeriod", name: "FixedPeriod", embedded: false, exported: true, typ: sliceType$1, tag: ""}, {prop: "FloatInterest", name: "FloatInterest", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "FloatPeriod", name: "FloatPeriod", embedded: false, exported: true, typ: $Int, tag: ""}, {prop: "EarlyPaymentFee", name: "EarlyPaymentFee", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "EarlyPayment", name: "EarlyPayment", embedded: false, exported: true, typ: sliceType, tag: ""}]);
 		Result.init("", [{prop: "Interests", name: "Interests", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "Periods", name: "Periods", embedded: false, exported: true, typ: sliceType$1, tag: ""}, {prop: "Installment", name: "Installment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "InterestInstallment", name: "InterestInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PrincipalInstallment", name: "PrincipalInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "YearlyRowNum", name: "YearlyRowNum", embedded: false, exported: true, typ: sliceType$1, tag: ""}, {prop: "YearlyInstallment", name: "YearlyInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "YearlyInterestInstallment", name: "YearlyInterestInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "YearlyPrincipalInstallment", name: "YearlyPrincipalInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PeriodRowNum", name: "PeriodRowNum", embedded: false, exported: true, typ: sliceType$1, tag: ""}, {prop: "PeriodMonthlyInstallment", name: "PeriodMonthlyInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PeriodSumInstallment", name: "PeriodSumInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PeriodSumInterestInstallment", name: "PeriodSumInterestInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "PeriodSumPrincipalInstallment", name: "PeriodSumPrincipalInstallment", embedded: false, exported: true, typ: sliceType, tag: ""}, {prop: "Principal", name: "Principal", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "TotalInstallment", name: "TotalInstallment", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "TotalInterests", name: "TotalInterests", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "TotalPrincipal", name: "TotalPrincipal", embedded: false, exported: true, typ: $Float64, tag: ""}, {prop: "PrincipalBeforeFloat", name: "PrincipalBeforeFloat", embedded: false, exported: true, typ: $Float64, tag: ""}]);
 		FmtResult.init("", [{prop: "Interests", name: "Interests", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "Periods", name: "Periods", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "Installment", name: "Installment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "InterestInstallment", name: "InterestInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PrincipalInstallment", name: "PrincipalInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "YearlyRowNum", name: "YearlyRowNum", embedded: false, exported: true, typ: sliceType$1, tag: ""}, {prop: "YearlyInstallment", name: "YearlyInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "YearlyInterestInstallment", name: "YearlyInterestInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "YearlyPrincipalInstallment", name: "YearlyPrincipalInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PeriodRowNum", name: "PeriodRowNum", embedded: false, exported: true, typ: sliceType$1, tag: ""}, {prop: "PeriodMonthlyInstallment", name: "PeriodMonthlyInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PeriodSumInstallment", name: "PeriodSumInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PeriodSumInterestInstallment", name: "PeriodSumInterestInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "PeriodSumPrincipalInstallment", name: "PeriodSumPrincipalInstallment", embedded: false, exported: true, typ: sliceType$2, tag: ""}, {prop: "Principal", name: "Principal", embedded: false, exported: true, typ: $String, tag: ""}, {prop: "TotalInstallment", name: "TotalInstallment", embedded: false, exported: true, typ: $String, tag: ""}, {prop: "TotalInterests", name: "TotalInterests", embedded: false, exported: true, typ: $String, tag: ""}, {prop: "TotalPrincipal", name: "TotalPrincipal", embedded: false, exported: true, typ: $String, tag: ""}, {prop: "PrincipalBeforeFloat", name: "PrincipalBeforeFloat", embedded: false, exported: true, typ: $String, tag: ""}]);
-		App.init("github.com/tommywijayac/kpr", [{prop: "acfmt", name: "acfmt", embedded: false, exported: false, typ: accounting.Accounting, tag: ""}, {prop: "resultTemplate", name: "resultTemplate", embedded: false, exported: false, typ: ptrType, tag: ""}, {prop: "breakdownTemplate", name: "breakdownTemplate", embedded: false, exported: false, typ: ptrType, tag: ""}, {prop: "jqResult", name: "jqResult", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqBreakdown", name: "jqBreakdown", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqPriceInput", name: "jqPriceInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqBankAppraisal", name: "jqBankAppraisal", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqCredit", name: "jqCredit", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqDeltaPriceToCredit", name: "jqDeltaPriceToCredit", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqDownPaymentInput", name: "jqDownPaymentInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqDownPaymentAmount", name: "jqDownPaymentAmount", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqDownPaymentButtons", name: "jqDownPaymentButtons", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqPeriodInput", name: "jqPeriodInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqPeriodButtons", name: "jqPeriodButtons", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqFixedInterestInputs", name: "jqFixedInterestInputs", embedded: false, exported: false, typ: sliceType$4, tag: ""}, {prop: "jqFixedPeriodInputs", name: "jqFixedPeriodInputs", embedded: false, exported: false, typ: sliceType$4, tag: ""}, {prop: "jqFloatInterestInput", name: "jqFloatInterestInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqFloatPeriodInput", name: "jqFloatPeriodInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqCalculateButton", name: "jqCalculateButton", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqCopyResultButton", name: "jqCopyResultButton", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqCopyBreakdownButton", name: "jqCopyBreakdownButton", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqSeed", name: "jqSeed", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}]);
+		App.init("github.com/tommywijayac/kpr", [{prop: "acfmt", name: "acfmt", embedded: false, exported: false, typ: accounting.Accounting, tag: ""}, {prop: "resultTemplate", name: "resultTemplate", embedded: false, exported: false, typ: ptrType, tag: ""}, {prop: "breakdownTemplate", name: "breakdownTemplate", embedded: false, exported: false, typ: ptrType, tag: ""}, {prop: "jqResult", name: "jqResult", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqBreakdown", name: "jqBreakdown", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqPriceInput", name: "jqPriceInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqBankAppraisal", name: "jqBankAppraisal", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqCredit", name: "jqCredit", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqDeltaPriceToCredit", name: "jqDeltaPriceToCredit", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqDownPaymentInput", name: "jqDownPaymentInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqDownPaymentAmount", name: "jqDownPaymentAmount", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqDownPaymentButtons", name: "jqDownPaymentButtons", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqPeriodInput", name: "jqPeriodInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqPeriodButtons", name: "jqPeriodButtons", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqFixedInterestInputs", name: "jqFixedInterestInputs", embedded: false, exported: false, typ: sliceType$4, tag: ""}, {prop: "jqFixedPeriodInputs", name: "jqFixedPeriodInputs", embedded: false, exported: false, typ: sliceType$4, tag: ""}, {prop: "jqFloatInterestInput", name: "jqFloatInterestInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqFloatPeriodInput", name: "jqFloatPeriodInput", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqCalculateButton", name: "jqCalculateButton", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqCopyResultButton", name: "jqCopyResultButton", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqCopyBreakdownButton", name: "jqCopyBreakdownButton", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqSeed", name: "jqSeed", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}, {prop: "jqPresetLoan", name: "jqPresetLoan", embedded: false, exported: false, typ: jquery.JQuery, tag: ""}]);
+		loanPreset.init("github.com/tommywijayac/kpr", [{prop: "fixedInterests", name: "fixedInterests", embedded: false, exported: false, typ: sliceType, tag: ""}, {prop: "fixedPeriods", name: "fixedPeriods", embedded: false, exported: false, typ: sliceType$1, tag: ""}, {prop: "floatInterest", name: "floatInterest", embedded: false, exported: false, typ: $Float64, tag: ""}]);
 	};
 	$init = function() {
 		$pkg.$init = function() {};
@@ -59644,6 +59721,7 @@ $packages["github.com/tommywijayac/kpr"] = (function() {
 		$r = strings.$init(); /* */ $s = 9; case 9: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		$r = template.$init(); /* */ $s = 10; case 10: if($c) { $c = false; $r = $r.$blk(); } if ($r && $r.$blk !== undefined) { break s; }
 		jQuery = jquery.NewJQuery;
+		loanPresets = $makeMap($String.keyFor, [{ k: "tiered3", v: $clone(new loanPreset.ptr(new sliceType([3.99, 7.99, 9.99]), new sliceType$1([3, 3, 4]), 11), loanPreset) }, { k: "tiered4", v: $clone(new loanPreset.ptr(new sliceType([2.9, 5.99, 7.99, 9.99]), new sliceType$1([1, 2, 3, 4]), 11), loanPreset) }]);
 		/* */ if ($pkg === $mainPkg) { $s = 11; continue; }
 		/* */ $s = 12; continue;
 		/* if ($pkg === $mainPkg) { */ case 11:

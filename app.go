@@ -44,7 +44,8 @@ type App struct {
 	jqCopyBreakdownButton jquery.JQuery
 
 	// internal usage
-	jqSeed jquery.JQuery
+	jqSeed       jquery.JQuery
+	jqPresetLoan jquery.JQuery
 }
 
 func NewApp() *App {
@@ -88,7 +89,8 @@ func NewApp() *App {
 		jqCopyResultButton:    jQuery("#copyResult"),
 		jqCopyBreakdownButton: jQuery("#copyBreakdown"),
 
-		jqSeed: jQuery("#seed"),
+		jqSeed:       jQuery("#seed"),
+		jqPresetLoan: form.Find("#presetLoan"),
 	}
 }
 
@@ -115,6 +117,7 @@ func (a *App) BindEvents() {
 	})
 
 	a.jqSeed.On(jquery.CLICK, a.seed)
+	a.jqPresetLoan.On(jquery.CHANGE, a.onPresetLoanChange)
 }
 
 func (a *App) copyToClipboard(jq jquery.JQuery) {
@@ -197,6 +200,61 @@ func (a *App) onCalculate(e jquery.Event) {
 		e.PreventDefault()
 		return
 	}
+}
+
+type loanPreset struct {
+	fixedInterests []float64
+	fixedPeriods   []int
+	floatInterest  float64
+}
+
+var loanPresets = map[string]loanPreset{
+	"tiered3": {
+		fixedInterests: []float64{3.99, 7.99, 9.99},
+		fixedPeriods:   []int{3, 3, 4},
+		floatInterest:  11,
+	},
+	"tiered4": {
+		fixedInterests: []float64{2.9, 5.99, 7.99, 9.99},
+		fixedPeriods:   []int{1, 2, 3, 4},
+		floatInterest:  11,
+	},
+}
+
+func (a *App) onPresetLoanChange(e jquery.Event) {
+	el := jQuery(e.Target)
+	presetKey := el.Val()
+
+	preset, ok := loanPresets[presetKey]
+	if !ok {
+		return
+	}
+
+	// Clear all fixed interest/period inputs
+	for i := range a.jqFixedInterestInputs {
+		a.jqFixedInterestInputs[i].SetVal("")
+		a.jqFixedPeriodInputs[i].SetVal("")
+		a.jqFixedInterestInputs[i].RemoveClass("is-invalid")
+		a.jqFixedPeriodInputs[i].RemoveClass("is-invalid")
+		a.updatePeriodInMonth(a.jqFixedPeriodInputs[i])
+	}
+
+	// Fill in preset values
+	for i, interest := range preset.fixedInterests {
+		if i >= len(a.jqFixedInterestInputs) {
+			break
+		}
+		a.jqFixedInterestInputs[i].SetVal(fmt.Sprintf("%g", interest))
+		a.jqFixedPeriodInputs[i].SetVal(preset.fixedPeriods[i])
+		a.updatePeriodInMonth(a.jqFixedPeriodInputs[i])
+	}
+
+	// Fill float interest if specified by preset
+	if preset.floatInterest > 0 {
+		a.jqFloatInterestInput.SetVal(fmt.Sprintf("%g", preset.floatInterest))
+	}
+
+	a.updateFloatingPeriod()
 }
 
 // DOM logic
@@ -432,8 +490,12 @@ func (a *App) renderBreakdown(result Result) {
 func (a *App) seed() {
 	// mock values
 	if a.jqPriceInput.Val() == "" {
-		a.jqPriceInput.SetVal("500000000")
+		a.jqPriceInput.SetVal("1500000000")
 		a.updatePriceFormatted(a.jqPriceInput)
+	}
+	if a.jqBankAppraisal.Val() == "" {
+		a.jqBankAppraisal.SetVal("80")
+		a.updateBankAppraisalAmount(a.jqBankAppraisal)
 	}
 	if a.jqDownPaymentInput.Val() == "" {
 		a.jqDownPaymentInput.SetVal("20")
@@ -445,8 +507,8 @@ func (a *App) seed() {
 	}
 	// default fixed interest
 	if len(a.jqFixedInterestInputs) > 0 && a.jqFixedInterestInputs[0].Val() == "" {
-		a.jqFixedInterestInputs[0].SetVal("4")
-		a.jqFixedPeriodInputs[0].SetVal("3")
+		a.jqFixedInterestInputs[0].SetVal("8.75")
+		a.jqFixedPeriodInputs[0].SetVal("10")
 		a.updatePeriodInMonth(a.jqFixedPeriodInputs[0])
 	}
 	// update float period after setting mock values
