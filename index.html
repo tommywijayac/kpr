@@ -41,20 +41,28 @@
 
     <form>
       <div class="row mb-3 align-items-center needs-validation" novalidate>
-        <div class="col-6">
-          <label for="price" class="form-label">Harga rumah</label>
+        <label for="price" class="col col-sm-1 col-lg-3 col-form-label">Harga Rumah</label>
+        <div class="col col-sm-3">
           <input type="number" class="form-control" id="price" aria-describedby="price" min="0" required>
         </div>
-        <div class="col-auto">
-          <div>&nbsp;</div>
+        <div class="col col-sm-3">
+          <span class="form-text"></span>
+        </div>
+      </div>
+
+      <div class="row mb-1 align-items-center">
+        <label for="downPayment" class="col col-sm-3 col-lg-3 col-form-label">Down Payment (%)</label>
+        <div class="col col-sm-3">
+          <input type="number" class="form-control" id="downPayment" aria-describedby="downPayment" min="0" max="100"
+            required>
+        </div>
+        <div class="col col-sm-3">
           <span class="form-text"></span>
         </div>
       </div>
       <div class="row mb-3 align-items-center">
-        <div class="col-6">
-          <label for="downPayment" class="form-label">Down Payment (%)</label>
-          <input type="number" class="form-control" id="downPayment" aria-describedby="downPayment" min="0" max="100"
-            required>
+        <span class="col-4 col-sm-3 col-lg-3">&nbsp;</span>
+        <div class="col-8 col-sm-9">
           <div class="d-flex mt-2" id="easyInputDownPayment">
             <input class="btn btn-primary btn-pill btn-success" type="button" value="0"></input>
             <input class="btn btn-primary btn-pill btn-success" type="button" value="5"></input>
@@ -62,24 +70,27 @@
             <input class="btn btn-primary btn-pill btn-success" type="button" value="20"></input>
           </div>
         </div>
-        <div class="col-auto">
+      </div>
+
+      <div class="row mb-1 align-items-center">
+        <label for="totalPeriod" class="col col-sm-3 col-lg-3 col-form-label">Jangka Waktu (tahun)</label>
+        <div class="col col-sm-3">
+          <input type="number" class="form-control" id="totalPeriod" aria-describedby="totalPeriod" min="0" max="100"
+            required>
+        </div>
+        <div class="col col-sm-3">
           <span class="form-text"></span>
         </div>
       </div>
       <div class="row mb-3 align-items-center">
-        <div class="col-6">
-          <label for="totalPeriod" class="form-label">Jangka Waktu (tahun)</label>
-          <input type="number" class="form-control" id="totalPeriod" aria-describedby="totalPeriod" min="0" max="100"
-            required>
+        <span class="col-4 col-sm-3 col-lg-3">&nbsp;</span>
+        <div class="col-8 col-sm-9">
           <div class="d-flex mt-2" id="easyInputPeriod">
             <input class="btn btn-primary btn-pill" type="button" value="10"></input>
             <input class="btn btn-primary btn-pill" type="button" value="15"></input>
             <input class="btn btn-primary btn-pill" type="button" value="20"></input>
             <input class="btn btn-primary btn-pill" type="button" value="25"></input>
           </div>
-        </div>
-        <div class="col-auto">
-          <span class="form-text"></span>
         </div>
       </div>
 
