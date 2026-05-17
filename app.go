@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+	"strings"
 	"text/template"
 
 	"github.com/gopherjs/gopherjs/js"
@@ -24,7 +25,11 @@ type App struct {
 	jqBreakdown jquery.JQuery
 
 	jqPriceInput         jquery.JQuery
+	jqBankAppraisal      jquery.JQuery
+	jqCredit             jquery.JQuery
+	jqDeltaPriceToCredit jquery.JQuery
 	jqDownPaymentInput   jquery.JQuery
+	jqDownPaymentAmount  jquery.JQuery
 	jqDownPaymentButtons jquery.JQuery
 	jqPeriodInput        jquery.JQuery
 	jqPeriodButtons      jquery.JQuery
@@ -57,7 +62,7 @@ func NewApp() *App {
 	})
 
 	return &App{
-		acfmt: accounting.Accounting{Precision: 2},
+		acfmt: accounting.Accounting{},
 
 		resultTemplate:    template.Must(template.New("result").Parse(resultHtml)),
 		breakdownTemplate: template.Must(template.New("breakdown").Parse(breakdownHtml)),
@@ -66,8 +71,12 @@ func NewApp() *App {
 		jqBreakdown: jQuery("#breakdown"),
 
 		jqPriceInput:          form.Find("#price"),
+		jqBankAppraisal:       form.Find("#bankAppraisal"),
+		jqCredit:              form.Find("#credit"),
+		jqDeltaPriceToCredit:  form.Find("#deltaPriceCredit"),
 		jqDownPaymentInput:    form.Find("#downPayment"),
 		jqDownPaymentButtons:  form.Find("#easyInputDownPayment"),
+		jqDownPaymentAmount:   form.Find("#downPaymentAmount"),
 		jqPeriodInput:         form.Find("#totalPeriod"),
 		jqPeriodButtons:       form.Find("#easyInputPeriod"),
 		jqFixedInterestInputs: jqFixedInterestInputs,
@@ -86,7 +95,8 @@ func NewApp() *App {
 func (a *App) BindEvents() {
 	println("App BindEvents. Result Btn Len:", a.jqCopyResultButton.Length) // Debug log
 
-	a.jqPriceInput.On(jquery.KEYUP, a.onPriceKeyup)
+	a.jqPriceInput.On("input", a.onPriceInput)
+	a.jqBankAppraisal.On(jquery.KEYUP, a.onBankAppraisalKeyup)
 	a.jqDownPaymentInput.On(jquery.KEYUP, a.onDownPaymentKeyup)
 	a.jqDownPaymentButtons.On(jquery.CLICK, a.onDownPaymentClick)
 	a.jqPeriodInput.On(jquery.CHANGE, a.onPeriodChange)
@@ -134,6 +144,7 @@ func (a *App) copyToClipboard(jq jquery.JQuery) {
 
 func (a *App) Render() {
 	a.updatePriceFormatted(a.jqPriceInput)
+	a.updateBankAppraisalAmount(a.jqBankAppraisal)
 	a.updateDownPaymentAmount(a.jqDownPaymentInput)
 	a.updatePeriodInMonth(a.jqPeriodInput)
 	for i := range a.jqFixedPeriodInputs {
@@ -143,10 +154,18 @@ func (a *App) Render() {
 }
 
 // Event handler
-func (a *App) onPriceKeyup(e jquery.Event) {
-	el := jQuery(e.Target)
-	a.updatePriceFormatted(el)
+func (a *App) onPriceInput(e jquery.Event) {
+	// format text with comma for easier read
+	a.updatePriceFormatted(jQuery(e.Target))
+
+	// update related values
+	a.updateBankAppraisalAmount(a.jqBankAppraisal)
 	a.updateDownPaymentAmount(a.jqDownPaymentInput)
+}
+
+func (a *App) onBankAppraisalKeyup(e jquery.Event) {
+	el := jQuery(e.Target)
+	a.updateBankAppraisalAmount(el)
 }
 
 func (a *App) onDownPaymentKeyup(e jquery.Event) {
@@ -182,15 +201,39 @@ func (a *App) onCalculate(e jquery.Event) {
 
 // DOM logic
 func (a *App) updatePriceFormatted(el jquery.JQuery) {
-	price, _ := strconv.ParseFloat(el.Val(), 64) // if err, price is 0
-	el.Parent().Next().Find("span").SetText(a.acfmt.FormatMoneyFloat64((price)))
+	// Strip all non-digit characters
+	currentVal := el.Val()
+	rawVal := ""
+	for _, c := range currentVal {
+		if c >= '0' && c <= '9' {
+			rawVal += string(c)
+		}
+	}
+
+	if rawVal == "" {
+		return
+	}
+
+	price, _ := strconv.ParseFloat(rawVal, 64)
+	formatted := accounting.FormatNumberFloat64(price, 0, ",", ".")
+	el.SetVal(formatted)
+}
+
+func (a *App) updateBankAppraisalAmount(el jquery.JQuery) {
+	bankAppraisal, _ := strconv.ParseFloat(el.Val(), 64)
+
+	price, _ := strconv.ParseFloat(strings.ReplaceAll(a.jqPriceInput.Val(), ",", ""), 64)
+	credit := price * bankAppraisal / 100 // if any err, credit is 0
+	a.jqCredit.SetVal(a.acfmt.FormatMoneyFloat64(credit))
+	a.jqDeltaPriceToCredit.SetVal(a.acfmt.FormatMoneyFloat64(price - credit))
 }
 
 func (a *App) updateDownPaymentAmount(el jquery.JQuery) {
 	dp, _ := strconv.ParseFloat(el.Val(), 64)
-	price, _ := strconv.ParseFloat(a.jqPriceInput.Val(), 64)
-	principal := price * dp / 100 // if any err, principal is 0
-	el.Parent().Next().Find("span").SetText(a.acfmt.FormatMoneyFloat64((principal)))
+
+	credit, _ := strconv.ParseFloat(strings.ReplaceAll(a.jqCredit.Val(), ",", ""), 64)
+	principal := credit * dp / 100 // if any err, principal is 0
+	a.jqDownPaymentAmount.SetVal(a.acfmt.FormatMoneyFloat64((principal)))
 }
 
 func (a *App) updatePeriodInMonth(el jquery.JQuery) {
@@ -252,7 +295,7 @@ func (a *App) calculateResult() error {
 		price  float64
 		dp     float64
 	)
-	price, err := strconv.ParseFloat(a.jqPriceInput.Val(), 64)
+	price, err := strconv.ParseFloat(strings.ReplaceAll(a.jqPriceInput.Val(), ",", ""), 64)
 	if err != nil {
 		finalerr = errors.New("fail to parse price " + err.Error())
 		a.jqPriceInput.AddClass("is-invalid")

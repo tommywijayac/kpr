@@ -9,7 +9,7 @@ require (
 
 require (
 	github.com/cockroachdb/apd v1.1.0 // indirect
-	github.com/gopherjs/gopherjs v0.0.0-20200217142428-fce0ec30dd00 // indirect
+	github.com/gopherjs/gopherjs v1.20.2 // indirect
 	github.com/pkg/errors v0.8.1 // indirect
 	github.com/shopspring/decimal v1.4.0 // indirect
 )
