@@ -69,7 +69,7 @@
           <div class="input-group">
             <input type="text" class="form-control" id="deltaPriceCredit" disabled></input>
             <div class="input-group-append">
-              <label class="input-group-text">[1]</label>
+              <label class="input-group-text">&nbsp;<span class="badge bg-secondary">1</span></label>
             </div>
           </div>
           <small class="form-text text-muted">
@@ -92,7 +92,7 @@
           <div class="input-group">
             <input type="text" class="form-control" id="downPaymentAmount" disabled></input>
             <div class="input-group-append">
-              <label class="input-group-text">[2]</label>
+              <label class="input-group-text">&nbsp;<span class="badge bg-secondary ms-1">2</span></label>
             </div>
           </div>
         </div>
@@ -234,6 +234,62 @@
         📋
       </button>
     </h3>
+
+    <!-- Cash Summary Card -->
+    <div class="col-12 col-lg-6 mb-3">
+      <div class="card">
+        <div class="card-header fw-semibold">💰 Perkiraan Dana yang Perlu Disiapkan (bergantung pada Bank dan waktu)</div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>Selisih Harga &amp; Kredit Bank <span class="badge bg-secondary ms-1">1</span></span>
+            <span class="font-monospace" id="summary-delta">—</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>Down Payment <span class="badge bg-secondary ms-1">2</span></span>
+            <span class="font-monospace" id="summary-dp">—</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>BPHTB (5% dari Harga Rumah - NJOPTKP. NJOPTKP Jakarta = 60jt)</span>
+            <span class="font-monospace" id="summary-bphtb">—</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>PNBP (0.1% dari Harga Rumah)</span>
+            <span class="font-monospace" id="summary-pnbp">—</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>Notaris Biaya Balik Nama (1% dari Harga Rumah)</span>
+            <span class="font-monospace" id="summary-notaris-bbn">—</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>Notaris AJB (2.5% dari Harga Rumah)</span>
+            <span class="font-monospace" id="summary-notaris-ajb">—</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>Provisi (1% dari Kredit)</span>
+            <span class="font-monospace" id="summary-provisi">—</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>Appraisal (fixed)</span>
+            <span class="font-monospace" id="summary-appraisal">—</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>Asuransi Jiwa (0.55% dari Kredit)</span>
+            <span class="font-monospace" id="summary-life-insurance">—</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>Asuransi Jaminan (0.11% dari Kredit)</span>
+            <span class="font-monospace" id="summary-object-insurance">—</span>
+          </li>
+        </ul>
+        <div class="card-footer d-flex justify-content-between align-items-center fw-bold">
+          <span>Total Cash</span>
+          <span class="font-monospace" id="summary-total">—</span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Mortgage Summary -->
     <div class="overflow-x-auto">
       <table class="table align-middle">
         <thead>
@@ -251,6 +307,7 @@
       </table>
     </div>
 
+    <!-- Mortgage Breakdown -->
     <div id="breakdown-container" class="collapse mt-3">
       <h3>
         Detail

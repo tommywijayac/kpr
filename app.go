@@ -361,6 +361,9 @@ func (a *App) calculateResult() error {
 	}
 	a.jqPriceInput.RemoveClass("is-invalid")
 
+	// credit is set by system - should never be wrong!
+	credit, _ := strconv.ParseFloat(strings.ReplaceAll(a.jqCredit.Val(), ",", ""), 64)
+
 	dp, err = strconv.ParseFloat(a.jqDownPaymentInput.Val(), 64)
 	if err != nil {
 		finalerr = errors.New("fail to parse down payment " + err.Error())
@@ -454,19 +457,56 @@ func (a *App) calculateResult() error {
 	}
 	a.jqFloatInterestInput.RemoveClass("is-invalid")
 
-	result := calculateResult(MortgageSchema{
+	schema := MortgageSchema{
 		Price:         price,
+		Credit:        credit,
 		DownPayment:   dp,
 		TotalPeriod:   period,
 		FixedInterest: fixedInterests,
 		FixedPeriod:   fixedPeriods,
 		FloatInterest: floatInterest,
 		FloatPeriod:   floatPeriod,
-	})
+	}
+
+	result := calculateResult(schema)
 	a.renderResult(result)
 	a.renderBreakdown(result)
+	a.renderSummary(schema)
 
 	return nil
+}
+
+func (a *App) renderSummary(schema MortgageSchema) {
+	delta := schema.Price - schema.Credit
+	dp := schema.Credit * schema.DownPayment / 100
+
+	// Taxes
+	bphtb := 0.05 * (schema.Price - 60_000_000) // BPHTB (5% dari Harga Rumah - NJOPTKP. NJOPTKP Jakarta = 60jt)
+	pnbp := 0.001 * schema.Price
+
+	// Notaris
+	bbn := 0.01 * schema.Price
+	ajb := 0.025 * schema.Price
+
+	// Admin fees
+	provisi := 0.01 * schema.Credit
+	appraisalFee := float64(500_000)
+	lifeInsurance := 0.0055 * schema.Credit
+	objectInsurance := 0.0011 * schema.Credit
+
+	total := schema.DownPayment + delta + (bphtb + pnbp) + (bbn + ajb) + (provisi + appraisalFee + lifeInsurance + objectInsurance)
+
+	jQuery("#summary-dp").SetText(a.acfmt.FormatMoneyFloat64(dp))
+	jQuery("#summary-delta").SetText(a.acfmt.FormatMoneyFloat64(delta))
+	jQuery("#summary-bphtb").SetText(a.acfmt.FormatMoneyFloat64(bphtb))
+	jQuery("#summary-pnbp").SetText(a.acfmt.FormatMoneyFloat64(pnbp))
+	jQuery("#summary-notaris-bbn").SetText(a.acfmt.FormatMoneyFloat64(bbn))
+	jQuery("#summary-notaris-ajb").SetText(a.acfmt.FormatMoneyFloat64(ajb))
+	jQuery("#summary-provisi").SetText(a.acfmt.FormatMoneyFloat64(provisi))
+	jQuery("#summary-appraisal").SetText(a.acfmt.FormatMoneyFloat64(appraisalFee))
+	jQuery("#summary-life-insurance").SetText(a.acfmt.FormatMoneyFloat64(lifeInsurance))
+	jQuery("#summary-object-insurance").SetText(a.acfmt.FormatMoneyFloat64(objectInsurance))
+	jQuery("#summary-total").SetText(a.acfmt.FormatMoneyFloat64(total))
 }
 
 func (a *App) renderResult(result Result) {

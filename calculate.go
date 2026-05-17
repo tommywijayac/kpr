@@ -9,6 +9,7 @@ import (
 
 type MortgageSchema struct {
 	Price         float64
+	Credit        float64
 	DownPayment   float64
 	TotalPeriod   int
 	FixedInterest []float64
